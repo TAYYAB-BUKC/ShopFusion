@@ -32,6 +32,37 @@
     </div>
 </div>
 
+<div class="row">
+    <h2 class="text-success">Product Table</h2>
+    <div class="col-12">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>IsActive</th>
+            </tr>
+            @foreach (var product in Products)
+            {
+                <tr>
+                    <td><input type="text" name="name" @bind="@product.Name" @bind:event="oninput" /></td>
+                    <td><input type="number" name="price" @bind="@product.Price" @bind:event="oninput" /></td>
+                    <td><input type="checkbox" name="isActive" @bind="@product.IsActive" /></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <h2>Product Table Summary</h2>
+        @foreach (var product in Products)
+        {
+            <p>@product.Name | @product.Price | is @(product.IsActive ? "Active" : "In-Active")</p>
+        }
+    </div>
+</div>
+
+
 
 @code {
     private String selectedAttribute = String.Empty;
@@ -48,4 +79,37 @@
             new ProductProperties () { Id = 2, Key="Size", Value = "Product Size" },
         }
     };
+
+    List<Product> Products = new();
+
+    protected override void OnInitialized()
+    {
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Product 1",
+                IsActive = true,
+                Price = 9.99,
+                Attributes = new List<ProductProperties>()
+                {
+                    new ProductProperties () { Id = 1, Key="Color", Value = "Product 1 Color" },
+                    new ProductProperties () { Id = 2, Key="Size", Value = "Product 1 Size" },
+                }
+            }
+        );
+
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Product 2",
+                IsActive = false,
+                Price = 19.99,
+                Attributes = new List<ProductProperties>()
+                {
+                    new ProductProperties () { Id = 1, Key="Color", Value = "Product 2 Color" },
+                    new ProductProperties () { Id = 2, Key="Size", Value = "Product 2 Size" },
+                }
+            }
+        );
+    }
 }
