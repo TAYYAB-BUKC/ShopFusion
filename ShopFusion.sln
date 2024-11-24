@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopFusion.Server", "ShopFusion.Server\ShopFusion.Server.csproj", "{399F0A5B-17FF-44C1-A0BC-1D1F36E11A4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopFusion.Server", "ShopFusion.Server\ShopFusion.Server.csproj", "{399F0A5B-17FF-44C1-A0BC-1D1F36E11A4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopFusion.Client", "ShopFusion.Client\ShopFusion.Client.csproj", "{78AC0E1D-0FB4-4869-A15B-442CF306F81B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{399F0A5B-17FF-44C1-A0BC-1D1F36E11A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{399F0A5B-17FF-44C1-A0BC-1D1F36E11A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{399F0A5B-17FF-44C1-A0BC-1D1F36E11A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78AC0E1D-0FB4-4869-A15B-442CF306F81B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78AC0E1D-0FB4-4869-A15B-442CF306F81B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78AC0E1D-0FB4-4869-A15B-442CF306F81B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78AC0E1D-0FB4-4869-A15B-442CF306F81B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
