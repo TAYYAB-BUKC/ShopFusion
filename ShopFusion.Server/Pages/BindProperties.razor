@@ -2,13 +2,19 @@
 
 <h3>Product</h3>
 Name: @product.Name <br />
-IsActive: @product.IsActive
+IsActive: @product.IsActive <br />
+IsActive: @product.IsActive <br />
+Existing Price: @product.Price <br />
+Price: <input type="number" name="price" value="@product.Price" /> <br />
+Price: <input type="number" name="price" @bind-value="@product.Price" @bind-value:event="oninput" /> <br />
+Price: <input type="number" name="price" @bind="@product.Price" @bind:event="oninput" /> <br />
 
 @code {
     Product product = new()
     {
         Id = 1,
         Name = "Product 1",
-        IsActive = true
+        IsActive = true,
+        Price = 9.99
     };
 }
