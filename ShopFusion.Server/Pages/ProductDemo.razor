@@ -1,0 +1,61 @@
+﻿@page "/productDemo"
+<h3>Product Demo</h3>
+
+<div class="row">
+    @foreach (var product in Products)
+    {
+        <div class="col-6">
+            <h2>Product - @product.Id</h2>
+            Name: @product.Name <br />
+            Show Properties: <input type="checkbox" name="isActive" @bind="@product.IsActive" /> <br />
+            @if (product.IsActive)
+            {
+                <div>
+                    @foreach (ProductProperties item in product.Attributes)
+                    {
+                        <p> @item.Key | @item.Value</p>
+                    }
+                </div>
+            }
+            <div>
+                <button type="button" name="BtnDelete" id="BtnDelete" class="btn-danger">Delete</button>
+                <button type="button" name="BtnEdit" id="BtnEdit" class="btn-success">Edit</button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    List<Product> Products = new();
+
+    protected override void OnInitialized()
+    {
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Product 1",
+                IsActive = true,
+                Price = 9.99,
+                Attributes = new List<ProductProperties>()
+                {
+                    new ProductProperties () { Id = 1, Key="Color", Value = "Product 1 Color" },
+                    new ProductProperties () { Id = 2, Key="Size", Value = "Product 1 Size" },
+                }
+            }
+        );
+
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Product 2",
+                IsActive = false,
+                Price = 19.99,
+                Attributes = new List<ProductProperties>()
+                {
+                    new ProductProperties () { Id = 1, Key="Color", Value = "Product 2 Color" },
+                    new ProductProperties () { Id = 2, Key="Size", Value = "Product 2 Size" },
+                }
+            }
+        );
+    }
+}
