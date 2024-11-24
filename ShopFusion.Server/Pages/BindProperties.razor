@@ -3,18 +3,41 @@
 <h3>Product</h3>
 Name: @product.Name <br />
 IsActive: @product.IsActive <br />
-IsActive: @product.IsActive <br />
 Existing Price: @product.Price <br />
+Selected Product Attributes: @selectedAttribute <br />
+@if (!String.IsNullOrWhiteSpace(selectedAttribute))
+{
+    <p>Selected Product Attribute Value : @product.Attributes.FirstOrDefault(p => p.Key == selectedAttribute).Value </p> <br />
+}
+
+
 Price: <input type="number" name="price" value="@product.Price" /> <br />
 Price: <input type="number" name="price" @bind-value="@product.Price" @bind-value:event="oninput" /> <br />
 Price: <input type="number" name="price" @bind="@product.Price" @bind:event="oninput" /> <br />
 
+This product is: @(product.IsActive ? "Active" : "In-Active") <br />
+Active: <input type="checkbox" name="isActive" @bind="@product.IsActive" /> <br /> 
+
+<select @bind="selectedAttribute">
+    @foreach (ProductProperties item in product.Attributes)
+    {
+        <option value="@item.Key">@item.Key</option>
+    }
+</select>
+
 @code {
+    private String selectedAttribute = String.Empty;
+
     Product product = new()
     {
         Id = 1,
         Name = "Product 1",
         IsActive = true,
-        Price = 9.99
+        Price = 9.99,
+        Attributes = new List<ProductProperties>()
+        {
+            new ProductProperties () { Id = 1, Key="Color", Value = "Product Color" },
+            new ProductProperties () { Id = 2, Key="Size", Value = "Product Size" },
+        }
     };
 }
