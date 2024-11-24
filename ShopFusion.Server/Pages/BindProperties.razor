@@ -1,29 +1,37 @@
 ﻿@page "/bindproperties"
 
-<h3>Product</h3>
-Name: @product.Name <br />
-IsActive: @product.IsActive <br />
-Existing Price: @product.Price <br />
-Selected Product Attributes: @selectedAttribute <br />
-@if (!String.IsNullOrWhiteSpace(selectedAttribute))
-{
-    <p>Selected Product Attribute Value : @product.Attributes.FirstOrDefault(p => p.Key == selectedAttribute).Value </p> <br />
-}
+<h1>Individual Product</h1>
+<div class="row">
+    <div class="col-6">
+        <h2>Product Playground</h2>
+        Price: <input type="number" name="price" value="@product.Price" /> <br />
+        Price: <input type="number" name="price" @bind-value="@product.Price" @bind-value:event="oninput" /> <br />
+        Price: <input type="number" name="price" @bind="@product.Price" @bind:event="oninput" /> <br />
 
 
-Price: <input type="number" name="price" value="@product.Price" /> <br />
-Price: <input type="number" name="price" @bind-value="@product.Price" @bind-value:event="oninput" /> <br />
-Price: <input type="number" name="price" @bind="@product.Price" @bind:event="oninput" /> <br />
+        Active: <input type="checkbox" name="isActive" @bind="@product.IsActive" /> <br />
 
-This product is: @(product.IsActive ? "Active" : "In-Active") <br />
-Active: <input type="checkbox" name="isActive" @bind="@product.IsActive" /> <br /> 
+        <select @bind="selectedAttribute">
+            @foreach (ProductProperties item in product.Attributes)
+            {
+                <option value="@item.Key">@item.Key</option>
+            }
+        </select>
+    </div>
+    <div class="col-6">
+        <h2>Product Summary</h2>
+        Name: @product.Name <br />
+        IsActive: @product.IsActive <br />
+        Existing Price: @product.Price <br />
+        This product is: @(product.IsActive ? "Active" : "In-Active") <br />
+        Selected Product Attributes: @selectedAttribute <br />
+        @if (!String.IsNullOrWhiteSpace(selectedAttribute))
+        {
+            <p>Selected Product Attribute Value : @product.Attributes.FirstOrDefault(p => p.Key == selectedAttribute).Value </p> <br />
+        }
+    </div>
+</div>
 
-<select @bind="selectedAttribute">
-    @foreach (ProductProperties item in product.Attributes)
-    {
-        <option value="@item.Key">@item.Key</option>
-    }
-</select>
 
 @code {
     private String selectedAttribute = String.Empty;
