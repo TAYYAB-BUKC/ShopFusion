@@ -2,6 +2,13 @@
     @Title
 </div>
 
+@if (DangerChildContent != null)
+{
+    <div class="alert alert-danger">
+        @DangerChildContent
+    </div>
+}
+
 @if(ChildContent != null)
 {
     <div class="alert alert-success">
@@ -15,6 +22,8 @@
     public string Title { get; set; }
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public RenderFragment DangerChildContent { get; set; }
     [Parameter]
     public EventCallback ShowMessage { get; set; }
 }
