@@ -4,21 +4,7 @@
 <div class="row">
     @foreach (var product in Products)
     {
-        <div class="col-6">
-            <h2>Product - @product.Id</h2>
-            Name: @product.Name <br />
-            Show Properties: <input type="checkbox" name="isActive" @bind="@product.IsActive" /> <br />
-            @if (product.IsActive)
-            {
-                <div>
-                    @foreach (ProductProperties item in product.Attributes)
-                    {
-                        <p> @item.Key | @item.Value</p>
-                    }
-                </div>
-            }
-            <_EditDeleteButtons IsActive="@product.IsActive"></_EditDeleteButtons>
-        </div>
+        <_ProductDemo product="@product"></_ProductDemo>
     }
 </div>
 
