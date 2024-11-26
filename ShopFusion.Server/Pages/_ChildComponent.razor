@@ -7,7 +7,7 @@
     <div class="alert alert-success">
         @ChildContent
     </div>
-
+    <button @onclick="ShowMessage">Show Message</button> 
 }
 
 @code {
@@ -15,4 +15,6 @@
     public string Title { get; set; }
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public EventCallback ShowMessage { get; set; }
 }

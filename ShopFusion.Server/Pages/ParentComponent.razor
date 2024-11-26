@@ -2,13 +2,19 @@
 
 <h3>Parent Child Relation</h3>
 
-<_ChildComponent Title="This is the title parameter passed from the parent component">
+<_ChildComponent ShowMessage="ShowMessage" Title="This is the title parameter passed from the parent component">
     Rendered Fragment from Parent WooHoo!
 </_ChildComponent>
+
+<p><b>@message</b></p>
 
 <_ChildComponent Title="This is second component">
 </_ChildComponent>
 
 @code {
+    public string message { get; set; }
 
+    private void ShowMessage(){
+        message = "Fancy mesasge here";
+    }
 }
