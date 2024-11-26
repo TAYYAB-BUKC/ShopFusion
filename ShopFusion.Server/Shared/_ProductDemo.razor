@@ -1,5 +1,5 @@
 ﻿
-<div class="col-6">
+<div class="col-6" @onclick="(args)=> ShowLastSelectedProduct(args, product.Name)">
     <h2>Product - @product.Id</h2>
     <input type="checkbox" name="IsFavourite" @onchange="ToggleFavourite" /> Add To Favourite <br /><br />
 
@@ -27,5 +27,13 @@
     private async Task ToggleFavourite(ChangeEventArgs e)
     {
         await OnFavouriteSelection.InvokeAsync((bool)e.Value);
+    }
+
+    [Parameter]
+    public EventCallback<string> OnProductSelection { get; set; }
+
+    private async Task ShowLastSelectedProduct(MouseEventArgs e, string name)
+    {
+        await OnProductSelection.InvokeAsync(name);
     }
 }

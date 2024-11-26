@@ -1,16 +1,18 @@
 ﻿@page "/productDemo"
 <h3>Product Demo</h3>
 <p>Favourites Total: @FavouriteCount</p>
+<p>Last Selected Product: @LastSelectedProduct?.Name</p>
 <div class="row">
     @foreach (var product in Products)
     {
-        <_ProductDemo product="@product" OnFavouriteSelection="FavouriteCountUpdate"></_ProductDemo>
+        <_ProductDemo product="@product" OnFavouriteSelection="FavouriteCountUpdate" OnProductSelection="ShowSelectedProduct"></_ProductDemo>
     }
 </div>
 
 @code {
     List<Product> Products = new();
-    private int FavouriteCount  { get; set; }
+    private int FavouriteCount { get; set; }
+    private Product LastSelectedProduct { get; set; } = new();
     protected override void OnInitialized()
     {
         Products.Add(new()
@@ -52,5 +54,10 @@
         {
             FavouriteCount--;
         }
+    }
+
+    protected void ShowSelectedProduct(string name)
+    {
+        LastSelectedProduct.Name = name;
     }
 }
