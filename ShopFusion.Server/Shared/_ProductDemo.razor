@@ -1,6 +1,8 @@
 ﻿
 <div class="col-6">
     <h2>Product - @product.Id</h2>
+    <input type="checkbox" name="IsFavourite" @onchange="ToggleFavourite" /> Add To Favourite <br /><br />
+
     Name: @product.Name <br />
     Show Properties: <input type="checkbox" name="isActive" @bind="@product.IsActive" /> <br />
     @if (product.IsActive)
@@ -18,4 +20,12 @@
 @code {
     [Parameter]
     public Product product { get; set; } 
+
+    [Parameter]
+    public EventCallback<bool> OnFavouriteSelection { get; set; }
+
+    private async Task ToggleFavourite(ChangeEventArgs e)
+    {
+        await OnFavouriteSelection.InvokeAsync((bool)e.Value);
+    }
 }
