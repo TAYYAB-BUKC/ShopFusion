@@ -5,7 +5,10 @@
 <div class="row">
     @foreach (var product in Products)
     {
-        <_ProductDemo product="@product" OnFavouriteSelection="FavouriteCountUpdate" OnProductSelection="ShowSelectedProduct"></_ProductDemo>
+        <_ProductDemo product="@product" OnFavouriteSelection="FavouriteCountUpdate" OnProductSelection="ShowSelectedProduct">
+            <FirstFragment><p>#1</p></FirstFragment>
+            <SecondFragment><p>#2</p></SecondFragment>
+        </_ProductDemo>
     }
 </div>
 

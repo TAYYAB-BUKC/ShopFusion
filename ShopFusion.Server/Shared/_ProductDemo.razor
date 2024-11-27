@@ -4,6 +4,7 @@
     <input type="checkbox" name="IsFavourite" @onchange="ToggleFavourite" /> Add To Favourite <br /><br />
 
     Name: @product.Name <br />
+    <p>RF From Parent: <span>@FirstFragment</span> <span>@SecondFragment</span></p> <br />
     Show Properties: <input type="checkbox" name="isActive" @bind="@product.IsActive" /> <br />
     @if (product.IsActive)
     {
@@ -36,4 +37,9 @@
     {
         await OnProductSelection.InvokeAsync(name);
     }
+
+    [Parameter]
+    public RenderFragment FirstFragment { get; set; }
+    [Parameter]
+    public RenderFragment SecondFragment { get; set; }
 }
