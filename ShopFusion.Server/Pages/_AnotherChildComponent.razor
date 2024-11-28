@@ -1,0 +1,11 @@
+﻿<div>
+   <p class="text-primary pt-3"></p>
+    <input type="text" name="text-input" placeholder="@Placeholder" maxlength="@MaxLength" />
+</div>
+
+@code {
+    [Parameter]
+    public string Placeholder { get; set; }
+    [Parameter]
+    public int MaxLength { get; set; }
+}
