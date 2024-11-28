@@ -15,7 +15,10 @@
 @* <_AnotherChildComponent Placeholder="This is placeholder from parent component" MaxLength="5">
 </_AnotherChildComponent> *@
 
-<_AnotherChildComponent InputAttributes="@InputAttributes">
+@* <_AnotherChildComponent InputAttributes="@InputAttributes">
+</_AnotherChildComponent> *@
+
+<_AnotherChildComponent placeholder="Placeholder from parent">
 </_AnotherChildComponent>
 
 @code {
@@ -25,10 +28,10 @@
         message = "Fancy mesasge here";
     }
 
-    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>()
-    {
-        { "required", "required" },
-        { "placeholder", "Placeholder from Parent" },
-        { "maxlength", 10 },
-    };
+    // public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>()
+    // {
+    //     { "required", "required" },
+    //     { "placeholder", "Placeholder from Parent" },
+    //     { "maxlength", 10 },
+    // };
 }
