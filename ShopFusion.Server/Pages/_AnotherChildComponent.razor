@@ -1,11 +1,20 @@
 ﻿<div>
    <p class="text-primary pt-3"></p>
-    <input type="text" name="text-input" placeholder="@Placeholder" maxlength="@MaxLength" />
+    @* <input type="text" name="text-input" placeholder="@Placeholder" maxlength="@MaxLength" /> *@
+    <input type="text" name="text-input" @attributes="@InputAttributes" />
 </div>
 
 @code {
+    // [Parameter]
+    // public string Placeholder { get; set; }
+    // [Parameter]
+    // public int MaxLength { get; set; }
+
     [Parameter]
-    public string Placeholder { get; set; }
-    [Parameter]
-    public int MaxLength { get; set; }
+    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>()
+    {
+        { "required", "required" },
+        { "placeholder", "Initial Text" },
+        { "maxlength", 5 },
+    };
 }
