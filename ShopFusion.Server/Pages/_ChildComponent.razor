@@ -17,7 +17,11 @@
     <button @onclick="ShowMessage">Show Message</button> 
 }
 
+<_GrandChildComponent MessageForGrandChild="@MessageForGrandChild"></_GrandChildComponent>
+
 @code {
+    [Parameter]
+    public string MessageForGrandChild { get; set; }
     [Parameter]
     public string Title { get; set; }
     [Parameter]
