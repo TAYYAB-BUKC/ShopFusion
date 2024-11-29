@@ -9,8 +9,8 @@
 
 <p><b>@message</b></p>
 
-<_ChildComponent Title="This is second component" MessageForGrandChild="Hello from Grand Parent">
-</_ChildComponent>
+@* <_ChildComponent Title="This is second component" MessageForGrandChild="Hello from Grand Parent">
+</_ChildComponent> *@
 
 @* <_AnotherChildComponent Placeholder="This is placeholder from parent component" MaxLength="5">
 </_AnotherChildComponent> *@
@@ -18,12 +18,18 @@
 @* <_AnotherChildComponent InputAttributes="@InputAttributes">
 </_AnotherChildComponent> *@
 
+<CascadingValue Value="@MessageForGrandChild">
+    <_ChildComponent Title="This is second component">
+    </_ChildComponent>
+</CascadingValue>
+
 <_AnotherChildComponent placeholder="Placeholder from parent">
 </_AnotherChildComponent>
 
 
 @code {
-    
+    public string MessageForGrandChild { get; set; } = "Hello from Grand Parent";
+
     public string message { get; set; }
 
     private void ShowMessage(){

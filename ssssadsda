@@ -1,0 +1,143 @@
+[33mcommit 3df8e01ac65a702f1f76d64095e1a7b457533929[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Fri Nov 29 04:52:35 2024 +0500
+
+    Passing parameters to multiple level. (Not a good practice)
+
+[33mcommit 4e2cd5f623b3dc093aaa58694d8cc3ec2eed972b[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Fri Nov 29 04:37:08 2024 +0500
+
+    Attribute splatting simplified.
+
+[33mcommit 572b7fd58bbbe5c314cf5aa4ec6fcbe1457fc5bc[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Thu Nov 28 07:49:08 2024 +0500
+
+    Attributessplatting implemented.
+
+[33mcommit fa8a627875b25e53a45122f4561d219b75da008e[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Thu Nov 28 07:36:15 2024 +0500
+
+    Attribute overriding from parent component.
+
+[33mcommit 5bd1b3b505e92af5f1a1d8d32a1139ce6ac2fa7b[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Wed Nov 27 05:01:52 2024 +0500
+
+    Render fragment assignment implemented.
+
+[33mcommit c6464b1770aa18ea87a8eb40de72017de757021e[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Wed Nov 27 04:36:48 2024 +0500
+
+    Multiple fragment implemented.
+
+[33mcommit 0a445dee3aba7a52defeb0333277a4ce556a5a52[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Wed Nov 27 04:33:42 2024 +0500
+
+    Used tag to render fragment.
+
+[33mcommit cc09e74a81442a1c72597bfc104f241da08abfcc[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Wed Nov 27 04:31:16 2024 +0500
+
+    Another way to fire the parent event.
+
+[33mcommit c16c421b5543ae67046bd27cf2baaa17e99d7adf[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Wed Nov 27 04:22:56 2024 +0500
+
+    RenderFragment implemented.
+
+[33mcommit 42651cb14e555bbc3d293bde21026c3f47cb9fd3[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Tue Nov 26 06:03:08 2024 +0500
+
+    Event callback assignment implemented.
+
+[33mcommit 870cc9f43dd2bcf2d4a181af5a6f8ed5426d1de1[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Tue Nov 26 05:28:43 2024 +0500
+
+    Event callback implemented.
+
+[33mcommit 6f5adb4f4bf33e5c57fcae92e83c5aa27fa09311[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Tue Nov 26 05:04:06 2024 +0500
+
+    Shared component assignment implemented.
+
+[33mcommit bef0edfb6028f8969183c958f659b0bb0267cb1e[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Tue Nov 26 04:37:53 2024 +0500
+
+    Values passed from one component to another component.
+
+[33mcommit 698c55dfeec9eb4b3e291d7cf6c98f92df12f904[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Tue Nov 26 04:23:13 2024 +0500
+
+    Consume component inside another component.
+
+[33mcommit 70edffd4c3a746dd9592bb385f6dacdbf5944929[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Mon Nov 25 04:08:28 2024 +0500
+
+    Product demo assignment implemented.
+
+[33mcommit fc805b198f913a2d00c67da50775c33853a4d56c[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Sun Nov 24 23:16:35 2024 +0500
+
+    Product table implemented.
+
+[33mcommit f6f918fd3bc0b2647ec394ec140117c29d2dc456[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Sun Nov 24 22:28:28 2024 +0500
+
+    Design adjusted.
+
+[33mcommit 6369b952c104bbac139538378155d15e04816c07[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Sun Nov 24 19:13:21 2024 +0500
+
+    Dropdown binding implemented.
+
+[33mcommit 538264f8dbe3cd013c9d4a453a29b1e22c088b25[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Sun Nov 24 17:41:38 2024 +0500
+
+    Two way data binding implemented.
+
+[33mcommit 1f1ba387cb3f8ef3dae9e0676e97612f52839cb6[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Sun Nov 24 17:32:01 2024 +0500
+
+    One way data binding implemented.
+
+[33mcommit 991da516bbd3e2bc9c18b590f848af9453cb54ac[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Sun Nov 24 17:15:35 2024 +0500
+
+    Razor component added.
+
+[33mcommit d02f5f84ecdbb0e183c8e727e3a79db42ae47eda[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Sun Nov 24 14:59:46 2024 +0500
+
+    Client project initialized.
+
+[33mcommit 9869b9fe8bfb17cf1b99a23711134e2055dd9d34[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Thu Nov 21 07:43:30 2024 +0500
+
+    Add project files.
+
+[33mcommit 5059c179c1a3414c2950f52dc438585aa8477fad[m
+Author: Tayyab Arsalan <tayyabdost.bukc@gmail.com>
+Date:   Thu Nov 21 07:43:26 2024 +0500
+
+    Add .gitattributes, .gitignore, and README.md.
