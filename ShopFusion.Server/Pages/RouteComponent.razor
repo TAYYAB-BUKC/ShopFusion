@@ -6,7 +6,8 @@
 <h3>RouteComponent</h3>
 <h4>Parameter Value:  @Parameter</h4>
 <h4>Parameter1 Value:  @Parameter1</h4>
-<button type="button" name="loadQueryStrings" id="loadQueryStrings" @onclick="LoadQueryStrings">Load Query Strings</button>
+<button type="button" class="btn btn-primary" name="loadAnotherComponent" id="loadAnotherComponent" @onclick="LoadAnotherComponent">Load Another Component</button>
+<button type="button" class="btn btn-success" name="loadQueryStrings" id="loadQueryStrings" @onclick="LoadQueryStrings">Load Query Strings</button>
 <h3>Query Strings</h3>
 <h4>queryString Value:  @queryString</h4>
 <h4>queryString1 Value:  @queryString1</h4>
@@ -25,5 +26,10 @@
         var queryStrings = HttpUtility.ParseQueryString(absoluteURI.Query);
         queryString = queryStrings["queryString"];
         queryString1 = queryStrings["queryString1"];
+    }
+
+    private void LoadAnotherComponent(){
+        //_navigationManager.NavigateTo("parentcomponent");
+        _navigationManager.NavigateTo("routecomponent?queryString=Another component query string&queryString1=Another component query string 1");
     }
 }
