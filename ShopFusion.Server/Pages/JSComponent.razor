@@ -4,6 +4,9 @@
 <h3>JSComponent</h3>
 
 <button type="button" class="btn btn-danger" name="BtnJSConfirmation" id="BtnJSConfirmation" @onclick="ShowJSConfirmation">Show JS Confirmation</button>
+<button type="button" class="btn btn-success" name="BtnSuccess" id="BtnSuccess" @onclick="ShowSuccessNotification">Show Success Toastr</button>
+<button type="button" class="btn btn-warning" name="BtnFailure" id="BtnFailure" @onclick="ShowFailureNotification">Show Failure Toastr</button>
+
 
 @if(response){
     <p>Confirmation has been made.</p>
@@ -20,4 +23,14 @@ else
     private async Task ShowJSConfirmation(){
         response = await _JSRuntime.InvokeAsync<bool>("confirm", message);
     }
+
+    private async void ShowSuccessNotification()
+    {
+        await _JSRuntime.InvokeVoidAsync("ShowToastrNotification", "success", "Operation Successful");
+    }
+
+    private async void ShowFailureNotification()
+    {
+        await _JSRuntime.InvokeVoidAsync("ShowToastrNotification", "error", "Operation Failed");
+    }   
 }
