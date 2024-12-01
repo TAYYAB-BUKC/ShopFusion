@@ -18,9 +18,11 @@
 @* <_AnotherChildComponent InputAttributes="@InputAttributes">
 </_AnotherChildComponent> *@
 
-<CascadingValue Value="@MessageForGrandChild">
-    <_ChildComponent Title="This is second component">
-    </_ChildComponent>
+<CascadingValue Value="@MessageForGrandChild" Name="message">
+    <CascadingValue Value="@LuckyNumber" Name="luckyNumber">
+        <_ChildComponent Title="This is second component">
+        </_ChildComponent>
+    </CascadingValue>
 </CascadingValue>
 
 <_AnotherChildComponent placeholder="Placeholder from parent">
@@ -31,6 +33,8 @@
     public string MessageForGrandChild { get; set; } = "Hello from Grand Parent";
 
     public string message { get; set; }
+
+    public string LuckyNumber { get; set; } = "7";
 
     private void ShowMessage(){
         message = "Fancy mesasge here";
