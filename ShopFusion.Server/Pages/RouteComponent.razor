@@ -1,6 +1,6 @@
 ﻿@page "/routecomponent"
-@page "/routecomponent/{Parameter}"
-@page "/routecomponent/{Parameter}/{Parameter1}"
+@page "/routecomponent/{Parameter:int}"
+@page "/routecomponent/{Parameter:int}/{Parameter1}"
 @inject NavigationManager _navigationManager;
 
 <h3>RouteComponent</h3>
@@ -14,7 +14,7 @@
 
 @code {
     [Parameter]
-    public string Parameter { get; set; }
+    public int Parameter { get; set; }
     [Parameter]
     public string Parameter1 { get; set; }
 
