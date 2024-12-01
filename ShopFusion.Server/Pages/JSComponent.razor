@@ -26,11 +26,11 @@ else
 
     private async void ShowSuccessNotification()
     {
-        await _JSRuntime.InvokeVoidAsync("ShowToastrNotification", "success", "Operation Successful");
+        await _JSRuntime.ShowSuccessToastrNotification("Operation Successful");
     }
 
     private async void ShowFailureNotification()
     {
-        await _JSRuntime.InvokeVoidAsync("ShowToastrNotification", "error", "Operation Failed");
+        await _JSRuntime.ShowFailureToastrNotification("Operation Failed");
     }   
 }
