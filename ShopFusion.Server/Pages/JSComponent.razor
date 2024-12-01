@@ -1,0 +1,23 @@
+﻿@page "/js"
+@inject IJSRuntime _JSRuntime
+
+<h3>JSComponent</h3>
+
+<button type="button" class="btn btn-danger" name="BtnJSConfirmation" id="BtnJSConfirmation" @onclick="ShowJSConfirmation">Show JS Confirmation</button>
+
+@if(response){
+    <p>Confirmation has been made.</p>
+}
+else
+{
+    <p>Confirmation pending</p>
+}
+
+@code {
+    private string message = "are you sure you want to perform this action?";
+    private bool response;
+
+    private async Task ShowJSConfirmation(){
+        response = await _JSRuntime.InvokeAsync<bool>("confirm", message);
+    }
+}
