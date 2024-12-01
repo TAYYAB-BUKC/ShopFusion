@@ -3,9 +3,15 @@
 
 <h3>JSComponent</h3>
 
-<button type="button" class="btn btn-danger" name="BtnJSConfirmation" id="BtnJSConfirmation" @onclick="ShowJSConfirmation">Show JS Confirmation</button>
-<button type="button" class="btn btn-success" name="BtnSuccess" id="BtnSuccess" @onclick="ShowSuccessNotification">Show Success Toastr</button>
-<button type="button" class="btn btn-warning" name="BtnFailure" id="BtnFailure" @onclick="ShowFailureNotification">Show Failure Toastr</button>
+<button style="width: 200px" type="button" class="btn btn-danger" name="BtnJSConfirmation" id="BtnJSConfirmation" @onclick="ShowJSConfirmation">Show JS Confirmation</button>
+<button style="width: 200px" type="button" class="btn btn-success m-3" name="BtnSuccess" id="BtnSuccess" @onclick="ShowSuccessNotification">Show Success Toastr</button>
+<button style="width: 200px" type="button" class="btn btn-warning m-3" name="BtnFailure" id="BtnFailure" @onclick="ShowFailureNotification">Show Failure Toastr</button>
+
+<br />
+
+<button style="width: 250px" type="button" class="btn btn-success m-3" name="BtnSweetAlertSuccess" id="BtnSweetAlertSuccess" @onclick="ShowSweetAlertSuccessNotification">Show SweetAlert Success</button>
+<button style="width: 250px" type="button" class="btn btn-warning m-3" name="BtnSweetAlertFailure" id="BtnSweetAlertFailure" @onclick="ShowSweetAlertFailureNotification">Show SweetAlert Failure</button>
+
 
 
 @if(response){
@@ -32,5 +38,15 @@ else
     private async void ShowFailureNotification()
     {
         await _JSRuntime.ShowFailureToastrNotification("Operation Failed");
-    }   
+    } 
+    
+    private async void ShowSweetAlertSuccessNotification()
+    {
+        await _JSRuntime.InvokeVoidAsync("ShowSweetAlertNotification", "success", "Success Notification", "Task Successful!");
+    }
+
+    private async void ShowSweetAlertFailureNotification()
+    {
+        await _JSRuntime.InvokeVoidAsync("ShowSweetAlertNotification", "error", "Error Notification", "Task Failed!");
+    }
 }

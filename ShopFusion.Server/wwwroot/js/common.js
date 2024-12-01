@@ -6,3 +6,7 @@
         toastr.error(message, 'Error', { timeOut: 5000 });
     }
 }
+
+window.ShowSweetAlertNotification = (icon, title, message) => {
+    swal.fire({ icon: icon, title: title, text: message});
+}
