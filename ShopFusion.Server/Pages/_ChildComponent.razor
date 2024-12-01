@@ -1,4 +1,6 @@
-﻿<div class="alert alert-info">
+﻿@inject IJSRuntime _JSRuntime
+
+<div class="alert alert-info">
     @Title
 </div>
 
@@ -20,6 +22,7 @@
 @* <_GrandChildComponent MessageForGrandChild="@MessageForGrandChild"></_GrandChildComponent> *@
 <_GrandChildComponent></_GrandChildComponent>
 
+
 @code {
     // [Parameter]
     // public string MessageForGrandChild { get; set; }
@@ -31,4 +34,14 @@
     public RenderFragment DangerChildContent { get; set; }
     [Parameter]
     public EventCallback ShowMessage { get; set; }
+
+    public async void ShowSweetAlertSuccessNotification()
+    {
+        await _JSRuntime.InvokeVoidAsync("ShowSweetAlertNotification", "success", "Success Notification", "Task Successful!");
+    }
+
+    public async void ShowSweetAlertFailureNotification()
+    {
+        await _JSRuntime.InvokeVoidAsync("ShowSweetAlertNotification", "error", "Error Notification", "Task Failed!");
+    }
 }

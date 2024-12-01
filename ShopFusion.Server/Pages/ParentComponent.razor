@@ -4,7 +4,7 @@
 
 <h3>Parent Child Relation</h3>
 
-<_ChildComponent ShowMessage="ShowMessage" Title="This is the title parameter passed from the parent component">
+<_ChildComponent @ref="childComponent" ShowMessage="ShowMessage" Title="This is the title parameter passed from the parent component">
     <ChildContent>Rendered Fragment from Parent WooHoo!</ChildContent>
     <DangerChildContent>Restricted AREA</DangerChildContent>
 </_ChildComponent>
@@ -31,6 +31,12 @@
 </_AnotherChildComponent>
 
 
+<br />
+
+<button style="width: 250px" type="button" class="btn btn-success m-3" name="BtnSweetAlertSuccess" id="BtnSweetAlertSuccess" @onclick="()=>childComponent.ShowSweetAlertSuccessNotification()">Show SweetAlert Success</button>
+<button style="width: 250px" type="button" class="btn btn-warning m-3" name="BtnSweetAlertFailure" id="BtnSweetAlertFailure" @onclick="()=>childComponent.ShowSweetAlertFailureNotification()">Show SweetAlert Failure</button>
+
+
 @code {
     public string MessageForGrandChild { get; set; } = "Hello from Grand Parent";
 
@@ -48,4 +54,6 @@
     //     { "placeholder", "Placeholder from Parent" },
     //     { "maxlength", 10 },
     // };
+
+    private _ChildComponent childComponent;
 }
