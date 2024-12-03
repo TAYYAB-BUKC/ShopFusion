@@ -14,7 +14,7 @@
     <hr />
 }
 <div>
-    <_LifeCycleChildComponent></_LifeCycleChildComponent>
+    <_LifeCycleChildComponent Counter="@currentCount"></_LifeCycleChildComponent>
 </div>
 
 <br />
@@ -42,6 +42,17 @@
     protected override async Task OnInitializedAsync()
     {
         EventType.Add("OnInitializedAsync() is called");
+        await Task.Delay(0);
+    }
+
+    protected override void OnParametersSet()
+    {
+        EventType.Add("OnParametersSet() is called");
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        EventType.Add("OnParametersSetAsync() is called");
         await Task.Delay(0);
     }
 }
