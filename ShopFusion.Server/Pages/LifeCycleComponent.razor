@@ -73,4 +73,11 @@
         EventType.Add("OnAfterRenderAsync() is called");
         await Task.Delay(0);
     }
+
+    protected override bool ShouldRender()
+    {
+        EventType.Add("ShouldRender() is called");
+        return true; //display the changes if returns false.
+        return false; //does not display the changes if returns false.
+    }
 }
