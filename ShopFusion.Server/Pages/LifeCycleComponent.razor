@@ -7,6 +7,12 @@
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 <br />
+
+<p>Counter: @count </p>
+
+<button type="button" name="BtnChangeCounter" id="BtnChangeCounter" @onclick="StartTimer">Start Timer</button>
+
+
 <p>Life Cycle events Sequence</p>
 @foreach (var item in EventType)
 {
@@ -26,7 +32,7 @@
 }
 
 @code {
-    private int currentCount = 0;
+    private int currentCount = 0, count = 10;
     List<string> EventType = new List<string>();
 
     private void IncrementCount()
@@ -79,5 +85,17 @@
         EventType.Add("ShouldRender() is called");
         return true; //display the changes if returns false.
         return false; //does not display the changes if returns false.
+    }
+
+    private void StartTimer(){
+        var timer = new Timer(TimerCallback, null, 1000, 1000);
+    }
+
+    void TimerCallback(object state)
+    {
+        if(count > 0){
+            count--;
+            InvokeAsync(StateHasChanged);
+        }
     }
 }
