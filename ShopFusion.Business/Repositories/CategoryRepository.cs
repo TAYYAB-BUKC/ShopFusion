@@ -1,36 +1,32 @@
-﻿using ShopFusion.Business.Interfaces;
+﻿using AutoMapper;
+using ShopFusion.Business.Interfaces;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.DTOs;
 using ShopFusion.Models.Entities;
+using ShopFusion.Models.Mappers;
 
 namespace ShopFusion.Business.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private ApplicationDbContext _dbContext;
-        public CategoryRepository(ApplicationDbContext dbContext)
+        private readonly ApplicationDbContext _dbContext;
+		private readonly IMapper _mapper;
+
+		public CategoryRepository(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public CategoryDTO Create(CategoryDTO categoryDTO)
         {
-            Category category = new Category() 
-            { 
-                Id = categoryDTO.Id,
-                Name = categoryDTO.Name,
-                CreatedDate = DateTime.Now
-            };
-
+            Category category = _mapper.Map<CategoryDTO, Category>(categoryDTO);
+            
             _dbContext.Categories.Add(category);
             _dbContext.SaveChanges();
 
-            return new CategoryDTO
-            {
-                Id = category.Id,
-                Name = category.Name
-            };
-        }
+            return _mapper.Map<Category, CategoryDTO>(category);
+		}
 
         public CategoryDTO Delete(int id)
         {
