@@ -46,8 +46,13 @@ namespace ShopFusion.Business.Repositories
 
         public CategoryDTO GetById(int id)
         {
-            throw new NotImplementedException();
-        }
+			var obj = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
+			if (obj != null)
+			{
+                return _mapper.Map<Category, CategoryDTO>(obj);
+			}
+			return new CategoryDTO();
+		}
 
         public CategoryDTO Update(CategoryDTO category)
         {
