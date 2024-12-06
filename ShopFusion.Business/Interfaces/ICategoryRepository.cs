@@ -8,6 +8,6 @@ namespace ShopFusion.Business.Interfaces
         public CategoryDTO GetById(int id);
         public CategoryDTO Create(CategoryDTO category);
         public CategoryDTO Update(CategoryDTO category);
-        public CategoryDTO Delete(int id);
+        public int Delete(int id);
     }
 }

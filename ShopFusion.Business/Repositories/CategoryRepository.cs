@@ -28,9 +28,15 @@ namespace ShopFusion.Business.Repositories
             return _mapper.Map<Category, CategoryDTO>(category);
 		}
 
-        public CategoryDTO Delete(int id)
+        public int Delete(int id)
         {
-            throw new NotImplementedException();
+            var obj = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
+            if(obj != null)
+            {
+                _dbContext.Categories.Remove(obj);
+                return _dbContext.SaveChanges();
+            }
+            return 0;
         }
 
         public List<CategoryDTO> GetAll()
