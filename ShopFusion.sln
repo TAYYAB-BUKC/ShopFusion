@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopFusion.Server", "ShopFusion.Server\ShopFusion.Server.csproj", "{399F0A5B-17FF-44C1-A0BC-1D1F36E11A4E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{344B5D48-DF69-46D2-A14A-7CB24F56C01A} = {344B5D48-DF69-46D2-A14A-7CB24F56C01A}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopFusion.Client", "ShopFusion.Client\ShopFusion.Client.csproj", "{78AC0E1D-0FB4-4869-A15B-442CF306F81B}"
 EndProject

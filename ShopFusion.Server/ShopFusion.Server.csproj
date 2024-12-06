@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ShopFusion.Business\ShopFusion.Business.csproj" />
     <ProjectReference Include="..\ShopFusion.DataAccess\ShopFusion.DataAccess.csproj" />
     <ProjectReference Include="..\ShopFusion.Models\ShopFusion.Models.csproj" />
   </ItemGroup>
