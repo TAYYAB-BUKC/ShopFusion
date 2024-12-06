@@ -41,7 +41,7 @@ namespace ShopFusion.Business.Repositories
 
         public List<CategoryDTO> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<Category>, List<CategoryDTO>>(_dbContext.Categories);
         }
 
         public CategoryDTO GetById(int id)
