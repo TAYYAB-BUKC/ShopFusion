@@ -1,5 +1,5 @@
 ﻿@page "/category/create"
-@page "/category/update"
+@page "/category/edit/{id:int}"
 
 @inject ICategoryRepository _categoryRepository
 @inject NavigationManager _navigationManager;
@@ -7,31 +7,73 @@
     <h4 class="card-title text-primary mb-3 ml-3">@Title Category</h4>
 
     <div class="col-6">
-        <EditForm Model="Category" OnValidSubmit="UpsertCategory">
-            <DataAnnotationsValidator />
-            @* <ValidationSummary /> *@
-            <div class="form-group">
-                <label>Name</label>
-                <InputText @bind-Value="@Category.Name"></InputText>
-                <ValidationMessage For="() => Category.Name" />
+        @if (IsLoading)
+        {
+            <div class="text-center">
+                <img src="images/loading.gif" />
             </div>
-            <div class="form-group py-2">
-                <button class="btn btn-primary">@Title Category</button>
-                <NavLink href="/category" class="btn btn-secondary">Back to List</NavLink>
-            </div>
-        </EditForm>
+        }
+        else
+        {
+            <EditForm Model="Category" OnValidSubmit="UpsertCategory">
+                <DataAnnotationsValidator />
+                @* <ValidationSummary /> *@
+                <div class="form-group">
+                    <label>Name</label>
+                    <InputText @bind-Value="@Category.Name"></InputText>
+                    <ValidationMessage For="() => Category.Name" />
+                </div>
+                <div class="form-group py-2">
+                    <button class="btn btn-primary">@Title Category</button>
+                    <NavLink href="/category" class="btn btn-secondary">Back to List</NavLink>
+                </div>
+            </EditForm>
+        }
     </div>
 
 </div>
 
 
 @code {
+
+    [Parameter]
+    public int Id { get; set; }
+
     private CategoryDTO Category { get; set; } = new CategoryDTO();
     private string Title { get; set; } = "Create New";
+    private bool IsLoading { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            Title = "Edit";
+            await Task.Run(LoadCategory);
+            IsLoading = false;
+        }
+        else
+        {
+            IsLoading = false;
+        }
+
+    }
+
+    private void LoadCategory()
+    {
+        Category = _categoryRepository.GetById(Id);
+        IsLoading = false;
+    }
 
     private void UpsertCategory()
     {
-        _categoryRepository.Create(Category);
+        if (Id > 0)
+        {
+            _categoryRepository.Update(Category);
+        }
+        else
+        {
+            _categoryRepository.Create(Category);
+        }
         _navigationManager.NavigateTo("category");
     }
 }
