@@ -9,36 +9,60 @@
         <a href="/category/create" class="btn btn-primary form-control">Add New Category</a>
     </div>
     <div class="col-12">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Categories)
-                {
+        @if(Categories.Count() > 0)
+        {
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>
-                            @item.Name
-                        </td>
-                        <td>
-                            <NavLink class="btn btn-primary" href="/category/update">Edit</NavLink>
-                            <NavLink class="btn btn-danger" href="/category/delete">Delete</NavLink>
-                        </td>
+                        <th>Name</th>
+                        <th>Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Categories)
+                    {
+                        <tr>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                <NavLink class="btn btn-primary" href="/category/update">Edit</NavLink>
+                                <NavLink class="btn btn-danger" href="/category/delete">Delete</NavLink>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            @if(IsLoading)
+            {
+                <div class="text-center">
+                    <img src="images/loading.gif" />
+                </div>
+            }
+            else
+            {
+                <div>
+                    <p>No records found.</p>
+                </div>
+            }
+        }
     </div>
 </div>
 
 @code {
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
+    private bool IsLoading { get; set; } = true;
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(LoadCategories);
+    }
 
-    protected override void OnInitialized()
+    private void LoadCategories()
     {
         Categories = _categoryRepository.GetAll();
+        IsLoading = false;
     }
 }
