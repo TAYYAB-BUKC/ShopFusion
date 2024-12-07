@@ -53,11 +53,11 @@
     </div>
 </div>
 
-<_DeleteConfirmation DeleteCallback="Delete"></_DeleteConfirmation>
+<_DeleteConfirmation IsProcessingInProgress="IsLoading" DeleteCallback="Delete"></_DeleteConfirmation>
 
 @code {
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
-    private bool IsLoading { get; set; } = true;
+    private bool IsLoading { get; set; }
     private int DeleteCategoryId { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -79,13 +79,13 @@
 
     private async Task Delete(bool isConfirmed)
     {
+        IsLoading = true;
         if (isConfirmed && DeleteCategoryId != 0)
         {
             _categoryRepository.Delete(DeleteCategoryId);
             DeleteCategoryId = 0;
             _JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
             Categories = new List<CategoryDTO>();
-            IsLoading = true;
             await Task.Run(LoadCategories);
         }
         else
@@ -93,5 +93,6 @@
             DeleteCategoryId = 0;
             _JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
         }
+        IsLoading = false;
     }
 }

@@ -11,8 +11,16 @@
                 <p>Are you sure you want to delete this record?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" @onclick="() => OnDeleteConfirmation(false)">Close</button>
-                <button type="button" class="btn btn-danger" @onclick="() => OnDeleteConfirmation(true)">Delete</button>
+                @if (IsProcessingInProgress)
+                {
+                    <button type="button" class="btn btn-secondary" disabled>Close</button>
+                    <button type="button" class="btn btn-danger" disabled>Processing Delete .....</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-secondary" @onclick="() => OnDeleteConfirmation(false)">Close</button>
+                    <button type="button" class="btn btn-danger" @onclick="() => OnDeleteConfirmation(true)">Delete</button>    
+                }
             </div>
         </div>
     </div>
@@ -21,6 +29,9 @@
 @code {
     [Parameter]
     public EventCallback<bool> DeleteCallback { get; set; }
+
+    [Parameter]
+    public bool IsProcessingInProgress { get; set; }
 
     private async Task OnDeleteConfirmation(bool value)
     {
