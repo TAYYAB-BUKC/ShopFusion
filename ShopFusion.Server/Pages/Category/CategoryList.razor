@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<_DeleteConfirmation DeleteTrueCallback="() => Delete(true)" DeleteFalseCallback="() => Delete(false)"></_DeleteConfirmation>
+<_DeleteConfirmation DeleteCallback="Delete"></_DeleteConfirmation>
 
 @code {
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
