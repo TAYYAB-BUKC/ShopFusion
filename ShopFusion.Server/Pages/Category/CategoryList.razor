@@ -60,15 +60,23 @@
     private bool IsLoading { get; set; }
     private int DeleteCategoryId { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     await Task.Run(LoadCategories);
+    // }
+
+    protected override void OnAfterRender(bool firstRender)
     {
-        await Task.Run(LoadCategories);
+        LoadCategories();
     }
 
     private void LoadCategories()
     {
+        IsLoading = true;
+        StateHasChanged();
         Categories = _categoryRepository.GetAll();
         IsLoading = false;
+        StateHasChanged();
     }
 
     private void ShowDeleteConfirmation(int id)
