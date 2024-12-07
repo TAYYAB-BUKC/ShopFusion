@@ -3,21 +3,26 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalTitle">Delete Confirmation</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+            <button type="button" class="close" @onclick="DeleteFalseCallback" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to delete this record?</p>
       </div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-secondary" @onclick="DeleteFalseCallback">Close</button>
+        <button type="button" class="btn btn-danger" @onclick="DeleteTrueCallback">Delete</button>
       </div>
     </div>
   </div>
 </div>
 
 @code {
+    [Parameter]
+    public EventCallback DeleteTrueCallback { get; set; }
+    [Parameter]
+    public EventCallback DeleteFalseCallback { get; set; }
+
 
 }

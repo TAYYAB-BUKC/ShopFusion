@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<_DeleteConfirmation></_DeleteConfirmation>
+<_DeleteConfirmation DeleteTrueCallback="() => Delete(true)" DeleteFalseCallback="() => Delete(false)"></_DeleteConfirmation>
 
 @code {
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
@@ -75,5 +75,23 @@
     {
         DeleteCategoryId = id;
         _JSRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+    }
+
+    private async Task Delete(bool isConfirmed)
+    {
+        if (isConfirmed && DeleteCategoryId != 0)
+        {
+            _categoryRepository.Delete(DeleteCategoryId);
+            DeleteCategoryId = 0;
+            _JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+            Categories = new List<CategoryDTO>();
+            IsLoading = true;
+            await Task.Run(LoadCategories);
+        }
+        else
+        {
+            DeleteCategoryId = 0;
+            _JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+        }
     }
 }
