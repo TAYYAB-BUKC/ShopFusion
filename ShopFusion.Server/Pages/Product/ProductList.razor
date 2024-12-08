@@ -1,0 +1,90 @@
+﻿@page "/product"
+@inject IProductRepository _productRepository
+@inject IJSRuntime _JSRuntime
+
+<div class="row mt-4">
+    <div class="col-4">
+        <h4 class="card-title text-primary">Products List</h4>
+    </div>
+    <div class="col-5 offset-2">
+        <a href="/product/create" class="btn btn-primary form-control">Add New Product</a>
+    </div>
+    <div class="col-12">
+        @if (Products.Count() > 0)
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Shop Favorite</th>
+                        <th class="text-center">Customer Favorite</th>
+                        <th class="text-center">Category</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Products)
+                    {
+                        <tr>
+                            <td class="text-center">@product.Name</td>
+                            <td class="text-center"><input type="checkbox" disabled name="isShopFavorite" @bind="@product.IsShopFavorite" /></td>
+                            <td class="text-center"><input type="checkbox" disabled name="isCustomerFavorite" @bind="@product.IsCustomerFavorite" /></td>
+                            <td class="text-center">@product.Category.Name</td>
+                            <td class="text-center">
+                                <NavLink class="btn btn-primary" href="@($"/product/edit/{product.Id}")">Edit</NavLink>
+                                <button class="btn btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            @if (IsLoading)
+            {
+                <div class="text-center">
+                    <img src="images/loading.gif" />
+                </div>
+            }
+            else
+            {
+                <div>
+                    <p>No records found.</p>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private List<ProductDTO> Products { get; set; } = new List<ProductDTO>();
+    private bool IsLoading { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadProducts();
+        }
+    }
+
+    private async Task LoadProducts()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Products = await _productRepository.GetAll();
+        Products.Add(new ProductDTO
+            {
+                IsShopFavorite = true,
+                IsCustomerFavorite = true,
+                Name = "Product 1",
+                Category = new CategoryDTO
+                {
+                    Name = "Category 1"
+                }
+            });
+        IsLoading = false;
+        StateHasChanged();
+    }
+}
