@@ -65,16 +65,19 @@
     //     await Task.Run(LoadCategories);
     // }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        LoadCategories();
+        if (firstRender)
+        {
+            await LoadCategories();
+        }
     }
 
-    private void LoadCategories()
+    private async Task LoadCategories()
     {
         IsLoading = true;
         StateHasChanged();
-        Categories = _categoryRepository.GetAll();
+        Categories = await _categoryRepository.GetAll();
         IsLoading = false;
         StateHasChanged();
     }
@@ -90,11 +93,11 @@
         IsLoading = true;
         if (isConfirmed && DeleteCategoryId != 0)
         {
-            _categoryRepository.Delete(DeleteCategoryId);
+            await _categoryRepository.Delete(DeleteCategoryId);
             DeleteCategoryId = 0;
             _JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
             Categories = new List<CategoryDTO>();
-            await Task.Run(LoadCategories);
+            await LoadCategories();
         }
         else
         {
