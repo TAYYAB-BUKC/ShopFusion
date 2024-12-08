@@ -5,6 +5,8 @@ using ShopFusion.Business.Repositories;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.Mappers;
 using ShopFusion.Server.Data;
+using ShopFusion.Server.Services;
+using ShopFusion.Server.Services.Interfaces;
 
 namespace ShopFusion.Server.HelperClasses
 {
@@ -22,6 +24,8 @@ namespace ShopFusion.Server.HelperClasses
 
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 			builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+			builder.Services.AddScoped<IFileUploader, FileUploader>();
 		}
 	}
 }
