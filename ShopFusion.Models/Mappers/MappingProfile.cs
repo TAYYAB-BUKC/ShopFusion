@@ -9,6 +9,7 @@ namespace ShopFusion.Models.Mappers
 		public MappingProfile()
 		{
 			CreateMap<Category, CategoryDTO>().ReverseMap();
+			CreateMap<Product, ProductDTO>().ReverseMap();
 		}
 	}
 }
