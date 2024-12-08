@@ -32,7 +32,7 @@
                             <td class="text-center">@product.Category.Name</td>
                             <td class="text-center">
                                 <NavLink class="btn btn-primary" href="@($"/product/edit/{product.Id}")">Edit</NavLink>
-                                <button class="btn btn-danger">Delete</button>
+                                <button class="btn btn-danger" @onclick="() => ShowDeleteConfirmation(product.Id)">Delete</button>
                             </td>
                         </tr>
                     }
@@ -57,9 +57,12 @@
     </div>
 </div>
 
+<_DeleteConfirmation IsProcessingInProgress="IsLoading" DeleteCallback="Delete"></_DeleteConfirmation>
+
 @code {
     private List<ProductDTO> Products { get; set; } = new List<ProductDTO>();
     private bool IsLoading { get; set; }
+    private int DeleteProductId { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -86,5 +89,31 @@
             });
         IsLoading = false;
         StateHasChanged();
+    }
+
+
+    private void ShowDeleteConfirmation(int id)
+    {
+        DeleteProductId = id;
+        _JSRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+    }
+
+    private async Task Delete(bool isConfirmed)
+    {
+        IsLoading = true;
+        if (isConfirmed && DeleteProductId != 0)
+        {
+            await _productRepository.Delete(DeleteProductId);
+            DeleteProductId = 0;
+            _JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+            Products = new List<ProductDTO>();
+            await LoadProducts();
+        }
+        else
+        {
+            DeleteProductId = 0;
+            _JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+        }
+        IsLoading = false;
     }
 }
