@@ -13,9 +13,9 @@
 </div>
 
 @code {
-    List<Product> Products = new();
+    List<DummyProduct> Products = new();
     private int FavouriteCount { get; set; }
-    private Product LastSelectedProduct { get; set; } = new();
+    private DummyProduct LastSelectedProduct { get; set; } = new();
     protected override void OnInitialized()
     {
         Products.Add(new()
