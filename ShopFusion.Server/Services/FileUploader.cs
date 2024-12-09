@@ -16,9 +16,9 @@ namespace ShopFusion.Server.Services
 		{
 			try
 			{
-				if (File.Exists(_webHostEnvironment + filePath))
+				if (File.Exists(_webHostEnvironment.WebRootPath + filePath))
 				{
-					File.Delete(_webHostEnvironment + filePath);
+					File.Delete(_webHostEnvironment.WebRootPath + filePath);
 					return true;
 				}
 			}

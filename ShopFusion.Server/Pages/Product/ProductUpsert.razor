@@ -92,6 +92,7 @@
     private string Title { get; set; } = "Create New";
     private bool IsLoading { get; set; }
     //public IWebHostEnvironment _webHostEnvironment { get; set; }
+    private string OldProductImageURL { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -110,6 +111,7 @@
         {
             Title = "Edit";
             Product = await _productRepository.GetById(Id);
+            OldProductImageURL = Product.ImageURL;
         }
         IsLoading = false;
         StateHasChanged();
@@ -119,6 +121,10 @@
     {
         if (Id > 0)
         {
+            if (OldProductImageURL != Product.ImageURL && OldProductImageURL != "/images/defaults/defaultProduct.png")
+            {
+                _fileUploader.DeleteFile(OldProductImageURL);
+            }
             await _productRepository.Update(Product);
         }
         else
