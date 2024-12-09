@@ -1,5 +1,6 @@
 ﻿@page "/product"
 @inject IProductRepository _productRepository
+@inject IFileUploader _fileUploader
 @inject IJSRuntime _JSRuntime
 
 <div class="row mt-4">
@@ -103,6 +104,10 @@
         IsLoading = true;
         if (isConfirmed && DeleteProductId != 0)
         {
+            var product = await _productRepository.GetById(DeleteProductId);
+            if (product != null && product.ImageURL != "/images/defaults/defaultProduct.png"){
+                _fileUploader.DeleteFile(product.ImageURL);
+            }
             await _productRepository.Delete(DeleteProductId);
             DeleteProductId = 0;
             _JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
