@@ -10,7 +10,7 @@
 <div class="row my-2">
     <h4 class="card-title text-primary mb-3 ml-3">@Title Product</h4>
 
-    <div class="col-6">
+    <div class="col-md-10">
         @if (IsLoading)
         {
             <div class="text-center">
@@ -71,7 +71,11 @@
             </EditForm>
         }
     </div>
-
+    <div class="col-md-2">
+        <div class="text-center">
+            <img src="@Product.ImageURL" class="w-100"/>
+        </div>
+    </div>
 </div>
 
 
@@ -80,7 +84,10 @@
     [Parameter]
     public int Id { get; set; }
 
-    private ProductDTO Product { get; set; } = new ProductDTO();
+    private ProductDTO Product { get; set; } = new ProductDTO()
+    {
+        ImageURL = "/images/defaults/defaultProduct.png"
+    };
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
     private string Title { get; set; } = "Create New";
     private bool IsLoading { get; set; }
