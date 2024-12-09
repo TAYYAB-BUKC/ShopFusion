@@ -60,7 +60,16 @@ namespace ShopFusion.Business.Repositories
 			Product productFromDB = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == productDTO.Id);
 			if (productFromDB != null)
 			{
-				productFromDB = _mapper.Map<ProductDTO, Product>(productDTO);
+				//productFromDB = _mapper.Map<ProductDTO, Product>(productDTO);
+				//_dbContext.Products.Update(_mapper.Map<ProductDTO, Product>(productDTO));
+				//_dbContext.Entry(productFromDB).State = EntityState.Modified;
+				productFromDB.Name = productDTO.Name;
+				productFromDB.Description = productDTO.Description;
+				productFromDB.IsShopFavorite = productDTO.IsShopFavorite;
+				productFromDB.IsCustomerFavorite = productDTO.IsCustomerFavorite;
+				productFromDB.Color = productDTO.Color;
+				productFromDB.ImageURL = productDTO.ImageURL;
+				productFromDB.CategoryId = productDTO.CategoryId;
 				_dbContext.Products.Update(productFromDB);
 				await _dbContext.SaveChangesAsync();
 			}
