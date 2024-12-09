@@ -35,7 +35,7 @@ namespace ShopFusion.Server.Services
 			{
 				FileInfo fileInfo = new FileInfo(file.Name);
 				var newFileName = Guid.NewGuid().ToString("N") + fileInfo.Extension;
-				//var folderDirectory = $"{_webHostEnvironment.WebRootPath}\\images\\products";
+				folderDirectory = $"{_webHostEnvironment.WebRootPath}{folderDirectory}";
 
 				if (!Directory.Exists(folderDirectory)) 
 				{

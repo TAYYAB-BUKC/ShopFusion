@@ -3,7 +3,9 @@
 
 @inject ICategoryRepository _categoryRepository
 @inject IProductRepository _productRepository
+@inject IFileUploader _fileUploader
 @inject NavigationManager _navigationManager;
+@inject IJSRuntime _JSRuntime
 
 <div class="row my-2">
     <h4 class="card-title text-primary mb-3 ml-3">@Title Product</h4>
@@ -57,6 +59,10 @@
                         </InputSelect>
                         <ValidationMessage For="() => Product.CategoryId" />
                     </div>
+                    <div class="form-group col-6">
+                        <label class="form-label">Image</label>
+                        <InputFile OnChange="HandleImageUpload" />
+                    </div>
                 </div>
                 <div class="form-group py-2">
                     <button class="btn btn-primary">@Title Product</button>
@@ -78,6 +84,7 @@
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
     private string Title { get; set; } = "Create New";
     private bool IsLoading { get; set; }
+    //public IWebHostEnvironment _webHostEnvironment { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -112,5 +119,33 @@
             await _productRepository.Create(Product);
         }
         _navigationManager.NavigateTo("product");
+    }
+
+    private async Task HandleImageUpload(InputFileChangeEventArgs e){
+        IsLoading = true;
+        try
+        {
+            if(e.GetMultipleFiles().Count > 0){
+                foreach (var file in e.GetMultipleFiles())
+                {
+                    FileInfo fileInfo = new FileInfo(file.Name);
+                    if(fileInfo.Extension.ToLower() == ".png"
+                       || fileInfo.Extension.ToLower() == ".jpg"
+                       || fileInfo.Extension.ToLower() == ".jpeg"
+                       || fileInfo.Extension.ToLower() == ".gif"
+                    ){
+                        Product.ImageURL = await _fileUploader.UploadFile(file, "\\images\\products", "/images/products/");
+                    }
+                    else{
+                        await _JSRuntime.ShowFailureToastrNotification("Please upload these types only .jpg|.jpeg|.png");
+                    }
+                }
+            }
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            await _JSRuntime.ShowFailureToastrNotification(ex.Message);
+        }
     }
 }
