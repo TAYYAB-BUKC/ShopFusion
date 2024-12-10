@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <InputTextArea @bind-Value="Product.Description"></InputTextArea>
+                    <RadzenHtmlEditor @bind-Value="Product.Description" style="height: 200px;" />
                     <ValidationMessage For="() => Product.Description" />
                 </div>
                 <div class="row pt-3">
