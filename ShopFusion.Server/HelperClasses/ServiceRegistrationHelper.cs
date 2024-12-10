@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Radzen;
 using ShopFusion.Business.Interfaces;
 using ShopFusion.Business.Repositories;
 using ShopFusion.DataAccess.Data;
@@ -17,6 +18,7 @@ namespace ShopFusion.Server.HelperClasses
 			// Add services to the container.
 			builder.Services.AddRazorPages();
 			builder.Services.AddServerSideBlazor();
+			builder.Services.AddRadzenComponents();
 			builder.Services.AddSingleton<WeatherForecastService>();
 			builder.Services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

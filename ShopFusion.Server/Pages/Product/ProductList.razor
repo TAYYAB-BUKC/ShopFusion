@@ -9,6 +9,7 @@
     </div>
     <div class="col-5 offset-2">
         <a href="/product/create" class="btn btn-primary form-control">Add New Product</a>
+        <RadzenButton Click="ButtonClicked" Text="Hi"></RadzenButton>
     </div>
     <div class="col-12">
         @if (Products.Count() > 0)
@@ -120,5 +121,9 @@
             _JSRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
         }
         IsLoading = false;
+    }
+
+    void ButtonClicked(){
+        _JSRuntime.ShowSuccessToastrNotification("Button is clicked");
     }
 }
