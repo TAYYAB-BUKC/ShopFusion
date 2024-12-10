@@ -22,6 +22,7 @@ namespace ShopFusion.Business.Repositories
 		public async Task<ProductDTO> Create(ProductDTO productDTO)
 		{
 			Product product = _mapper.Map<ProductDTO, Product>(productDTO);
+			product.CreatedDate = DateTime.Now;
 
 			_dbContext.Products.Add(product);
 			await _dbContext.SaveChangesAsync();
