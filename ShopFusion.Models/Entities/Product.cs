@@ -26,6 +26,7 @@ namespace ShopFusion.Models.Entities
 		[ForeignKey("CategoryId")]
 		public Category Category { get; set; }
 		public DateTime CreatedDate { get; set; }
+		public ICollection<ProductPrices> ProductPrices { get; set; }
 	}
 
     public class ProductProperties
