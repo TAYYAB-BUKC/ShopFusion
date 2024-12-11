@@ -78,16 +78,6 @@
         IsLoading = true;
         StateHasChanged();
         Products = await _productRepository.GetAll();
-        Products.Add(new ProductDTO
-            {
-                IsShopFavorite = true,
-                IsCustomerFavorite = true,
-                Name = "Product 1",
-                Category = new CategoryDTO
-                {
-                    Name = "Category 1"
-                }
-            });
         IsLoading = false;
         StateHasChanged();
     }
