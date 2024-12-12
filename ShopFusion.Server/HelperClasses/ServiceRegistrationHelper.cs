@@ -28,6 +28,8 @@ namespace ShopFusion.Server.HelperClasses
 			builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 			builder.Services.AddScoped<IFileUploader, FileUploader>();
+
+			builder.Services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
 		}
 	}
 }
