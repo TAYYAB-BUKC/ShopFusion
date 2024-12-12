@@ -39,9 +39,16 @@ namespace ShopFusion.Business.Repositories
 			return 0;
 		}
 
-		public async Task<List<ProductPricesDTO>> GetAll()
+		public async Task<List<ProductPricesDTO>> GetAll(int? productID = null)
 		{
-			return _mapper.Map<List<ProductPrices>, List<ProductPricesDTO>>(await _dbContext.ProductPrices.ToListAsync());
+			if (productID is null)
+			{
+				return _mapper.Map<List<ProductPrices>, List<ProductPricesDTO>>(await _dbContext.ProductPrices.ToListAsync());
+			}
+			else
+			{
+				return _mapper.Map<List<ProductPrices>, List<ProductPricesDTO>>(await _dbContext.ProductPrices.Where(pp => pp.ProductId == productID).ToListAsync());
+			}
 		}
 
 		public async Task<ProductPricesDTO> GetById(int id)
