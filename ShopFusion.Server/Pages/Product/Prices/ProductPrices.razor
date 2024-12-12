@@ -3,13 +3,48 @@
 @inject IProductRepository _productRepository
 @inject IProductPriceRepository _productPriceRepository
 
+<h3 class="text-primary">Manage Product Prices</h3>
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <img src="images/loading.gif" />
+    </div>
+}
+else
+{
+    <div class="row border p-2 mb-4">
+
+        <div class="col-md-10">
+            <div class="card-body">
+                <h4 class="card-title mb-3 ml-3">@product.Name</h4>
+                <span>
+                    Category: @product.Category.Name
+                </span>
+                <br />
+                <span>
+                    Description: @((MarkupString)product.Description)
+                </span>
+                <br />
+
+            </div>
+
+        </div>
+        <div class="col-md-2">
+            <div class="text-center">
+                <img src="@product.ImageURL" class="w-100" />
+            </div>
+        </div>
+    </div>
+}
+
 @code {
     [Parameter]
     public int Id { get; set; }
 
     public ProductDTO product = new();
     public IEnumerable<ProductPricesDTO> productPrices = new List<ProductPricesDTO>();
-    private bool IsLoading { get; set; }
+    private bool IsLoading { get; set; } = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
