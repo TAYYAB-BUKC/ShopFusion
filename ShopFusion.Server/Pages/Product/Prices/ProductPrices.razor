@@ -38,13 +38,18 @@ else
                         <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Id)" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
                         <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Size)" Title="Size" Frozen="true" Width="160px">
                             <EditTemplate>
-                                <RadzenDropDown @bind-Value="((context as ProductPricesDTO).Size)" Data="@productSizes" TextProperty="string" ValueProperty="string" Style="width:100%; display: block;" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select Size" }})" />
+                                <RadzenDropDown @bind-Value="((context as ProductPricesDTO).Size)" Data="@productSizes" Style="width:100%; display: block;" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select Size" }})" />
                             </EditTemplate>
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Price)" Title="Price" Width="160px" />
+                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Price)" Title="Price" Width="160px">
+                            <EditTemplate>
+                                <RadzenNumeric @bind-Value="((context as ProductPricesDTO).Price)" Style="width:100%" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select freight" }})" />
+                                <RadzenRequiredValidator Text="Price is required" Component="ShipName" Popup="true" />
+                            </EditTemplate>
+                        </RadzenDataGridColumn>
                     </Columns>
                 </RadzenDataGrid>
-            
+
 
             </div>
 
