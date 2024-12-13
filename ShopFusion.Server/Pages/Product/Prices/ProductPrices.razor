@@ -27,9 +27,9 @@ else
                 </span>
                 <br />
 
-                <RadzenDataGrid TItem="ProductPricesDTO" Data="@productPrices" AllowPaging="true">
+                <RadzenDataGrid @ref="pricesGrid" TItem="ProductPricesDTO" Data="@productPrices" AllowPaging="true">
                     <HeaderTemplate>
-                        <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle" Text="Add New" />
+                        <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle" Text="Add New" Click="@InsertRow" />
                         <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Text="Update" />
                         <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Text="Delete" />
                         <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="close" Text="Cancel" />
@@ -61,6 +61,7 @@ else
     [Parameter]
     public int Id { get; set; }
 
+    private RadzenDataGrid<ProductPricesDTO> pricesGrid;
     public ProductDTO product = new();
     public IList<ProductPricesDTO> productPrices = new List<ProductPricesDTO>();
     private bool IsLoading { get; set; } = true;
@@ -87,18 +88,11 @@ else
         StateHasChanged();
     }
 
-    // async Task InsertRow()
-    // {
-    //     if (!ordersGrid.IsValid) return;
+    async Task InsertRow()
+    {
+        if (!pricesGrid.IsValid) return;
 
-    //     if (editMode == DataGridEditMode.Single)
-    //     {
-    //         Reset();
-    //     }
-
-    //     var order = new Order();
-    //     ordersToInsert.Add(order);
-    //     await ordersGrid.InsertRow(order);
-    // }
-
+        var productPrice = new ProductPricesDTO();
+        await pricesGrid.InsertRow(productPrice);
+    }
 }
