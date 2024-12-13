@@ -27,6 +27,15 @@ else
                 </span>
                 <br />
 
+                <RadzenDataGrid Data="@productPrices" AllowPaging="true">
+                    <Columns>
+                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Id)" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
+                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Size)" Title="Size" Frozen="true" Width="160px" />
+                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Price)" Title="Price" Width="160px" />
+                    </Columns>
+                </RadzenDataGrid>
+            
+
             </div>
 
         </div>
@@ -43,7 +52,7 @@ else
     public int Id { get; set; }
 
     public ProductDTO product = new();
-    public IEnumerable<ProductPricesDTO> productPrices = new List<ProductPricesDTO>();
+    public IList<ProductPricesDTO> productPrices = new List<ProductPricesDTO>();
     private bool IsLoading { get; set; } = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
