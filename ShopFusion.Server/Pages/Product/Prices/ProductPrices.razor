@@ -27,7 +27,7 @@ else
                 </span>
                 <br />
 
-                <RadzenDataGrid Data="@productPrices" AllowPaging="true">
+                <RadzenDataGrid TItem="ProductPricesDTO" Data="@productPrices" AllowPaging="true">
                     <HeaderTemplate>
                         <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle" Text="Add New" />
                         <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Text="Update" />
@@ -36,7 +36,11 @@ else
                     </HeaderTemplate>
                     <Columns>
                         <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Id)" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
-                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Size)" Title="Size" Frozen="true" Width="160px" />
+                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Size)" Title="Size" Frozen="true" Width="160px">
+                            <EditTemplate>
+                                <RadzenDropDown @bind-Value="((context as ProductPricesDTO).Size)" Data="@productSizes" TextProperty="string" ValueProperty="string" Style="width:100%; display: block;" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select Size" }})" />
+                            </EditTemplate>
+                        </RadzenDataGridColumn>
                         <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Price)" Title="Price" Width="160px" />
                     </Columns>
                 </RadzenDataGrid>
@@ -60,6 +64,10 @@ else
     public ProductDTO product = new();
     public IList<ProductPricesDTO> productPrices = new List<ProductPricesDTO>();
     private bool IsLoading { get; set; } = true;
+    public IEnumerable<string> productSizes = new List<string>()
+    {
+        "Small", "Medium", "Large", "8oz", "16oz", "24oz", "32oz"
+    };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -78,4 +86,19 @@ else
         IsLoading = false;
         StateHasChanged();
     }
+
+    // async Task InsertRow()
+    // {
+    //     if (!ordersGrid.IsValid) return;
+
+    //     if (editMode == DataGridEditMode.Single)
+    //     {
+    //         Reset();
+    //     }
+
+    //     var order = new Order();
+    //     ordersToInsert.Add(order);
+    //     await ordersGrid.InsertRow(order);
+    // }
+
 }
