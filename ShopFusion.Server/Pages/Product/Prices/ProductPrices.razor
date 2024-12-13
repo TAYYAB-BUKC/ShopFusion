@@ -28,6 +28,12 @@ else
                 <br />
 
                 <RadzenDataGrid Data="@productPrices" AllowPaging="true">
+                    <HeaderTemplate>
+                        <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle" Text="Add New" />
+                        <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Text="Update" />
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Text="Delete" />
+                        <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="close" Text="Cancel" />
+                    </HeaderTemplate>
                     <Columns>
                         <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Id)" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
                         <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Size)" Title="Size" Frozen="true" Width="160px" />
