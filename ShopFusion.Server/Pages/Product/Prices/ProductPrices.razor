@@ -38,14 +38,14 @@ else
                         <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Id)" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
                         <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Size)" Title="Size" Frozen="true" Width="160px">
                             <EditTemplate>
-                                <RadzenDropDown @bind-Value="((context as ProductPricesDTO).Size)" Data="@productSizes" Style="width:100%; display: block;" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select Size" }})" />
-                                    <RadzenRequiredValidator Text="Size is required" Component="productPricesDTO.Size)" Popup="true" />
+                                <RadzenDropDown Name="size" @bind-Value="((context as ProductPricesDTO).Size)" Data="@productSizes" Style="width:100%; display: block;" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select Size" }})" />
+                                <RadzenRequiredValidator Text="Size is required" Component="size" Popup="true" />
                             </EditTemplate>
                         </RadzenDataGridColumn>
                         <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Price)" Title="Price" Width="160px">
                             <EditTemplate>
-                                <RadzenNumeric @bind-Value="((context as ProductPricesDTO).Price)" Style="width:100%" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select freight" }})" />
-                                <RadzenRequiredValidator Text="Price is required" Component="productPricesDTO.Price" Popup="true" />
+                                <RadzenNumeric Name="price" @bind-Value="((context as ProductPricesDTO).Price)" Style="width:100%" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select freight" }})" />
+                                <RadzenRequiredValidator Text="Price is required" Component="price" Popup="true" />
                             </EditTemplate>
                         </RadzenDataGridColumn>
                         <RadzenDataGridColumn Context="productPricesDTO" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
@@ -129,8 +129,8 @@ else
 
     private async Task SaveRow(ProductPricesDTO productPrice)
     {
+        await pricesGrid.UpdateRow(productPrice);
         productPrice.ProductId = Id;
         await _productPriceRepository.Create(productPricesDTO);
-        await pricesGrid.UpdateRow(productPrice);
     }
 }
