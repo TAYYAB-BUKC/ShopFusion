@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopFusion.Common", "ShopFu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopFusion.DataAccess", "ShopFusion.DataAccess\ShopFusion.DataAccess.csproj", "{FADE1F58-27A5-4C7E-B45B-03C6EBC30CAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopFusion.API", "ShopFusion.API\ShopFusion.API.csproj", "{3AD4F0F0-46F6-4972-8EC1-18DD25722177}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{FADE1F58-27A5-4C7E-B45B-03C6EBC30CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FADE1F58-27A5-4C7E-B45B-03C6EBC30CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FADE1F58-27A5-4C7E-B45B-03C6EBC30CAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AD4F0F0-46F6-4972-8EC1-18DD25722177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AD4F0F0-46F6-4972-8EC1-18DD25722177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AD4F0F0-46F6-4972-8EC1-18DD25722177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AD4F0F0-46F6-4972-8EC1-18DD25722177}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
