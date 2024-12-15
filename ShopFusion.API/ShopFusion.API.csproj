@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShopFusion.DataAccess\ShopFusion.DataAccess.csproj" />
+    <ProjectReference Include="..\ShopFusion.Models\ShopFusion.Models.csproj" />
   </ItemGroup>
 
 </Project>
