@@ -26,45 +26,6 @@ else
                     Description: @((MarkupString)product.Description)
                 </span>
                 <br />
-
-                <RadzenDataGrid @ref="pricesGrid" TItem="ProductPricesDTO" Data="@productPrices" AllowPaging="true">
-                    <HeaderTemplate>
-                        <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle" Text="Add New" Click="@InsertRow" />
-                        <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Text="Update" />
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Text="Delete" />
-                        <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="close" Text="Cancel" />
-                    </HeaderTemplate>
-                    <Columns>
-                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Id)" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
-                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Size)" Title="Size" Frozen="true" Width="160px">
-                            <EditTemplate>
-                                <RadzenDropDown Name="size" @bind-Value="((context as ProductPricesDTO).Size)" Data="@productSizes" Style="width:100%; display: block;" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select Size" }})" />
-                                <RadzenRequiredValidator Text="Size is required" Component="size" Popup="true" />
-                            </EditTemplate>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Price)" Title="Price" Width="160px">
-                            <EditTemplate>
-                                <RadzenNumeric Name="price" @bind-Value="((context as ProductPricesDTO).Price)" Style="width:100%" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select freight" }})" />
-                                <RadzenRequiredValidator Text="Price is required" Component="price" Popup="true" />
-                            </EditTemplate>
-                        </RadzenDataGridColumn>
-                        <RadzenDataGridColumn Context="productPricesDTO" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
-                            <Template Context="productPricesDTO">
-                                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => PrepareRowForEdit(productPricesDTO))" @onclick:stopPropagation="true"></RadzenButton>
-                            </Template>
-                            <EditTemplate Context="productPricesDTO">
-                                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" aria-label="Save" Click="@(() => SaveRow(productPricesDTO))">
-                                </RadzenButton>
-                                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" class="rz-my-1 rz-ms-1" aria-label="Cancel" Click="@(() => CancelEdit(productPricesDTO))">
-                                </RadzenButton>
-                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="rz-my-1 rz-ms-1" aria-label="Delete">
-                                </RadzenButton>
-                            </EditTemplate>
-                        </RadzenDataGridColumn>
-                    </Columns>
-                </RadzenDataGrid>
-
-
             </div>
 
         </div>
@@ -72,6 +33,40 @@ else
             <div class="text-center">
                 <img src="@product.ImageURL" class="w-100" />
             </div>
+        </div>
+
+        <div class="col-md-12">
+            <RadzenDataGrid @ref="pricesGrid" TItem="ProductPricesDTO" Data="@productPrices" AllowPaging="true">
+                <HeaderTemplate>
+                    <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle" Text="Add New" Click="@InsertRow" />
+                </HeaderTemplate>
+                <Columns>
+                    <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Id)" Filterable="false" Title="ID" Frozen="true" Width="50px" TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Size)" Title="Size" Frozen="true">
+                        <EditTemplate>
+                            <RadzenDropDown Name="size" @bind-Value="((context as ProductPricesDTO).Size)" Data="@productSizes" Style="width:100%; display: block;" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select Size" }})" />
+                            <RadzenRequiredValidator Text="Size is required" Component="size" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Price)" Title="Price">
+                        <EditTemplate>
+                            <RadzenNumeric Name="price" @bind-Value="((context as ProductPricesDTO).Price)" Style="width:100%" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select freight" }})" />
+                            <RadzenRequiredValidator Text="Price is required" Component="price" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn Context="productPricesDTO" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
+                        <Template Context="productPricesDTO">
+                            <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => PrepareRowForEdit(productPricesDTO))" @onclick:stopPropagation="true"></RadzenButton>
+                        </Template>
+                        <EditTemplate Context="productPricesDTO">
+                            <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" aria-label="Save" Click="@(() => SaveRow(productPricesDTO))">
+                            </RadzenButton>
+                            <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" class="rz-my-1 rz-ms-1" aria-label="Cancel" Click="@(() => CancelEdit(productPricesDTO))">
+                            </RadzenButton>
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
         </div>
     </div>
 }
