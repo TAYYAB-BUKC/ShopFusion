@@ -5,7 +5,7 @@
 <PageTitle>Home</PageTitle>
 
 @if(IsProcessing){
-    <div style="position: fixed; top: 50%; left: 50%; margin-top: -50%; margin-left: -100%">
+    <div class="text-center">
         <img src="/images/loading.gif" />
     </div>
 }
@@ -49,6 +49,6 @@ else{
     {
         IsProcessing = true;
         products = await _productService.GetAllProducts();
-        IsProcessing = false;
+        //IsProcessing = false;
     }
 }
