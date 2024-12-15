@@ -43,12 +43,12 @@ namespace ShopFusion.Business.Repositories
 
 		public async Task<List<ProductDTO>> GetAll()
 		{
-			return _mapper.Map<IEnumerable<Product>, List<ProductDTO>>(await _dbContext.Products.Include(p => p.Category).ToListAsync());
+			return _mapper.Map<IEnumerable<Product>, List<ProductDTO>>(await _dbContext.Products.Include(p => p.Category).Include(p => p.ProductPrices).ToListAsync());
 		}
 
 		public async Task<ProductDTO> GetById(int id)
 		{
-			Product product = await _dbContext.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+			Product product = await _dbContext.Products.Include(p => p.Category).Include(p => p.ProductPrices).FirstOrDefaultAsync(p => p.Id == id);
 			if (product != null)
 			{
 				return _mapper.Map<Product, ProductDTO>(product);

@@ -3,6 +3,7 @@ using ShopFusion.Business.Interfaces;
 using ShopFusion.Business.Repositories;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.Mappers;
+using System.Text.Json.Serialization;
 
 namespace ShopFusion.API.HelperClasses
 {
@@ -12,7 +13,9 @@ namespace ShopFusion.API.HelperClasses
 		{
 			// Add services to the container.
 
-			builder.Services.AddControllers();
+			builder.Services.AddControllers().AddJsonOptions(options =>
+				options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
+			);
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();

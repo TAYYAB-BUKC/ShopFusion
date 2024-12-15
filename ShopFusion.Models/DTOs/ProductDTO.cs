@@ -23,5 +23,6 @@ namespace ShopFusion.Models.DTOs
 		[Range(1, Int64.MaxValue, ErrorMessage = "Please select the category")]
 		public int CategoryId { get; set; }
 		public CategoryDTO Category { get; set; }
+		public ICollection<ProductPrices> ProductPrices { get; set; }
 	}
 }
