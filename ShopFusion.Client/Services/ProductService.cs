@@ -26,9 +26,17 @@ namespace ShopFusion.Client.Services
 			return products;
 		}
 
-		public Task<ProductDTO> GetProductById(int productId)
+		public async Task<ProductDTO> GetProductById(int productId)
 		{
-			throw new NotImplementedException();
+			var product = new ProductDTO();
+			var response = await _httpClient.GetAsync($"product/{productId}");
+			if (response.IsSuccessStatusCode)
+			{
+				var content = await response.Content.ReadAsStringAsync();
+				product = JsonConvert.DeserializeObject<ProductDTO>(content);
+			}
+
+			return product;
 		}
 	}
 }
