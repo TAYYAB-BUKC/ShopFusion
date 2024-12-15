@@ -36,7 +36,7 @@ else
         </div>
 
         <div class="col-md-12">
-            <RadzenDataGrid @ref="pricesGrid" TItem="ProductPricesDTO" Data="@productPrices" AllowPaging="true">
+            <RadzenDataGrid @ref="pricesGrid" TItem="ProductPricesDTO" Data="@productPrices" AllowPaging="true" AllowFiltering="true" AllowSorting="true" PageSize="5" ShowPagingSummary="true">
                 <HeaderTemplate>
                     <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle" Text="Add New" Click="@InsertRow" />
                 </HeaderTemplate>
@@ -48,7 +48,7 @@ else
                             <RadzenRequiredValidator Text="Size is required" Component="size" Popup="true" />
                         </EditTemplate>
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn Property="@nameof(ProductPricesDTO.Price)" Title="Price">
+                    <RadzenDataGridColumn SortOrder="SortOrder.Ascending" Property="@nameof(ProductPricesDTO.Price)" Title="Price">
                         <EditTemplate>
                             <RadzenNumeric Name="price" @bind-Value="((context as ProductPricesDTO).Price)" Style="width:100%" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select freight" }})" />
                             <RadzenRequiredValidator Text="Price is required" Component="price" Popup="true" />
