@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShopFusion.Business.Interfaces;
+using ShopFusion.Business.Repositories;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.Mappers;
 
@@ -18,6 +20,8 @@ namespace ShopFusion.API.HelperClasses
 			builder.Services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 			builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+			builder.Services.AddScoped<IProductRepository, ProductRepository>();
 		}
 	}
 }
