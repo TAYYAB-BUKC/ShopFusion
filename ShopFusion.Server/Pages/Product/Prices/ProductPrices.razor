@@ -49,6 +49,9 @@ else
                             </EditTemplate>
                         </RadzenDataGridColumn>
                         <RadzenDataGridColumn Context="productPricesDTO" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
+                            <Template Context="productPricesDTO">
+                                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => PrepareRowForEdit(productPricesDTO))" @onclick:stopPropagation="true"></RadzenButton>
+                            </Template>
                             <EditTemplate Context="productPricesDTO">
                                 <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" aria-label="Save" Click="@(() => SaveRow(productPricesDTO))">
                                 </RadzenButton>
@@ -131,6 +134,25 @@ else
     {
         await pricesGrid.UpdateRow(productPrice);
         productPrice.ProductId = Id;
-        await _productPriceRepository.Create(productPricesDTO);
+
+        if(productPrice.Id > 0){
+            await _productPriceRepository.Update(productPrice);
+        }
+        else{
+            await _productPriceRepository.Create(productPricesDTO);
+        }        
+    }
+
+    private async Task PrepareRowForEdit(ProductPricesDTO productPrice)
+    {
+        if (!pricesGrid.IsValid) return;
+        productPricesDTO = productPrice;
+        await pricesGrid.EditRow(productPrice);
+    }
+
+    private async Task UpdateProduct(ProductPricesDTO productPrice)
+    {
+        Reset(productPrice);
+        await _productPriceRepository.Update(productPrice);
     }
 }
