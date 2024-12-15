@@ -1,36 +1,54 @@
 ﻿@page "/"
 
+@inject IProductService _productService 
+
 <PageTitle>Home</PageTitle>
 
-<div style="position: fixed; top: 50%; left: 50%; margin-top: -50%; margin-left: -100%">
-    <img src="/images/loading.gif" />
-</div>
+@if(IsProcessing){
+    <div style="position: fixed; top: 50%; left: 50%; margin-top: -50%; margin-left: -100%">
+        <img src="/images/loading.gif" />
+    </div>
+}
 
-<div class="container">
-    <div class="row pt-3 pb-3 backgroundWhite">
-        <h2 class="text-success pl-1">Category Name</h2>
-        <div class="col-lg-4 col-md-6 pb-4 filter">
-            <div class="card bg-white round shadow-sm" style="border: 1px solid #222">
-                <div class="card-body pb-1">
-                    <div class="col-8 h5">Product Name</div>
-                    <div class="col-4 text-end"><span class="text-info h4">Price</span></div>
-                </div>
-                <img class="card-img-top img-fluid d-block mx-auto mb-3" src="" alt="Product Image"/>
-                <div class="card-body px-3 p-1 row">
-                    <div class="col-6">
-                        <span class="badge p-2 border w-100 bg-warning text-dark">Category Name</span>
+else{
+    <div class="container">
+        <div class="row pt-3 pb-3 backgroundWhite">
+            <h2 class="text-success pl-1">Category Name</h2>
+            <div class="col-lg-4 col-md-6 pb-4 filter">
+                <div class="card bg-white round shadow-sm" style="border: 1px solid #222">
+                    <div class="card-body pb-1">
+                        <div class="col-8 h5">Product Name</div>
+                        <div class="col-4 text-end"><span class="text-info h4">Price</span></div>
                     </div>
-                    <div class="col-6 border-0">
-                        <span class="badge p-2 border w-100 bg-info">Color</span>
-                    </div>
-                    <div class="col-12 pt-2" style="font-size: 13px; text-align: justify">
-                        <p>Description</p>
-                    </div>
-                    <div class="col-12 pt-1">
-                        <a href="" class="btn btn-sm btn-dark form-control p-2" style="height: 40px">View Details</a>
+                    <img class="card-img-top img-fluid d-block mx-auto mb-3" src="" alt="Product Image"/>
+                    <div class="card-body px-3 p-1 row">
+                        <div class="col-6">
+                            <span class="badge p-2 border w-100 bg-warning text-dark">Category Name</span>
+                        </div>
+                        <div class="col-6 border-0">
+                            <span class="badge p-2 border w-100 bg-info">Color</span>
+                        </div>
+                        <div class="col-12 pt-2" style="font-size: 13px; text-align: justify">
+                            <p>Description</p>
+                        </div>
+                        <div class="col-12 pt-1">
+                            <a href="" class="btn btn-sm btn-dark form-control p-2" style="height: 40px">View Details</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
+
+@code{
+    public bool IsProcessing { get; set; }
+    public IEnumerable<ProductDTO> products = new List<ProductDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsProcessing = true;
+        products = await _productService.GetAllProducts();
+        IsProcessing = false;
+    }
+}

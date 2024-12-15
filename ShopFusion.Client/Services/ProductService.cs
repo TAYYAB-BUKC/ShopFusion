@@ -16,7 +16,7 @@ namespace ShopFusion.Client.Services
 		public async Task<IEnumerable<ProductDTO>> GetAllProducts()
 		{
 			var products = new List<ProductDTO>();
-			var response = await _httpClient.GetAsync("product");
+			var response = await _httpClient.GetAsync("/product");
 			if (response.IsSuccessStatusCode) 
 			{
 				var content = await response.Content.ReadAsStringAsync();
@@ -29,7 +29,7 @@ namespace ShopFusion.Client.Services
 		public async Task<ProductDTO> GetProductById(int productId)
 		{
 			var product = new ProductDTO();
-			var response = await _httpClient.GetAsync($"product/{productId}");
+			var response = await _httpClient.GetAsync($"/product/{productId}");
 			if (response.IsSuccessStatusCode)
 			{
 				var content = await response.Content.ReadAsStringAsync();
