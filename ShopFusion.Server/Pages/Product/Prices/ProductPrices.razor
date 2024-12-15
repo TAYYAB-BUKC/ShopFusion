@@ -137,6 +137,8 @@ else
         else{
             await _productPriceRepository.Create(productPricesDTO);
         }        
+        productPrices = await _productPriceRepository.GetAll(Id);
+        pricesGrid.Data = productPrices;
     }
 
     private async Task PrepareRowForEdit(ProductPricesDTO productPrice)
@@ -156,7 +158,9 @@ else
     {
         Reset(productPrice);
         await _productPriceRepository.Delete(productPrice.Id);
-        StateHasChanged();
-        await pricesGrid.Reload();
+        //StateHasChanged();
+        productPrices = await _productPriceRepository.GetAll(Id);
+        pricesGrid.Data = productPrices;
+        //pricesGrid.Reload();
     }
 }
