@@ -8,9 +8,11 @@ namespace ShopFusion.Client.Services
 	public class ProductService : IProductService
 	{
 		private readonly HttpClient _httpClient;
-		public ProductService(HttpClient httpClient)
+		private readonly string _serverBaseURL;
+		public ProductService(HttpClient httpClient, IConfiguration configuration)
 		{
 			_httpClient = httpClient;
+			_serverBaseURL = configuration.GetSection("SERVER_BASEURL").Value;
 		}
 
 		public async Task<IEnumerable<ProductDTO>> GetAllProducts()
@@ -21,6 +23,7 @@ namespace ShopFusion.Client.Services
 			{
 				var content = await response.Content.ReadAsStringAsync();
 				products = JsonConvert.DeserializeObject<List<ProductDTO>>(content);
+				products.ForEach(p => p.ImageURL = $"{_serverBaseURL}{p.ImageURL}");
 			}
 
 			return products;
@@ -34,6 +37,7 @@ namespace ShopFusion.Client.Services
 			{
 				var content = await response.Content.ReadAsStringAsync();
 				product = JsonConvert.DeserializeObject<ProductDTO>(content);
+				product.ImageURL = $"{_serverBaseURL}{product.ImageURL}";
 			}
 
 			return product;
