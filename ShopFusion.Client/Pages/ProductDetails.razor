@@ -51,7 +51,7 @@ else
                                 <img src="@product.ImageURL" class="rounded" width="100%" />
                             </div>
                         </div>
-                       
+
                     </div>
 
                     <div class="card-footer">
@@ -75,6 +75,7 @@ else
     public int ProductId { get; set; }
     public bool IsProcessing { get; set; }
     public ProductDTO product = new ProductDTO();
+    ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel();
 
     protected override async Task OnInitializedAsync()
     {
