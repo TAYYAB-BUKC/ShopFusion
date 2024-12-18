@@ -32,10 +32,18 @@ else
                                 <div class="row">
                                     @foreach (var productPrice in product.ProductPrices)
                                     {
-                                        <div class="col-2 bg-light text-center pt-2 m-2" style="border: 3px solid #28A745; border-radius: 10px; box-shadow: 5px">
-                                            <p>@productPrice.Size</p>
-                                            <p>@productPrice.Price.ToString("C")</p>
-                                        </div>
+                                        if(productPrice.Id == _productDetailsViewModel.SelectedProductPriceID){
+                                            <div class="col-2 bg-light text-center pt-2 m-2" style="border: 3px solid #28A745; border-radius: 10px; box-shadow: 5px">
+                                                <p>@productPrice.Size</p>
+                                                <p>@productPrice.Price.ToString("C")</p>
+                                            </div>
+                                        }
+                                        else{
+                                            <div class="col-2 bg-light text-center pt-2 m-2" style="border: 1px solid; border-radius: 10px; box-shadow: 5px" @onclick="() => ShowSelectedPrice(productPrice.Id)">
+                                                <p>@productPrice.Size</p>
+                                                <p>@productPrice.Price.ToString("C")</p>
+                                            </div>
+                                        }
                                     }
                                 </div>
                                 <div class="row-pl-2">
@@ -75,12 +83,20 @@ else
     public int ProductId { get; set; }
     public bool IsProcessing { get; set; }
     public ProductDTO product = new ProductDTO();
-    ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel();
+    ProductDetailsViewModel _productDetailsViewModel = new ProductDetailsViewModel();
 
     protected override async Task OnInitializedAsync()
     {
         IsProcessing = true;
         product = await _productService.GetProductById(ProductId);
         IsProcessing = false;
+    }
+
+    private async Task ShowSelectedPrice(int id){
+        _productDetailsViewModel.ProductPrice = product.ProductPrices.FirstOrDefault(p => p.Id == id);
+        if(_productDetailsViewModel.ProductPrice.Id > 0){
+            _productDetailsViewModel.SelectedProductPriceID = id;
+        }
+
     }
 }
