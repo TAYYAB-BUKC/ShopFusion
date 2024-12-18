@@ -22,14 +22,14 @@ else{
                         <div class="card bg-white round shadow-sm" style="border: 1px solid #222">
                             <div class="card-body pb-1">
                                 <div class="row">
-                                    <div class="col-8 h5">
+                                    <div class="col-12 h5">
                                         @product.Name
                                     </div>
-                                    <div class="col-4 text-end">
+                                    @* <div class="col-4 text-end">
                                         <span class="text-info h4">
                                             @product.ProductPrices.OrderBy(pp => pp.Price).FirstOrDefault()?.Price.ToString("C")
                                         </span>
-                                    </div>
+                                    </div> *@
                                 </div>
                             </div>
                             <img class="card-img-top img-fluid d-block mx-auto mb-3" src="@product.ImageURL" alt="Product Image"/>
