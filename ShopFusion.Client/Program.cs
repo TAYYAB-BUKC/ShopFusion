@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ShopFusion.Client;
@@ -12,5 +13,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetSection("API_BASEURL").Value) });
 builder.Services.AddScoped(sp => new HttpClient());
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddBlazoredLocalStorage();
 
 await builder.Build().RunAsync();
