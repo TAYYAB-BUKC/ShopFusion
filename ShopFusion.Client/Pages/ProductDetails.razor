@@ -12,7 +12,8 @@
 }
 else
 {
-    <form method="post">
+    <EditForm Model="_productDetailsViewModel" method="post">
+        <DataAnnotationsValidator />
         <div class="card container mt-4">
             <div class="card-header ml-0 row">
                 <div class="col-12 col-md-6">
@@ -52,7 +53,8 @@ else
                                             <h4>Count</h4>
                                         </div>
                                         <div class="col-10 text-primary">
-                                            <input type="text" class="form-control" />
+                                            <InputNumber @bind-Value="_productDetailsViewModel.Count" type="text" class="form-control" />
+                                            <ValidationMessage For="() => _productDetailsViewModel.Count" />
                                         </div>
                                     </div>
                                 }
@@ -73,14 +75,19 @@ else
                                 <a href="/" class="btn btn-success form-control">Home</a>
                             </div>
                             <div class="col-12 col-md-6 pb-1">
-                                <button type="submit" value="Add To Cart" class="btn btn-primary form-control">Add To Cart</button>
+                                @if(_productDetailsViewModel.SelectedProductPriceID > 0){
+                                    <button type="submit" value="Add To Cart" class="btn btn-primary form-control">Add To Cart</button>
+                                }
+                                else{
+                                    <button type="button" disabled class="btn btn-primary form-control">Add To Cart</button>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </EditForm>
 }
 
 @code {
