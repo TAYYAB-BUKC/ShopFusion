@@ -14,5 +14,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient());
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<ICartService, CartService>();
 
 await builder.Build().RunAsync();

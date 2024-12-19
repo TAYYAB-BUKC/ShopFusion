@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ShopFusion.Common\ShopFusion.Common.csproj" />
     <ProjectReference Include="..\ShopFusion.Models\ShopFusion.Models.csproj" />
   </ItemGroup>
 
