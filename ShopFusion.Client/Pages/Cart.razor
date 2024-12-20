@@ -11,6 +11,10 @@
 }
 else
 {
+	@if(!CartItems.Any()){
+		<p>Your shopping cart is empty. Visit our home page to discover our latest products.</p>
+	}
+
 	<div class="container mt-4">
 		<div class="card">
 			<div class="card-header bg-dark text-light ml-0 ">
@@ -24,25 +28,26 @@ else
 				</div>
 			</div>
 			<div class="card-body">
-				<div class="row">
-					<div class="col-3 col-md-1 text-center py-2">
-						<img src="ImageUrl" class="rounded" width="100%" />
+				@foreach (var cartItem in CartItems)
+				{
+					<div class="row">
+						<div class="col-3 col-md-1 text-center py-2">
+							<img src="@cartItem.Product.ImageURL" class="rounded" width="100%" />
 					</div>
 					<div class="col-9 text-sm-center text-md-start col-md-4 pt-lg-1 ">
-						<h4><strong>Product.Name</strong></h4>
+							<h4><strong>@cartItem.Product.Name</strong></h4>
 
 						<div class="badge bg-primary text-center" style="font-size:12px;">
-							Category
+							@cartItem.Product.Category.Name
 						</div>
 						<div class="badge bg-info text-center" style="font-size:12px;">
-							Color
+								@cartItem.Product.Color
 						</div>
-						<div><p>Size : ###</p></div>
+							<div><p>Size : @cartItem.ProductPrice.Size</p></div>
 					</div>
 					<div class="col-12 text-sm-center col-md-7 text-md-start row  pt-lg-3 mt-3">
 						<div class="col-4 pt-1 ">
-
-							<h6><strong>$Price <span class="text-muted">x</span> Count </strong></h6>
+							<h6><strong>@cartItem.ProductPrice.Price.ToString("C") <span class="text-muted">x</span> @cartItem.Count </strong></h6>
 						</div>
 						<div class="col-6 col-sm-4 col-lg-6">
 							<button type="submit" class="btn btn-primary">
@@ -59,6 +64,7 @@ else
 						</div>
 					</div>
 				</div>
+				}
 				<hr />
 
 				<div class="row">
@@ -68,7 +74,7 @@ else
 						<ul class="list-group">
 							<li class="list-group-item d-flex justify-content-between bg-light">
 								<span class="text-info"> Total (USD)</span>
-								<strong class="text-info">$$$</strong>
+								<strong class="text-info">@OrderTotal.ToString("C")</strong>
 							</li>
 						</ul>
 					</div>
@@ -82,7 +88,7 @@ else
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>	
 }
 
 @code {
