@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShopFusion.Models.Entities
+namespace ShopFusion.Models.DTOs
 {
-	public class Order
+	public class OrderDTO
 	{
-		[Key]
 		public int Id { get; set; }
 		[Required]
 		public int UserId { get; set; }
@@ -17,14 +16,14 @@ namespace ShopFusion.Models.Entities
 		[Required]
 		[Display(Name = "Shipping Date")]
 		public DateTime ShippingDate { get; set; }
-		[Required] 
+		[Required]
 		public string Status { get; set; }
-		
+
 		public string? SessionId { get; set; }
 		public string? PaymentIntentId { get; set; }
 
 		[Required]
-		public string Name { get; set; }		
+		public string Name { get; set; }
 		[Required]
 		[Display(Name = "Phone Number")]
 		public string? PhoneNumber { get; set; }
@@ -40,9 +39,9 @@ namespace ShopFusion.Models.Entities
 		public string PostalCode { get; set; }
 	}
 
-	public class CustomOrder
+	public class CustomOrderDTO
 	{
-		public Order Order { get; set; }
-		public List<OrderDetails> OrderDetails { get; set; }
+		public OrderDTO Order { get; set; }
+		public List<OrderDetailsDTO> OrderDetails { get; set; }
 	}
 }

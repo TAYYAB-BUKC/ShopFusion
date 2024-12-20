@@ -11,6 +11,9 @@ namespace ShopFusion.Models.Mappers
 			CreateMap<Category, CategoryDTO>().ReverseMap();
 			CreateMap<Product, ProductDTO>().ReverseMap();
 			CreateMap<ProductPrices, ProductPricesDTO>().ReverseMap();
+			CreateMap<Order, OrderDTO>().ReverseMap();
+			CreateMap<OrderDetails, OrderDetailsDTO>().ReverseMap();
+			CreateMap<CustomOrder, CustomOrderDTO>().ReverseMap();
 		}
 	}
 }

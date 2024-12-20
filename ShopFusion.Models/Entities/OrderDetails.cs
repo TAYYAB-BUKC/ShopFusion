@@ -9,6 +9,8 @@ namespace ShopFusion.Models.Entities
 		public int Id { get; set; }
 		[Required]
 		public int OrderId { get; set; }
+
+		[Required] 
 		public int ProductId { get; set; }
 		[ForeignKey("ProductId")]
 		[NotMapped]
