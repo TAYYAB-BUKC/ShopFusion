@@ -22,7 +22,7 @@ namespace ShopFusion.Client.Services
 			{
 				if (cartList[i].ProductId == cartViewModel.ProductId && cartList[i].ProductPriceId == cartViewModel.ProductPriceId)
 				{
-					if (cartList[i].Count == 1 && (cartList[i].Count - cartViewModel.Count) <= 0)
+					if (cartList[i].Count == 1 || (cartList[i].Count - cartViewModel.Count) <= 0)
 					{
 						cartList.Remove(cartList[i]);
 					}
