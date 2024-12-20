@@ -1,5 +1,8 @@
 ﻿@page "/cart"
 
+@inject ILocalStorageService _localStorageService
+@inject IProductService _productService
+
 @if (IsProcessing)
 {
 	<div class="text-center">
@@ -9,18 +12,18 @@
 else
 {
 	<div class="container mt-4">
-			<div class="card">
-				<div class="card-header bg-dark text-light ml-0 ">
-					<div class="row">
-						<div class="col-6  pt-2">
-							Shopping Cart
-						</div>
-						<div class="col-6 col-md-3 offset-md-3 text-end">
-							<a href="/" class="btn btn-outline-info form-control">Continue Shopping</a>
-						</div>
+		<div class="card">
+			<div class="card-header bg-dark text-light ml-0 ">
+				<div class="row">
+					<div class="col-6  pt-2">
+						Shopping Cart
+					</div>
+					<div class="col-6 col-md-3 offset-md-3 text-end">
+						<a href="/" class="btn btn-outline-info form-control">Continue Shopping</a>
 					</div>
 				</div>
-				<div class="card-body">
+			</div>
+			<div class="card-body">
 				<div class="row">
 					<div class="col-3 col-md-1 text-center py-2">
 						<img src="ImageUrl" class="rounded" width="100%" />
@@ -56,32 +59,52 @@ else
 						</div>
 					</div>
 				</div>
-					<hr />
+				<hr />
 
-					<div class="row">
-						<div class="col-12 col-md-5">
-						</div>
-						<div class="col-12 col-md-6 offset-md-1 col-lg-4 offset-lg-3 pr-4">
-							<ul class="list-group">
-								<li class="list-group-item d-flex justify-content-between bg-light">
-									<span class="text-info"> Total (USD)</span>
-									<strong class="text-info">$$$</strong>
-								</li>
-							</ul>
-						</div>
+				<div class="row">
+					<div class="col-12 col-md-5">
 					</div>
-
-
+					<div class="col-12 col-md-6 offset-md-1 col-lg-4 offset-lg-3 pr-4">
+						<ul class="list-group">
+							<li class="list-group-item d-flex justify-content-between bg-light">
+								<span class="text-info"> Total (USD)</span>
+								<strong class="text-info">$$$</strong>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div class="card-footer">
-					<div class="col-12  col-md-3 offset-md-9">
-						<a href="/summary" class="btn btn-secondary form-control">Summary</a>
-					</div>
+
+
+			</div>
+			<div class="card-footer">
+				<div class="col-12  col-md-3 offset-md-9">
+					<a href="/summary" class="btn btn-secondary form-control">Summary</a>
 				</div>
 			</div>
 		</div>
+	</div>
 }
 
 @code {
-	public bool IsProcessing { get; set; } = false;
+	public bool IsProcessing { get; set; } = true;
+	public List<CartViewModel> CartItems { get; set; }
+	public IEnumerable<ProductDTO> Products { get; set; }
+	public double OrderTotal { get; set; } = 0;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if(firstRender){
+			CartItems = await _localStorageService.GetItemAsync<List<CartViewModel>>(CommonConfiguration.CartKey);
+			Products = await _productService.GetAllProducts();
+			foreach (var cartItem in CartItems)
+			{
+				cartItem.Product = Products.FirstOrDefault(p => p.Id == cartItem.ProductId);
+				cartItem.ProductPrice = cartItem.Product.ProductPrices.FirstOrDefault(p => p.Id == cartItem.ProductPriceId);
+				OrderTotal += (cartItem.ProductPrice.Price * cartItem.Count);
+			}
+
+			IsProcessing = false;
+			StateHasChanged();			
+		}
+	}
 }
