@@ -1,4 +1,6 @@
 ﻿@inject ISyncLocalStorageService _localStorageService
+@inject ICartService _cartService
+@implements IDisposable
 
 <nav class="col-12 navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -38,6 +40,16 @@
 </nav>
 
 @code{
+    protected override void OnInitialized()
+    {
+        _cartService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        _cartService.OnChange -= StateHasChanged;
+    }
+
     private int GetItemCount(){
         var cartItems = _localStorageService.GetItem<List<CartViewModel>>(CommonConfiguration.CartKey);
         return cartItems == null ? 0 : cartItems.Count;

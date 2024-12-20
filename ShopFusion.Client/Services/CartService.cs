@@ -7,6 +7,7 @@ namespace ShopFusion.Client.Services
 {
 	public class CartService : ICartService
 	{
+		public event Action OnChange;
 		public readonly ILocalStorageService _localStorageService;
 
 		public CartService(ILocalStorageService localStorageService)
@@ -34,6 +35,7 @@ namespace ShopFusion.Client.Services
 			}
 
 			await _localStorageService.SetItemAsync(CommonConfiguration.CartKey, cartList);
+			OnChange.Invoke();
 		}
 
 		public async Task IncrementCart(CartViewModel cartViewModel)
@@ -65,6 +67,7 @@ namespace ShopFusion.Client.Services
 			}
 
 			await _localStorageService.SetItemAsync(CommonConfiguration.CartKey, cartList);
+			OnChange.Invoke();
 		}
 	}
 }
