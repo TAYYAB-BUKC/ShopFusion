@@ -1,5 +1,9 @@
 ﻿@page "/checkout"
 
+@inject ILocalStorageService _localStorageService
+@inject IProductService _productService
+@inject IOrderService _orderService
+
 @if (IsProcessing)
 {
     <div class="text-center">
@@ -8,7 +12,7 @@
 }
 else
 {
- <div class="mt-4 mx-4 px-md-5 mx-md-5 p-1">
+    <div class="mt-4 mx-4 px-md-5 mx-md-5 p-1">
         <div class="row p-2 my-3">
             <div class="col-12 col-lg-7 p-4">
                 <div class="row px-2 text-success ">
@@ -67,12 +71,12 @@ else
                     <div class="form-group pt-2">
                         <label>City</label>
                         <input type="text" class="form-control" />
-                       
+
                     </div>
                     <div class="form-group pt-2">
                         <label>State</label>
                         <input type="text" class="form-control" />
-                       
+
                     </div>
                     <div class="form-group pt-2">
                         <label>Postal Code</label>
@@ -90,5 +94,40 @@ else
 }
 
 @code {
-    public bool IsProcessing { get; set; } = false;
+    public bool IsProcessing { get; set; } = true;
+    public CustomOrderDTO Order { get; set; }
+    public IEnumerable<ProductDTO> Products { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var cartItems = await _localStorageService.GetItemAsync<List<CartViewModel>>(CommonConfiguration.CartKey);
+            Products = await _productService.GetAllProducts();
+            Order = new CustomOrderDTO() {
+                        Order = new OrderDTO() {
+                            GrandTotal = 0,
+                            Status = CommonConfiguration.Status_Pending
+                        },
+                        OrderDetails = new List<OrderDetailsDTO>()
+                    };
+            foreach (var cartItem in cartItems)
+            {
+                cartItem.Product = Products.FirstOrDefault(p => p.Id == cartItem.ProductId);
+                cartItem.ProductPrice = cartItem.Product.ProductPrices.FirstOrDefault(p => p.Id == cartItem.ProductPriceId);
+                Order.OrderDetails.Add(new OrderDetailsDTO()
+                {
+                        Product = cartItem.Product,
+                        ProductId = cartItem.ProductId,
+                        ProductName = cartItem.Product.Name,
+                        Price = cartItem.ProductPrice.Price,
+                        Size = cartItem.ProductPrice.Size,
+                        Count = cartItem.Count,    
+                });
+                Order.Order.GrandTotal += (cartItem.ProductPrice.Price * cartItem.Count);
+            }
+            IsProcessing = false;
+            StateHasChanged();
+        }
+    }
 }
