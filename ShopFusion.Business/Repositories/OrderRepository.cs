@@ -24,7 +24,7 @@ namespace ShopFusion.Business.Repositories
 			try
 			{
 				var order = _mapper.Map<CustomOrderDTO, CustomOrder>(orderDTO);
-				await _dbContext.Order.AddAsync(order.Order);
+				await _dbContext.Orders.AddAsync(order.Order);
 				await _dbContext.SaveChangesAsync();
 
 				order.OrderDetails.ForEach(od => od.OrderId = order.Order.Id);
@@ -47,12 +47,12 @@ namespace ShopFusion.Business.Repositories
 
 		public async Task<int> DeleteById(int orderId)
 		{
-			var order = await _dbContext.Order.FirstOrDefaultAsync(o => o.Id == orderId);
+			var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
 			if(order != default(Order))
 			{
 				var orderDetails = _dbContext.OrderDetails.Where(od => od.OrderId == orderId);
 				_dbContext.OrderDetails.RemoveRange(orderDetails);
-				_dbContext.Order.Remove(order);
+				_dbContext.Orders.Remove(order);
 				return await _dbContext.SaveChangesAsync();
 			}
 			return 0;
@@ -61,7 +61,7 @@ namespace ShopFusion.Business.Repositories
 		public async Task<List<CustomOrderDTO>> GetAll(string? userId, string? status)
 		{
 			List<CustomOrder> allOrders = new List<CustomOrder>();
-			List<Order> orders = await _dbContext.Order.ToListAsync();
+			List<Order> orders = await _dbContext.Orders.ToListAsync();
 			List<OrderDetails> orderDtails = await _dbContext.OrderDetails.ToListAsync();
 
 			foreach (var order in orders)
@@ -80,7 +80,7 @@ namespace ShopFusion.Business.Repositories
 
 		public async Task<CustomOrderDTO> GetById(int orderId)
 		{
-			var order = await _dbContext.Order.FirstOrDefaultAsync(o => o.Id == orderId);
+			var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
 			if (order != default(Order))
 			{
 				var orderDetails = _dbContext.OrderDetails.Where(od => od.OrderId == orderId).ToList();
@@ -95,14 +95,14 @@ namespace ShopFusion.Business.Repositories
 
 		public async Task<OrderDTO> MarkPaymentSuccessful(int orderId)
 		{
-			var order = await _dbContext.Order.FirstOrDefaultAsync(o => o.Id == orderId);
+			var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
 			if (order == default(Order) || order.Status != CommonConfiguration.Status_Pending)
 			{
 				return new OrderDTO();
 			}
 
 			order.Status = CommonConfiguration.Status_Confirmed;
-			_dbContext.Order.Update(order);
+			_dbContext.Orders.Update(order);
 			await _dbContext.SaveChangesAsync();
 
 			return _mapper.Map<Order, OrderDTO>(order);
@@ -113,7 +113,7 @@ namespace ShopFusion.Business.Repositories
 			if(orderDTO != null)
 			{
 				var order = _mapper.Map<OrderDTO, Order>(orderDTO);
-				_dbContext.Order.Update(order);
+				_dbContext.Orders.Update(order);
 				await _dbContext.SaveChangesAsync();
 				return _mapper.Map<Order, OrderDTO>(order);
 			}
@@ -122,7 +122,7 @@ namespace ShopFusion.Business.Repositories
 
 		public async Task<bool> UpdateStatus(int orderId, string status)
 		{
-			var order = await _dbContext.Order.FirstOrDefaultAsync(o => o.Id == orderId);
+			var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
 			if (order == default(Order))
 			{
 				return false;
@@ -133,7 +133,7 @@ namespace ShopFusion.Business.Repositories
 			{
 				order.ShippingDate = DateTime.Now;
 			}
-			_dbContext.Order.Update(order);
+			_dbContext.Orders.Update(order);
 			await _dbContext.SaveChangesAsync();
 			return true;
 		}
