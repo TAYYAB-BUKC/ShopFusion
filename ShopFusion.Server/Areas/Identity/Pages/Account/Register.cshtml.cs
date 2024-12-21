@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using ShopFusion.Common;
 
 namespace ShopFusion.Server.Areas.Identity.Pages.Account
 {
@@ -29,13 +30,15 @@ namespace ShopFusion.Server.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+		private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RegisterModel(
+		public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+			RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +46,7 @@ namespace ShopFusion.Server.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -103,7 +107,15 @@ namespace ShopFusion.Server.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (!await _roleManager.RoleExistsAsync(CommonConfiguration.Role_Admin))
+            {
+                _roleManager.CreateAsync(new IdentityRole(CommonConfiguration.Role_Admin)).GetAwaiter().GetResult();
+			}
+			if (!await _roleManager.RoleExistsAsync(CommonConfiguration.Role_Customer))
+			{
+				_roleManager.CreateAsync(new IdentityRole(CommonConfiguration.Role_Customer)).GetAwaiter().GetResult();
+			}
+			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -121,7 +133,8 @@ namespace ShopFusion.Server.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    
+                    await _userManager.AddToRoleAsync(user, CommonConfiguration.Role_Admin);
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
