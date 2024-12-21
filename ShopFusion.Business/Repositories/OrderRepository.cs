@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ShopFusion.Business.Interfaces;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.DTOs;
@@ -19,27 +20,41 @@ namespace ShopFusion.Business.Repositories
 
 		public async Task<CustomOrderDTO> Create(CustomOrderDTO orderDTO)
 		{
-			var order = _mapper.Map<CustomOrderDTO, CustomOrder>(orderDTO);
-			await _dbContext.Order.AddAsync(order.Order);
-			await _dbContext.SaveChangesAsync();
-
-			order.OrderDetails.ForEach(od => od.OrderId = order.Order.Id);
-
-			await _dbContext.OrderDetails.AddRangeAsync(order.OrderDetails);
-			await _dbContext.SaveChangesAsync();
-
-
-			return new CustomOrderDTO
+			try
 			{
-				Order = _mapper.Map<Order, OrderDTO>(order.Order),
-				OrderDetails = _mapper.Map<List<OrderDetails>, List<OrderDetailsDTO>>(order.OrderDetails),
-			};
+				var order = _mapper.Map<CustomOrderDTO, CustomOrder>(orderDTO);
+				await _dbContext.Order.AddAsync(order.Order);
+				await _dbContext.SaveChangesAsync();
+
+				order.OrderDetails.ForEach(od => od.OrderId = order.Order.Id);
+
+				await _dbContext.OrderDetails.AddRangeAsync(order.OrderDetails);
+				await _dbContext.SaveChangesAsync();
+
+				return new CustomOrderDTO
+				{
+					Order = _mapper.Map<Order, OrderDTO>(order.Order),
+					OrderDetails = _mapper.Map<List<OrderDetails>, List<OrderDetailsDTO>>(order.OrderDetails),
+				};
+			}
+			catch (Exception ex)
+			{
+				throw;
+			}
 		}
 
 
-		public Task<int> DeleteById(int orderId)
+		public async Task<int> DeleteById(int orderId)
 		{
-			throw new NotImplementedException();
+			var order = await _dbContext.Order.FirstOrDefaultAsync(o => o.Id == orderId);
+			if(order != default(Order))
+			{
+				var orderDetails = _dbContext.OrderDetails.Where(od => od.OrderId == orderId);
+				_dbContext.OrderDetails.RemoveRange(orderDetails);
+				_dbContext.Order.Remove(order);
+				return await _dbContext.SaveChangesAsync();
+			}
+			return 0;
 		}
 
 		public Task<List<CustomOrderDTO>> GetAll(string? userId, string? status)
@@ -47,9 +62,19 @@ namespace ShopFusion.Business.Repositories
 			throw new NotImplementedException();
 		}
 
-		public Task<CustomOrderDTO> GetById(int orderId)
+		public async Task<CustomOrderDTO> GetById(int orderId)
 		{
-			throw new NotImplementedException();
+			var order = await _dbContext.Order.FirstOrDefaultAsync(o => o.Id == orderId);
+			if (order != default(Order))
+			{
+				var orderDetails = _dbContext.OrderDetails.Where(od => od.OrderId == orderId).ToList();
+				return new CustomOrderDTO
+				{
+					Order = _mapper.Map<Order, OrderDTO>(order),
+					OrderDetails = _mapper.Map<List<OrderDetails>, List<OrderDetailsDTO>>(orderDetails),
+				};
+			}
+			return new CustomOrderDTO();
 		}
 
 		public Task<List<OrderDTO>> MarkPaymentSuccessful(int id)
