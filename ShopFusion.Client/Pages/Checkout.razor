@@ -21,29 +21,34 @@ else
                         <a href="/cart" class="btn btn-secondary btn-block">Back to cart</a>
                     </div>
                 </div>
-                <div class="row border p-1 m-1">
 
-                    <div class="col-3 col-md-2 ">
-                        <img src="ImageUrl" width="100%">
-                    </div>
-                    <div class="col-5 col-md-5 ">
-                        <span class="">Product : ProductName </span><br />
-                        <span class="pt-1">Size : Size</span><br />
-                        <span class="pt-1">Count : Count</span><br />
+                @foreach (var orderItem in Order.OrderDetails)
+                {
+                    <div class="row border p-1 m-1">
 
+                        <div class="col-3 col-md-2 ">
+                            <img src="@orderItem.Product.ImageURL" width="100%">
+                        </div>
+                        <div class="col-5 col-md-5 ">
+                            <span class="">Product : @orderItem.ProductName </span><br />
+                            <span class="pt-1">Size : @orderItem.Size</span><br />
+                            <span class="pt-1">Count : @orderItem.Count</span><br />
+
+                        </div>
+                        <div class="col-4 col-md-5 " style="text-align:right;">
+                            <h4 class="text-warning font-weight-bold pt-2">
+                                USD
+                                <span style="border-bottom:1px solid #ff6a00">
+                                    @((orderItem.Price * orderItem.Count).ToString("C"))
+                                </span>
+                            </h4>
+                        </div>
                     </div>
-                    <div class="col-4 col-md-5 " style="text-align:right;">
-                        <h4 class="text-warning font-weight-bold pt-2">
-                            USD
-                            <span style="border-bottom:1px solid #ff6a00">
-                                $$$
-                            </span>
-                        </h4>
-                    </div>
-                </div>
+                }
+
                 <div class="row" style="text-align:right">
                     <div class="col-12 px-3">
-                        <h3> Grand Total : <span class="text-secondary">$$$</span> </h3>
+                        <h3> Grand Total : <span class="text-secondary">@Order.Order.GrandTotal.ToString("C")</span> </h3>
                     </div>
                 </div>
             </div>
