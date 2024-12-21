@@ -1,9 +1,10 @@
 ﻿@page "/product"
-@attribute [Authorize]
+@* @attribute [Authorize] *@
 
 @inject IProductRepository _productRepository
 @inject IFileUploader _fileUploader
 @inject IJSRuntime _JSRuntime
+@inject NavigationManager _navigationManager
 
 <div class="row mt-4">
     <div class="col-4">
@@ -67,6 +68,18 @@
     private List<ProductDTO> Products { get; set; } = new List<ProductDTO>();
     private bool IsLoading { get; set; }
     private int DeleteProductId { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> _authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await _authenticationState;
+        if(!state.User.Identity.IsAuthenticated){
+            var currentURI = new Uri(_navigationManager.Uri);
+            _navigationManager.NavigateTo($"/Identity/Account/Login?returnUrl={currentURI.LocalPath}", true);
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
