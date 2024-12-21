@@ -29,6 +29,7 @@ namespace ShopFusion.API.HelperClasses
 			builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 			builder.Services.AddScoped<IProductRepository, ProductRepository>();
+			builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 		}
 	}
 }
