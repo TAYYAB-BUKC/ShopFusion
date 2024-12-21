@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
 using ShopFusion.Business.Interfaces;
@@ -22,6 +23,8 @@ namespace ShopFusion.Server.HelperClasses
 			builder.Services.AddSingleton<WeatherForecastService>();
 			builder.Services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+			builder.Services.AddDefaultIdentity<IdentityUser>()
+				.AddEntityFrameworkStores<ApplicationDbContext>();
 			builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
