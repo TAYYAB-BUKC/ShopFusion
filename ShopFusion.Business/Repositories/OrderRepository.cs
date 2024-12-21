@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShopFusion.Business.Interfaces;
+using ShopFusion.Common;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.DTOs;
 using ShopFusion.Models.Entities;
@@ -57,9 +58,25 @@ namespace ShopFusion.Business.Repositories
 			return 0;
 		}
 
-		public Task<List<CustomOrderDTO>> GetAll(string? userId, string? status)
+		public async Task<List<CustomOrderDTO>> GetAll(string? userId, string? status)
 		{
-			throw new NotImplementedException();
+			List<CustomOrder> allOrders = new List<CustomOrder>();
+			List<Order> orders = await _dbContext.Order.ToListAsync();
+			List<OrderDetails> orderDtails = await _dbContext.OrderDetails.ToListAsync();
+
+			foreach (var order in orders)
+			{
+				allOrders.Add(new CustomOrder()
+				{
+					Order = order,
+					OrderDetails = orderDtails.Where(od => od.OrderId == order.Id).ToList()
+				});
+			}
+
+			//Filter orders based on userid and status #TODO
+
+			return _mapper.Map<List<CustomOrder>, List<CustomOrderDTO>>(allOrders);
+
 		}
 
 		public async Task<CustomOrderDTO> GetById(int orderId)
@@ -77,17 +94,27 @@ namespace ShopFusion.Business.Repositories
 			return new CustomOrderDTO();
 		}
 
-		public Task<List<OrderDTO>> MarkPaymentSuccessful(int id)
+		public async Task<OrderDTO> MarkPaymentSuccessful(int orderId)
+		{
+			var order = await _dbContext.Order.FirstOrDefaultAsync(o => o.Id == orderId);
+			if (order == default(Order) || order.Status != CommonConfiguration.Status_Pending)
+			{
+				return new OrderDTO();
+			}
+
+			order.Status = CommonConfiguration.Status_Confirmed;
+			_dbContext.Order.Update(order);
+			await _dbContext.SaveChangesAsync();
+
+			return _mapper.Map<Order, OrderDTO>(order);
+		}
+
+		public async Task<List<OrderDTO>> Update(OrderDTO order)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<List<OrderDTO>> Update(OrderDTO order)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<List<bool>> UpdateStatus(int orderId, string status)
+		public async Task<List<bool>> UpdateStatus(int orderId, string status)
 		{
 			throw new NotImplementedException();
 		}

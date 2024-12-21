@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ShopFusion.Common\ShopFusion.Common.csproj" />
     <ProjectReference Include="..\ShopFusion.DataAccess\ShopFusion.DataAccess.csproj" />
     <ProjectReference Include="..\ShopFusion.Models\ShopFusion.Models.csproj" />
   </ItemGroup>
