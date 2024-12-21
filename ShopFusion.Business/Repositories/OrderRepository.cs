@@ -76,7 +76,6 @@ namespace ShopFusion.Business.Repositories
 			//Filter orders based on userid and status #TODO
 
 			return _mapper.Map<List<CustomOrder>, List<CustomOrderDTO>>(allOrders);
-
 		}
 
 		public async Task<CustomOrderDTO> GetById(int orderId)
@@ -109,14 +108,34 @@ namespace ShopFusion.Business.Repositories
 			return _mapper.Map<Order, OrderDTO>(order);
 		}
 
-		public async Task<List<OrderDTO>> Update(OrderDTO order)
+		public async Task<OrderDTO> Update(OrderDTO orderDTO)
 		{
-			throw new NotImplementedException();
+			if(orderDTO != null)
+			{
+				var order = _mapper.Map<OrderDTO, Order>(orderDTO);
+				_dbContext.Order.Update(order);
+				await _dbContext.SaveChangesAsync();
+				return _mapper.Map<Order, OrderDTO>(order);
+			}
+			return new OrderDTO();
 		}
 
-		public async Task<List<bool>> UpdateStatus(int orderId, string status)
+		public async Task<bool> UpdateStatus(int orderId, string status)
 		{
-			throw new NotImplementedException();
+			var order = await _dbContext.Order.FirstOrDefaultAsync(o => o.Id == orderId);
+			if (order == default(Order))
+			{
+				return false;
+			}
+
+			order.Status = status;
+			if (order.Status == CommonConfiguration.Status_Shipped)
+			{
+				order.ShippingDate = DateTime.Now;
+			}
+			_dbContext.Order.Update(order);
+			await _dbContext.SaveChangesAsync();
+			return true;
 		}
 	}
 }
