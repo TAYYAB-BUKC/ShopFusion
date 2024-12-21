@@ -54,45 +54,53 @@ else
             </div>
 
             <div class="col-12 col-lg-5 p-4 ml-4 ml-md-0 mt-4 mt-md-0 border">
-                <form>
+                <EditForm Model="Order.Order" method="post">
+                    <DataAnnotationsValidator />
                     <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size:x-large;margin:0px;">Enter Details</p></div></div>
 
                     <div class="form-group pt-2">
                         <label>Name</label>
-                        <input type="text" class="form-control" />
+                        <InputText @bind-Value="Order.Order.Name" class="form-control" />
+                        <ValidationMessage For="() => Order.Order.Name" />
                     </div>
                     <div class="form-group pt-2">
                         <label>Phone</label>
-                        <input type="text" class="form-control" />
+                        <InputText @bind-Value="Order.Order.PhoneNumber" class="form-control" />
+                        <ValidationMessage For="() => Order.Order.PhoneNumber" />
                     </div>
                     <div class="form-group pt-2">
                         <label>Email</label>
-                        <input type="text" class="form-control" />
+                        <InputText @bind-Value="Order.Order.Email" class="form-control" />
+                        <ValidationMessage For="() => Order.Order.Email" />
                     </div>
                     <div class="form-group pt-2">
                         <label>Street Address</label>
-                        <input type="text" class="form-control" />
+                        <InputText @bind-Value="Order.Order.StreetAddress" class="form-control" />
+                        <ValidationMessage For="() => Order.Order.StreetAddress" />
                     </div>
                     <div class="form-group pt-2">
                         <label>City</label>
-                        <input type="text" class="form-control" />
+                        <InputText @bind-Value="Order.Order.City" class="form-control" />
+                        <ValidationMessage For="() => Order.Order.City" />
 
                     </div>
                     <div class="form-group pt-2">
                         <label>State</label>
-                        <input type="text" class="form-control" />
+                        <InputText @bind-Value="Order.Order.State" class="form-control" />
+                        <ValidationMessage For="() => Order.Order.State" />
 
                     </div>
                     <div class="form-group pt-2">
                         <label>Postal Code</label>
-                        <input type="text" class="form-control" />
+                        <InputText @bind-Value="Order.Order.PostalCode" class="form-control" />
+                        <ValidationMessage For="() => Order.Order.PostalCode" />
                     </div>
 
 
                     <div class="form-group pt-2">
                         <button type="submit" class="btn btn-success form-control">Checkout Now</button>
                     </div>
-                </form>
+                </EditForm>
             </div>
         </div>
     </div>

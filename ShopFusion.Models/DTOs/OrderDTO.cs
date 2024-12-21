@@ -37,6 +37,8 @@ namespace ShopFusion.Models.DTOs
 		[Required]
 		[Display(Name = "Postal Code")]
 		public string PostalCode { get; set; }
+		[Required]
+		public string Email { get; set; }
 	}
 
 	public class CustomOrderDTO

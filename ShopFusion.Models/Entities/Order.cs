@@ -9,13 +9,10 @@ namespace ShopFusion.Models.Entities
 		[Required]
 		public int UserId { get; set; }
 		[Required]
-		[Display(Name = "Grand Total")]
 		public double GrandTotal { get; set; }
 		[Required]
-		[Display(Name = "Order Date")]
 		public DateTime OrderDate { get; set; }
 		[Required]
-		[Display(Name = "Shipping Date")]
 		public DateTime ShippingDate { get; set; }
 		[Required] 
 		public string Status { get; set; }
@@ -26,18 +23,17 @@ namespace ShopFusion.Models.Entities
 		[Required]
 		public string Name { get; set; }		
 		[Required]
-		[Display(Name = "Phone Number")]
 		public string? PhoneNumber { get; set; }
 		[Required]
-		[Display(Name = "Street Address")]
 		public string? StreetAddress { get; set; }
 		[Required]
 		public string State { get; set; }
 		[Required]
 		public string City { get; set; }
 		[Required]
-		[Display(Name = "Postal Code")]
 		public string PostalCode { get; set; }
+		[Required]
+		public string Email { get; set; }
 	}
 
 	public class CustomOrder
