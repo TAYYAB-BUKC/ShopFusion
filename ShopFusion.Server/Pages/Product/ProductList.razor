@@ -1,4 +1,6 @@
 ﻿@page "/product"
+@attribute [Authorize]
+
 @inject IProductRepository _productRepository
 @inject IFileUploader _fileUploader
 @inject IJSRuntime _JSRuntime
