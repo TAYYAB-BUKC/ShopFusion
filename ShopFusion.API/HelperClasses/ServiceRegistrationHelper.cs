@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using ShopFusion.Business.Interfaces;
 using ShopFusion.Business.Repositories;
 using ShopFusion.DataAccess.Data;
@@ -25,7 +26,30 @@ namespace ShopFusion.API.HelperClasses
 			);
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+			builder.Services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShopFusion_Api", Version = "v1" });
+				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+				{
+					In = ParameterLocation.Header,
+					Description = "Please Bearer and then token in the field",
+					Name = "Authorization",
+					Type = SecuritySchemeType.ApiKey
+				});
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+				   {
+					 new OpenApiSecurityScheme
+					 {
+					   Reference = new OpenApiReference
+					   {
+						 Type = ReferenceType.SecurityScheme,
+						 Id = "Bearer"
+					   }
+					  },
+					  new string[] { }
+					}
+				});
+			});
 			builder.Services.AddCors(c => c.AddPolicy("AllPolicy", options =>
 			{
 				options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
