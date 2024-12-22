@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using ShopFusion.Business.Interfaces;
 using ShopFusion.Business.Repositories;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.Entities;
 using ShopFusion.Models.Mappers;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace ShopFusion.API.HelperClasses
@@ -38,6 +43,29 @@ namespace ShopFusion.API.HelperClasses
 
 			var apiSettings = builder.Configuration.GetSection("APISettings");
 			builder.Services.Configure<Configuration>(apiSettings);
+
+			var _apiSettings = apiSettings.Get<Configuration>();
+
+			builder.Services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+			}).AddJwtBearer(bearer => 
+			{
+				bearer.RequireHttpsMetadata = false;
+				bearer.SaveToken = true;
+				bearer.TokenValidationParameters = new()
+				{
+					ValidateIssuer = true,
+					ValidateAudience = true,
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_apiSettings.SecretKey)),
+					ValidAudience = _apiSettings.ValidAudience,
+					ValidIssuer = _apiSettings.ValidIssuer,
+					ClockSkew = TimeSpan.Zero
+				};
+			});
 		}
 	}
 }

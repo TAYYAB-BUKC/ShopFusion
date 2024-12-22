@@ -18,6 +18,8 @@ app.UseCors("AllPolicy");
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
