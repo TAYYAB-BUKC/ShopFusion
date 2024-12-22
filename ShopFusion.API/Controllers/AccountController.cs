@@ -8,6 +8,8 @@ using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.DTOs;
 using ShopFusion.Models.Entities;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -99,7 +101,33 @@ namespace ShopFusion.API.Controllers
 				}
 
 				//Everything is OK and we need to login the user
-				return Ok(userResult);
+				var credentials = GetSigningCredentials();
+				var claims = await GetUserClaims(userResult);
+
+				var tokenOptions = new JwtSecurityToken(
+					issuer: _configuration.ValidIssuer,
+					audience: _configuration.ValidAudience,
+					claims: claims,
+					expires: DateTime.Now.AddDays(30),
+					signingCredentials: credentials
+				);
+
+				var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+				var response = new SignInResponseDTO()
+				{
+					IsSuccessful = true,
+					Token = token,
+					User = new UserDTO()
+					{
+						Id = userResult.Id,
+						Email = userResult.Email,
+						Name = userResult.Name,
+						PhoneNumber = userResult.PhoneNumber,
+					}
+				};
+
+				return Ok(response);
 			}
 			else
 			{
@@ -116,7 +144,7 @@ namespace ShopFusion.API.Controllers
 		private SigningCredentials GetSigningCredentials()
 		{
 			var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.SecretKey));
-			var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.Aes256Encryption);
+			var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 			return credentials;
 		}
 
