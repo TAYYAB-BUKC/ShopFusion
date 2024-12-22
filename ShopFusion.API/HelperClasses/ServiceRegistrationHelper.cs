@@ -35,6 +35,9 @@ namespace ShopFusion.API.HelperClasses
 
 			builder.Services.AddScoped<IProductRepository, ProductRepository>();
 			builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+			var apiSettings = builder.Configuration.GetSection("APISettings");
+			builder.Services.Configure<Configuration>(apiSettings);
 		}
 	}
 }
