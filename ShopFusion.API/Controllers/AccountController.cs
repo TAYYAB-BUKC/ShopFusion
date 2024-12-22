@@ -11,13 +11,13 @@ namespace ShopFusion.API.Controllers
 	[ApiController]
 	public class AccountController : ControllerBase
 	{
-		private readonly UserManager<IdentityUser> _userManager;
+		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly RoleManager<IdentityRole> _roleManager;
-		private readonly SignInManager<IdentityUser> _signInManager;
+		private readonly SignInManager<ApplicationUser> _signInManager;
 
-		public AccountController(UserManager<IdentityUser> userManager,
+		public AccountController(UserManager<ApplicationUser> userManager,
 			RoleManager<IdentityRole> roleManager,
-			SignInManager<IdentityUser> signInManager)
+			SignInManager<ApplicationUser> signInManager)
 		{
 			_userManager = userManager;
 			_roleManager = roleManager;
