@@ -1,9 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using ShopFusion.API.HelperClasses;
 using ShopFusion.Common;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.DTOs;
 using ShopFusion.Models.Entities;
+using System.Data;
+using System.Security.Claims;
+using System.Text;
 
 namespace ShopFusion.API.Controllers
 {
@@ -14,14 +20,17 @@ namespace ShopFusion.API.Controllers
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly RoleManager<IdentityRole> _roleManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
+		private readonly Configuration _configuration;
 
 		public AccountController(UserManager<ApplicationUser> userManager,
 			RoleManager<IdentityRole> roleManager,
-			SignInManager<ApplicationUser> signInManager)
+			SignInManager<ApplicationUser> signInManager,
+			IOptions<Configuration> configuration)
 		{
 			_userManager = userManager;
 			_roleManager = roleManager;
 			_signInManager = signInManager;
+			_configuration = configuration.Value;
 		}
 
 		[HttpPost]
@@ -101,5 +110,30 @@ namespace ShopFusion.API.Controllers
 				});
 			}
 		}
+
+		#region SingInHelperMethods
+
+		private SigningCredentials GetSigningCredentials()
+		{
+			var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.SecretKey));
+			var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.Aes256Encryption);
+			return credentials;
+		}
+
+		private async Task<List<Claim>> GetUserClaims(ApplicationUser user)
+		{
+			var claims = new List<Claim>();
+			claims.Add(new Claim(ClaimTypes.Name, user.Name));
+			claims.Add(new Claim(ClaimTypes.Email, user.Email));
+			claims.Add(new Claim("Id", user.Id));
+			var roles = await _userManager.GetRolesAsync(user);
+			foreach (var role in roles)
+			{
+				claims.Add(new Claim(ClaimTypes.Role, role));
+			}
+			return claims;
+		}
+
+		#endregion
 	}
 }
