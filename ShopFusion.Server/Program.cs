@@ -13,6 +13,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+ServiceRegistrationHelper.SeedDatabase(app);
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();

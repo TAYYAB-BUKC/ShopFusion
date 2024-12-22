@@ -35,6 +35,16 @@ namespace ShopFusion.Server.HelperClasses
 			builder.Services.AddScoped<IFileUploader, FileUploader>();
 
 			builder.Services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
+			builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+		}
+
+		public static void SeedDatabase(WebApplication app)
+		{
+			using (var scopes = app.Services.CreateScope())
+			{
+				var initializerService = scopes.ServiceProvider.GetService<IDbInitializer>();
+				initializerService.Initialize();
+			}
 		}
 	}
 }

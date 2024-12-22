@@ -31,27 +31,22 @@ namespace ShopFusion.Server.Services
 			if (!_roleManager.RoleExistsAsync(CommonConfiguration.Role_Admin).GetAwaiter().GetResult())
 			{
 				_roleManager.CreateAsync(new IdentityRole(CommonConfiguration.Role_Admin)).GetAwaiter().GetResult();
+				
+				IdentityUser user = new IdentityUser()
+				{
+					Email = "SuperAdmin@test.com",
+					EmailConfirmed = true,
+					UserName = "SuperAdmin@test.com"
+				};
+
+				_userManager.CreateAsync(user, "R84^_d/s}$3Ky7'LG9>DPH").GetAwaiter().GetResult();
+
+				_userManager.AddToRoleAsync(user, CommonConfiguration.Role_Admin).GetAwaiter().GetResult();
 			}
 			if (!_roleManager.RoleExistsAsync(CommonConfiguration.Role_Customer).GetAwaiter().GetResult())
 			{
 				_roleManager.CreateAsync(new IdentityRole(CommonConfiguration.Role_Customer)).GetAwaiter().GetResult();
 			}
-
-			if(_roleManager.RoleExistsAsync(CommonConfiguration.Role_Admin).GetAwaiter().GetResult() && _roleManager.RoleExistsAsync(CommonConfiguration.Role_Customer).GetAwaiter().GetResult())
-			{
-				return;
-			}
-
-			IdentityUser user = new IdentityUser()
-			{
-				Email = "SuperAdmin@test.com",
-				EmailConfirmed = true,
-				UserName = "SuperAdmin@test.com"
-			};
-
-			_userManager.CreateAsync(user, "R84^_d/s}$3Ky7'LG9>DPH").GetAwaiter().GetResult();
-
-			_userManager.AddToRoleAsync(user, CommonConfiguration.Role_Admin).GetAwaiter().GetResult();
 		}
 	}
 }
