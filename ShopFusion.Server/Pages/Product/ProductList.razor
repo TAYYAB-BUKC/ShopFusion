@@ -79,6 +79,11 @@
             var currentURI = new Uri(_navigationManager.Uri);
             _navigationManager.NavigateTo($"/Identity/Account/Login?returnUrl={currentURI.LocalPath}", true);
         }
+
+        if (!state.User.IsInRole(CommonConfiguration.Role_Admin))
+        {
+            _navigationManager.NavigateTo("/NotAuthorized");
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
