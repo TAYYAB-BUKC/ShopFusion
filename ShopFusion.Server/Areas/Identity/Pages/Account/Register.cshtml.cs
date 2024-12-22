@@ -107,14 +107,6 @@ namespace ShopFusion.Server.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            if (!await _roleManager.RoleExistsAsync(CommonConfiguration.Role_Admin))
-            {
-                _roleManager.CreateAsync(new IdentityRole(CommonConfiguration.Role_Admin)).GetAwaiter().GetResult();
-			}
-			if (!await _roleManager.RoleExistsAsync(CommonConfiguration.Role_Customer))
-			{
-				_roleManager.CreateAsync(new IdentityRole(CommonConfiguration.Role_Customer)).GetAwaiter().GetResult();
-			}
 			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
