@@ -65,5 +65,41 @@ namespace ShopFusion.API.Controllers
 
 			return StatusCode(201);
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> SignIn([FromBody] SignInRequestDTO signInRequestDTO)
+		{
+			if (!ModelState.IsValid || signInRequestDTO == null)
+			{
+				return BadRequest();
+			}
+
+			var signInResult = await _signInManager.PasswordSignInAsync(signInRequestDTO.Email, signInRequestDTO.Password, false, false);
+
+			if (signInResult.Succeeded)
+			{
+				var userResult = await _userManager.FindByEmailAsync(signInRequestDTO.Email);
+
+				if (userResult == null)
+				{
+					return BadRequest(new SignInResponseDTO()
+					{
+						IsSuccessful = false,
+						ErrorMessage = "User not found"
+					});
+				}
+
+				//Everything is OK and we need to login the user
+				return Ok(userResult);
+			}
+			else
+			{
+				return Unauthorized(new SignInResponseDTO()
+				{
+					IsSuccessful = false,
+					ErrorMessage = "Invalid Email and Password"
+				});
+			}
+		}
 	}
 }
