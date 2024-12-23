@@ -4,6 +4,15 @@
 
 <PageTitle>Home</PageTitle>
 
+@* <AuthorizeView>
+    <Authorized>
+        <p>Welcome, @context.User.Identity.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>Not SignedIn yet!</p>
+    </NotAuthorized>
+</AuthorizeView> *@
+
 @if(IsProcessing){
     <div class="text-center">
         <img src="/images/loading.gif" />

@@ -25,6 +25,10 @@ namespace ShopFusion.Client.Services
 			if(token == null)
 			{
 				return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+				//return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(new[]
+				//{
+				//	new Claim(ClaimTypes.Name, "ben@gmail.com")
+				//}, "jwtAuthType")));
 			}
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
 			return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JWTHelper.ParseClaimsFromJWT(token), "jwtAuthType")));
