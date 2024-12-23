@@ -45,9 +45,20 @@ namespace ShopFusion.Client.Services
 			_httpClient.DefaultRequestHeaders.Authorization = null;
 		}
 
-		public Task<SignUpResponseDTO> Register(SignUpRequestDTO signUpRequestDTO)
+		public async Task<SignUpResponseDTO> Register(SignUpRequestDTO signUpRequestDTO)
 		{
-			throw new NotImplementedException();
+			var content = JsonConvert.SerializeObject(signUpRequestDTO);
+			var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+			var response = await _httpClient.PostAsync("/api/account/signup", bodyContent);
+			var responseContent = await response.Content.ReadAsStringAsync();
+			var result = JsonConvert.DeserializeObject<SignUpResponseDTO>(responseContent);
+
+			if (result.IsSuccessful)
+			{
+				return new SignUpResponseDTO { IsSuccessful = true };
+			}
+
+			return new SignUpResponseDTO { IsSuccessful = false };
 		}
 	}
 }
