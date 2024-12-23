@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Newtonsoft.Json;
 using ShopFusion.Client.Services.Interfaces;
+using ShopFusion.Common;
 using ShopFusion.Models.DTOs;
 using System.Net.Http.Headers;
 using System.Text;
@@ -30,6 +31,8 @@ namespace ShopFusion.Client.Services
 
 			if (result.IsSuccessful)
 			{
+				await _localStorageService.SetItemAsync(CommonConfiguration.JWTToken_Key, result.Token);
+				await _localStorageService.SetItemAsync(CommonConfiguration.UserDetails_Key, result.User);
 				_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
 			}
 

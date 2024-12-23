@@ -14,5 +14,6 @@
 		public const string Role_Customer = "Customer";
 
 		public const string JWTToken_Key = "SF_Token";
+		public const string UserDetails_Key = "SF_UserDetails";
 	}
 }
