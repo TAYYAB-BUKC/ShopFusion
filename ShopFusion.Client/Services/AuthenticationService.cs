@@ -39,9 +39,10 @@ namespace ShopFusion.Client.Services
 			return result;
 		}
 
-		public Task Logout()
+		public async Task Logout()
 		{
-			throw new NotImplementedException();
+			await _localStorageService.RemoveItemsAsync(new[] { CommonConfiguration.JWTToken_Key, CommonConfiguration.UserDetails_Key });
+			_httpClient.DefaultRequestHeaders.Authorization = null;
 		}
 
 		public Task<SignUpResponseDTO> Register(SignUpRequestDTO signUpRequestDTO)
