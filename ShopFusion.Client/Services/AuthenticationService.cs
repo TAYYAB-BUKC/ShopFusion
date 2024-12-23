@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ShopFusion.Client.Services.Interfaces;
 using ShopFusion.Models.DTOs;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace ShopFusion.Client.Services
@@ -26,6 +27,11 @@ namespace ShopFusion.Client.Services
 			var response = await _httpClient.PostAsync("/api/account/signin", bodyContent);
 			var responseContent = await response.Content.ReadAsStringAsync();
 			var result = JsonConvert.DeserializeObject<SignInResponseDTO>(responseContent);
+
+			if (result.IsSuccessful)
+			{
+				_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
+			}
 
 			return result;
 		}
