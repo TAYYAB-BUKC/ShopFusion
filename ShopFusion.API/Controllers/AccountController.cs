@@ -56,7 +56,7 @@ namespace ShopFusion.API.Controllers
 
 			if (!userResult.Succeeded)
 			{
-				return BadRequest(new SignUpReponseDTO()
+				return BadRequest(new SignUpResponseDTO()
 				{
 					IsSuccessful = false,
 					Errors = userResult.Errors.Select(e => e.Description)
@@ -67,7 +67,7 @@ namespace ShopFusion.API.Controllers
 			
 			if (!roleResult.Succeeded)
 			{
-				return BadRequest(new SignUpReponseDTO()
+				return BadRequest(new SignUpResponseDTO()
 				{
 					IsSuccessful = false,
 					Errors = roleResult.Errors.Select(e => e.Description)
