@@ -37,7 +37,8 @@
                                 <ValidationMessage For="() => signUpRequestDTO.ConfirmPassword" />
                             </div>
                         </div>
-                        @if(ShowResgitrationErrors){
+                        @if (ShowRegistrationErrors)
+                        {
                             <div>
                                 @foreach (var error in Errors)
                                 {
@@ -58,12 +59,12 @@
 
 @code{
     public SignUpRequestDTO signUpRequestDTO { get; set; } = new ();
-    public bool ShowResgitrationErrors { get; set; } = false;
+    public bool ShowRegistrationErrors { get; set; } = false;
     public IEnumerable<string> Errors { get; set; }
 
     private async Task RegisterUser()
     {
-        ShowResgitrationErrors = false;
+        ShowRegistrationErrors = false;
         var response = await _authenticationService.Register(signUpRequestDTO);
         if (response.IsSuccessful)
         {
@@ -71,7 +72,7 @@
         }
         else
         {
-            ShowResgitrationErrors = true;
+            ShowRegistrationErrors = true;
             Errors = response.Errors;
         }
     }
