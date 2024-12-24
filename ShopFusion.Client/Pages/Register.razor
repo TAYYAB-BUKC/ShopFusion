@@ -1,9 +1,9 @@
 ﻿@page "/register"
 
-<form class="pt-4">
+<EditForm Model="signUpRequestDTO" class="pt-4">
     <div class="py-4">
-        <div class=" row form-group ">
-            <div class="col-6 offset-3 ">
+        <div class="row form-group">
+            <div class="col-6 offset-3">
                 <div class="card border">
                     <div class="card-body px-lg-5 pt-4">
                         <h3 class="col-12 text-success text-center py-2">
@@ -11,23 +11,28 @@
                         </h3>
 
                         <div class="py-2">
-                            <input class="form-control" placeholder="Name..." />
+                            <InputText @bind-Value="signUpRequestDTO.Name" class="form-control" placeholder="Name..." />
+                            <ValidationMessage For="() => signUpRequestDTO.Name" />
                         </div>
                         <div class="py-2">
-                            <input type="text" class="form-control" placeholder="Email..." />
+                            <InputText @bind-Value="signUpRequestDTO.Email" type="text" class="form-control" placeholder="Email..." />
+                            <ValidationMessage For="() => signUpRequestDTO.Email" />
                         </div>
                         <div class="py-2 input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"> +92</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Phone number..." />
+                            <InputText @bind-Value="signUpRequestDTO.PhoneNumber" type="text" class="form-control" placeholder="Phone number..." />
+                            <ValidationMessage For="() => signUpRequestDTO.PhoneNumber" />
                         </div>
                         <div class="form-row py-2">
                             <div class="col">
-                                <input type="password" id="password" placeholder="Password..." class="form-control" />
+                                <InputText @bind-Value="signUpRequestDTO.Password" type="password" id="password" placeholder="Password..." class="form-control" />
+                                <ValidationMessage For="() => signUpRequestDTO.Password" />
                             </div>
                             <div class="col py-2">
-                                <input type="password" id="confirm" class="form-control" placeholder="Confirm Password..." />
+                                <InputText @bind-Value="signUpRequestDTO.ConfirmPassword" type="password" id="confirm" class="form-control" placeholder="Confirm Password..." />
+                                <ValidationMessage For="() => signUpRequestDTO.ConfirmPassword" />
                             </div>
                         </div>
                         <hr style="background-color:aliceblue" />
@@ -39,6 +44,9 @@
             </div>
         </div>
     </div>
-</form>
+</EditForm>
 
+@code{
+    public SignUpRequestDTO signUpRequestDTO { get; set; }
 
+}
