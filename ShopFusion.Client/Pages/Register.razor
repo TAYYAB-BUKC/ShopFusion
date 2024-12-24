@@ -1,6 +1,4 @@
 ﻿@page "/register"
-@inject IAuthenticationService _authenticationService
-@inject NavigationManager _navigationManager
 
 <EditForm Model="signUpRequestDTO" OnValidSubmit="RegisterUser" class="pt-4">
     <DataAnnotationsValidator />
@@ -57,7 +55,3 @@
         </div>
     </div>
 </EditForm>
-
-@code{
-    
-}
