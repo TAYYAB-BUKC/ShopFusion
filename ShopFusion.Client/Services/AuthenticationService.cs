@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
 using ShopFusion.Client.Services.Interfaces;
 using ShopFusion.Common;
@@ -12,13 +13,13 @@ namespace ShopFusion.Client.Services
 	{
 		public HttpClient _httpClient { get; set; }
 		public ILocalStorageService _localStorageService { get; set; }
-		public AuthStateProvider _authStateProvider { get; set; }
+		public AuthenticationStateProvider _authenticationStateProvider { get; set; }
 
-		public AuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService, AuthStateProvider authStateProvider)
+		public AuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService, AuthenticationStateProvider authenticationStateProvider)
 		{
 			_httpClient = httpClient;
 			_localStorageService = localStorageService;
-			_authStateProvider = authStateProvider;
+			_authenticationStateProvider = authenticationStateProvider;
 		}
 
 		public async Task<SignInResponseDTO> Login(SignInRequestDTO signInRequestDTO)
