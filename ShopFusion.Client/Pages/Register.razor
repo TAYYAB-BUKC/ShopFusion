@@ -3,6 +3,7 @@
 @inject NavigationManager _navigationManager
 
 <EditForm Model="signUpRequestDTO" OnValidSubmit="RegisterUser" class="pt-4">
+    <DataAnnotationsValidator />
     <div class="py-4">
         <div class="row form-group">
             <div class="col-6 offset-3">
