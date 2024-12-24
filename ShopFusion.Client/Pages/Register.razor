@@ -1,6 +1,8 @@
 ﻿@page "/register"
+@inject IAuthenticationService _authenticationService
+@inject NavigationManager _navigationManager
 
-<EditForm Model="signUpRequestDTO" class="pt-4">
+<EditForm Model="signUpRequestDTO" OnValidSubmit="RegisterUser" class="pt-4">
     <div class="py-4">
         <div class="row form-group">
             <div class="col-6 offset-3">
@@ -35,6 +37,14 @@
                                 <ValidationMessage For="() => signUpRequestDTO.ConfirmPassword" />
                             </div>
                         </div>
+                        @if(ShowResgitrationErrors){
+                            <div>
+                                @foreach (var error in Errors)
+                                {
+                                    <p class="text-danger text-center">@error</p>
+                                }
+                            </div>
+                        }
                         <hr style="background-color:aliceblue" />
                         <div class="py-2">
                             <button type="submit" class="btn btn-success btn-block"><i class="bi bi-person-plus-fill"></i> Register</button>
@@ -47,6 +57,22 @@
 </EditForm>
 
 @code{
-    public SignUpRequestDTO signUpRequestDTO { get; set; }
+    public SignUpRequestDTO signUpRequestDTO { get; set; } = new ();
+    public bool ShowResgitrationErrors { get; set; } = false;
+    public IEnumerable<string> Errors { get; set; }
 
+    private async Task RegisterUser()
+    {
+        ShowResgitrationErrors = false;
+        var response = await _authenticationService.Register(signUpRequestDTO);
+        if (response.IsSuccessful)
+        {
+            _navigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            ShowResgitrationErrors = true;
+            Errors = response.Errors;
+        }
+    }
 }

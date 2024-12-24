@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using ShopFusion.Client.Services.Interfaces;
 using ShopFusion.Common;
 using ShopFusion.Models.DTOs;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -14,19 +15,21 @@ namespace ShopFusion.Client.Services
 		public HttpClient _httpClient { get; set; }
 		public ILocalStorageService _localStorageService { get; set; }
 		public AuthenticationStateProvider _authenticationStateProvider { get; set; }
+		private readonly string _apiBaseURL;
 
-		public AuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService, AuthenticationStateProvider authenticationStateProvider)
+		public AuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService, AuthenticationStateProvider authenticationStateProvider, IConfiguration configuration)
 		{
 			_httpClient = httpClient;
 			_localStorageService = localStorageService;
 			_authenticationStateProvider = authenticationStateProvider;
+			_apiBaseURL = configuration.GetSection("API_BASEURL").Value;
 		}
 
 		public async Task<SignInResponseDTO> Login(SignInRequestDTO signInRequestDTO)
 		{
 			var content = JsonConvert.SerializeObject(signInRequestDTO);
 			var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-			var response = await _httpClient.PostAsync("/api/account/signin", bodyContent);
+			var response = await _httpClient.PostAsync($"{_apiBaseURL}/api/account/signin", bodyContent);
 			var responseContent = await response.Content.ReadAsStringAsync();
 			var result = JsonConvert.DeserializeObject<SignInResponseDTO>(responseContent);
 
@@ -50,16 +53,21 @@ namespace ShopFusion.Client.Services
 		{
 			var content = JsonConvert.SerializeObject(signUpRequestDTO);
 			var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-			var response = await _httpClient.PostAsync("/api/account/signup", bodyContent);
+			var response = await _httpClient.PostAsync($"{_apiBaseURL}/account/signup", bodyContent);
 			var responseContent = await response.Content.ReadAsStringAsync();
 			var result = JsonConvert.DeserializeObject<SignUpResponseDTO>(responseContent);
+
+			if (response.StatusCode == HttpStatusCode.Created)
+			{
+				return new SignUpResponseDTO { IsSuccessful = true };
+			}
 
 			if (result.IsSuccessful)
 			{
 				return new SignUpResponseDTO { IsSuccessful = true };
 			}
 
-			return new SignUpResponseDTO { IsSuccessful = false };
+			return result;
 		}
 	}
 }
