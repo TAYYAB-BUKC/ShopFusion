@@ -4,6 +4,7 @@
 @inject IProductService _productService
 @inject IOrderService _orderService
 @inject IJSRuntime _JSRuntime
+@inject IPaymentService _paymentService
 @attribute [Authorize]
 
 @if (IsProcessing)
@@ -158,6 +159,8 @@ else
             StripePaymentDTO stripePaymentDTO = new StripePaymentDTO(){
                 Order = Order
             };
+            var paymentResponse = await _paymentService.ProcessPayment(stripePaymentDTO);
+            stripePaymentDTO.Order.Order.SessionId = Convert.ToString(paymentResponse.Data);
             var result = await _orderService.CreateOrder(stripePaymentDTO);
         }
         catch(Exception ex){
