@@ -22,7 +22,7 @@ namespace ShopFusion.Client.Pages
 			var response = await AuthenticationService.Login(signInRequestDTO);
 			if (response.IsSuccessful)
 			{
-				NavigationManager.NavigateTo("/");
+				NavigationManager.NavigateTo("/", forceLoad: true);
 			}
 			else
 			{

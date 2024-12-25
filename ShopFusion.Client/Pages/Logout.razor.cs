@@ -13,7 +13,7 @@ namespace ShopFusion.Client.Pages
 		protected override async Task OnInitializedAsync()
 		{
 			await AuthenticationService.Logout();
-			NavigationManager.NavigateTo("/");
+			NavigationManager.NavigateTo("/", forceLoad: true);
 		}
 	}
 }
