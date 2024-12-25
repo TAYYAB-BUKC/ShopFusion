@@ -2,6 +2,7 @@
 using ShopFusion.Client.Services;
 using ShopFusion.Client.Services.Interfaces;
 using ShopFusion.Models.DTOs;
+using System.Web;
 
 namespace ShopFusion.Client.Pages
 {
@@ -22,7 +23,18 @@ namespace ShopFusion.Client.Pages
 			var response = await AuthenticationService.Login(signInRequestDTO);
 			if (response.IsSuccessful)
 			{
-				NavigationManager.NavigateTo("/");
+				var absoluteURI = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+				var queryStrings = HttpUtility.ParseQueryString(absoluteURI.Query);
+				var returnUrl = queryStrings["returnUrl"];
+				
+				if (String.IsNullOrWhiteSpace(returnUrl))
+				{
+					NavigationManager.NavigateTo("/");
+				}
+				else
+				{
+					NavigationManager.NavigateTo($"{NavigationManager.BaseUri}/{returnUrl}");
+				}
 			}
 			else
 			{

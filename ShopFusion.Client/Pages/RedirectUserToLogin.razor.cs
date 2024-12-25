@@ -16,7 +16,15 @@ namespace ShopFusion.Client.Pages
 
 			if (authenticationState.User.Identity is null || !authenticationState.User.Identity.IsAuthenticated)
 			{
-				NavigationManager.NavigateTo("/login");
+				var absoluteURI = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+				if (String.IsNullOrWhiteSpace(absoluteURI))
+				{
+					NavigationManager.NavigateTo("/login");
+				}
+				else
+				{
+					NavigationManager.NavigateTo($"/login?returnUrl={absoluteURI}");
+				}
 			}
 		}
 	}
