@@ -3,6 +3,7 @@
 @inject ILocalStorageService _localStorageService
 @inject IProductService _productService
 @inject IOrderService _orderService
+@inject IJSRuntime _JSRuntime
 @attribute [Authorize]
 
 @if (IsProcessing)
@@ -55,7 +56,7 @@ else
             </div>
 
             <div class="col-12 col-lg-5 p-4 ml-4 ml-md-0 mt-4 mt-md-0 border">
-                <EditForm Model="Order.Order" method="post">
+                <EditForm Model="Order.Order" OnValidSubmit="PlaceOrder" method="post">
                     <DataAnnotationsValidator />
                     <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size:x-large;margin:0px;">Enter Details</p></div></div>
 
@@ -147,6 +148,20 @@ else
             }
             IsProcessing = false;
             StateHasChanged();
+        }
+    }
+
+    private async void PlaceOrder()
+    {
+        try
+        { 
+            StripePaymentDTO stripePaymentDTO = new StripePaymentDTO(){
+                Order = Order
+            };
+            var result = await _orderService.CreateOrder(stripePaymentDTO);
+        }
+        catch(Exception ex){
+            _JSRuntime.ShowFailureToastrNotification(ex.Message);
         }
     }
 }
