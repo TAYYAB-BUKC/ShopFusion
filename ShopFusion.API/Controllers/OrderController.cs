@@ -44,5 +44,13 @@ namespace ShopFusion.API.Controllers
 
 			return Ok(order);
 		}
+
+		[HttpPost]
+		[ActionName("Create")]
+		public async Task<IActionResult> CreateOrder([FromBody] StripePaymentDTO model)
+		{
+			var response = await _orderRepository.Create(model.Order);
+			return Ok(response);
+		}
 	}
 }
