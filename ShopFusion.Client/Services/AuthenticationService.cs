@@ -37,6 +37,7 @@ namespace ShopFusion.Client.Services
 			{
 				await _localStorageService.SetItemAsync(CommonConfiguration.JWTToken_Key, result.Token);
 				await _localStorageService.SetItemAsync(CommonConfiguration.UserDetails_Key, result.User);
+				((AuthStateProvider)_authenticationStateProvider).NotifyUserLoggedIn(result.Token);
 				_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
 			}
 
@@ -47,6 +48,7 @@ namespace ShopFusion.Client.Services
 		{
 			await _localStorageService.RemoveItemsAsync(new[] { CommonConfiguration.JWTToken_Key, CommonConfiguration.UserDetails_Key });
 			_httpClient.DefaultRequestHeaders.Authorization = null;
+			((AuthStateProvider)_authenticationStateProvider).NotifyUserLogout();
 		}
 
 		public async Task<SignUpResponseDTO> Register(SignUpRequestDTO signUpRequestDTO)

@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using Newtonsoft.Json.Linq;
 using ShopFusion.Client.HelperClasses;
 using ShopFusion.Common;
 using System.Net.Http;
@@ -32,6 +33,18 @@ namespace ShopFusion.Client.Services
 			}
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
 			return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JWTHelper.ParseClaimsFromJWT(token), "jwtAuthType")));
-		}				
+		}
+
+		public void NotifyUserLoggedIn(string token)
+		{
+			var authState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JWTHelper.ParseClaimsFromJWT(token), "jwtAuthType")));
+			NotifyAuthenticationStateChanged(Task.FromResult(authState));
+		}
+
+		public void NotifyUserLogout()
+		{
+			var authState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+			NotifyAuthenticationStateChanged(Task.FromResult(authState));
+		}
 	}
 }
