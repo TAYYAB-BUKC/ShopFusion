@@ -118,8 +118,13 @@ else
         {
             var cartItems = await _localStorageService.GetItemAsync<List<CartViewModel>>(CommonConfiguration.CartKey);
             Products = await _productService.GetAllProducts();
+            var userDetails = await _localStorageService.GetItemAsync<UserDTO>(CommonConfiguration.UserDetails_Key);
             Order = new CustomOrderDTO() {
                         Order = new OrderDTO() {
+                            //Id = userDetails?.Id,
+                            Name = userDetails?.Name,
+                            Email = userDetails?.Email,
+                            PhoneNumber = userDetails?.PhoneNumber,
                             GrandTotal = 0,
                             Status = CommonConfiguration.Status_Pending
                         },
