@@ -29,7 +29,7 @@ namespace ShopFusion.Client.Services
 		{
 			var content = JsonConvert.SerializeObject(signInRequestDTO);
 			var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-			var response = await _httpClient.PostAsync($"{_apiBaseURL}/api/account/signin", bodyContent);
+			var response = await _httpClient.PostAsync($"{_apiBaseURL}/account/signin", bodyContent);
 			var responseContent = await response.Content.ReadAsStringAsync();
 			var result = JsonConvert.DeserializeObject<SignInResponseDTO>(responseContent);
 
