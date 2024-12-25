@@ -1,6 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
+using Newtonsoft.Json;
 using ShopFusion.Client.Services.Interfaces;
+using ShopFusion.Common;
 using ShopFusion.Models.DTOs;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace ShopFusion.Client.Services
 {
@@ -13,6 +18,21 @@ namespace ShopFusion.Client.Services
 		{
 			_httpClient = httpClient;
 			_apiBaseURL = configuration.GetSection("API_BASEURL").Value;
+		}
+
+		public async Task<CustomOrderDTO> CreateOrder(StripePaymentDTO order)
+		{
+			var content = JsonConvert.SerializeObject(order);
+			var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+			var response = await _httpClient.PostAsync($"{_apiBaseURL}/order/create", bodyContent);
+			if (response.IsSuccessStatusCode)
+			{
+				var responseContent = await response.Content.ReadAsStringAsync();
+				var result = JsonConvert.DeserializeObject<CustomOrderDTO>(responseContent);
+				return result;
+			}
+
+			return new CustomOrderDTO();
 		}
 
 		public async Task<IEnumerable<CustomOrderDTO>> GetAllOrders()

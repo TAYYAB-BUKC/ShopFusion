@@ -6,5 +6,6 @@ namespace ShopFusion.Client.Services.Interfaces
 	{
 		public Task<IEnumerable<CustomOrderDTO>> GetAllOrders();
 		public Task<CustomOrderDTO> GetOrderById(int orderId);
+		public Task<CustomOrderDTO> CreateOrder(StripePaymentDTO order);
 	}
 }
