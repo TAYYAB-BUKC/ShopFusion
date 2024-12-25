@@ -10,6 +10,7 @@ using ShopFusion.Business.Repositories;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.Entities;
 using ShopFusion.Models.Mappers;
+using Stripe;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -90,6 +91,8 @@ namespace ShopFusion.API.HelperClasses
 					ClockSkew = TimeSpan.Zero
 				};
 			});
+
+			StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeSettings")["Secretkey"];
 		}
 	}
 }
