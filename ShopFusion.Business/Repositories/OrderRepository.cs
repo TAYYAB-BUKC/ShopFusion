@@ -24,6 +24,7 @@ namespace ShopFusion.Business.Repositories
 			try
 			{
 				var order = _mapper.Map<CustomOrderDTO, CustomOrder>(orderDTO);
+				order.Order.OrderDate = DateTime.Now;
 				await _dbContext.Orders.AddAsync(order.Order);
 				await _dbContext.SaveChangesAsync();
 
