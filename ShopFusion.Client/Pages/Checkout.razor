@@ -3,6 +3,7 @@
 @inject ILocalStorageService _localStorageService
 @inject IProductService _productService
 @inject IOrderService _orderService
+@attribute [Authorize]
 
 @if (IsProcessing)
 {
