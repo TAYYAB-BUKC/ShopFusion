@@ -163,6 +163,8 @@ else
             stripePaymentDTO.Order.Order.SessionId = Convert.ToString(paymentResponse.Data);
             var result = await _orderService.CreateOrder(stripePaymentDTO);
 
+            await _localStorageService.SetItemAsync(CommonConfiguration.OrderDetails_Key, result);
+
             await _JSRuntime.InvokeVoidAsync("RedirectUserToStripePayment", Convert.ToString(paymentResponse.Data));
         }
         catch(Exception ex){

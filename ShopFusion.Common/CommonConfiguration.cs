@@ -15,5 +15,6 @@
 
 		public const string JWTToken_Key = "SF_Token";
 		public const string UserDetails_Key = "SF_UserDetails";
+		public const string OrderDetails_Key = "SF_OrderDetails";
 	}
 }
