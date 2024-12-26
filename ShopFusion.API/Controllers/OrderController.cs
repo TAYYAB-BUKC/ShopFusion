@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopFusion.Business.Interfaces;
 using ShopFusion.Models.DTOs;
+using Stripe.Checkout;
 
 namespace ShopFusion.API.Controllers
 {
@@ -51,6 +52,31 @@ namespace ShopFusion.API.Controllers
 		{
 			var response = await _orderRepository.Create(model.Order);
 			return Ok(response);
+		}
+
+		[HttpPost]
+		[ActionName("PaymentSuccessful")]
+		public async Task<IActionResult> MarkPaymentSuccessful([FromBody] OrderDTO order)
+		{
+			var session = new SessionService();
+			var orderSessionDetails = await session.GetAsync(order.SessionId);
+			if(orderSessionDetails.PaymentStatus == "paid")
+			{
+				var response = await _orderRepository.MarkPaymentSuccessful(order.Id);
+				if(response == default(OrderDTO))
+				{
+					return BadRequest(new ErrorModelDTO()
+					{
+						Message = "Unable to mark payment successful."
+					});
+				}
+				return Ok(response);
+			}
+
+			return BadRequest(new ErrorModelDTO()
+			{
+				Message = "Something went wrong while marking payment successful."
+			});
 		}
 	}
 }
