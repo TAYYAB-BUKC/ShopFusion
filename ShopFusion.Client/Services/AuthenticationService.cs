@@ -36,7 +36,7 @@ namespace ShopFusion.Client.Services
 				await _localStorageService.SetItemAsync(CommonConfiguration.JWTToken_Key, result.Token);
 				await _localStorageService.SetItemAsync(CommonConfiguration.UserDetails_Key, result.User);
 				((AuthStateProvider)_authenticationStateProvider).NotifyUserLoggedIn(result.Token);
-				_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
+				_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", result.Token);
 			}
 
 			return result;

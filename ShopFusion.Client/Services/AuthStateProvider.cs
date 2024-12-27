@@ -31,7 +31,7 @@ namespace ShopFusion.Client.Services
 				//	new Claim(ClaimTypes.Name, "ben@gmail.com")
 				//}, "jwtAuthType")));
 			}
-			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 			return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JWTHelper.ParseClaimsFromJWT(token), "jwtAuthType")));
 		}
 
