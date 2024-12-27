@@ -1,5 +1,32 @@
 ﻿<h3>OrderList</h3>
+@inject IOrderRepository _orderRepository
+@inject NavigationManager _navigationManager
+
+<div>
+    <h4 class="card-title text-info">Orders List</h4>
+</div>
 
 @code {
+
+    private IEnumerable<CustomOrderDTO> Orders { get; set; } = new List<CustomOrderDTO>();
+    private bool IsLoading { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadOrders();
+        }
+    }
+
+    private async Task LoadOrders()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Orders = await _orderRepository.GetAll(null, null);
+        IsLoading = false;
+        StateHasChanged();
+    }
+
 
 }
