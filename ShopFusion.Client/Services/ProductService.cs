@@ -8,19 +8,17 @@ namespace ShopFusion.Client.Services
 	public class ProductService : IProductService
 	{
 		private readonly HttpClient _httpClient;
-		private readonly string _serverBaseURL, _apiBaseURL;
+		private readonly string _serverBaseURL;
 		public ProductService(HttpClient httpClient, IConfiguration configuration)
 		{
 			_httpClient = httpClient;
-			//_httpClient.BaseAddress = new Uri("https://localhost:44395/api");
 			_serverBaseURL = configuration.GetSection("SERVER_BASEURL").Value;
-			_apiBaseURL = configuration.GetSection("API_BASEURL").Value;
 		}
 
 		public async Task<IEnumerable<ProductDTO>> GetAllProducts()
 		{
 			var products = new List<ProductDTO>();
-			var response = await _httpClient.GetAsync($"{_apiBaseURL}/product");
+			var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/product");
 			//var response = await _httpClient.GetAsync("/product");
 			if (response.IsSuccessStatusCode) 
 			{
@@ -34,7 +32,7 @@ namespace ShopFusion.Client.Services
 		public async Task<ProductDTO> GetProductById(int productId)
 		{
 			var product = new ProductDTO();
-			var response = await _httpClient.GetAsync($"{_apiBaseURL}/product/{productId}");
+			var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/product/{productId}");
 			if (response.IsSuccessStatusCode)
 			{
 				var content = await response.Content.ReadAsStringAsync();

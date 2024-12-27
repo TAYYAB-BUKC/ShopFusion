@@ -12,19 +12,17 @@ namespace ShopFusion.Client.Services
 	public class OrderService : IOrderService
 	{
 		private readonly HttpClient _httpClient;
-		private readonly string _apiBaseURL;
 
-		public OrderService(HttpClient httpClient, IConfiguration configuration)
+		public OrderService(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
-			_apiBaseURL = configuration.GetSection("API_BASEURL").Value;
 		}
 
 		public async Task<CustomOrderDTO> CreateOrder(StripePaymentDTO order)
 		{
 			var content = JsonConvert.SerializeObject(order);
 			var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-			var response = await _httpClient.PostAsync($"{_apiBaseURL}/order/create", bodyContent);
+			var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}/order/create", bodyContent);
 			if (response.IsSuccessStatusCode)
 			{
 				var responseContent = await response.Content.ReadAsStringAsync();
@@ -38,7 +36,7 @@ namespace ShopFusion.Client.Services
 		public async Task<IEnumerable<CustomOrderDTO>> GetAllOrders()
 		{
 			var orders = new List<CustomOrderDTO>();
-			var response = await _httpClient.GetAsync($"{_apiBaseURL}/Order/GetAll");
+			var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/Order/GetAll");
 			if (response.IsSuccessStatusCode)
 			{
 				var content = await response.Content.ReadAsStringAsync();
@@ -50,7 +48,7 @@ namespace ShopFusion.Client.Services
 		public async Task<CustomOrderDTO> GetOrderById(int orderId)
 		{
 			var order = new CustomOrderDTO();
-			var response = await _httpClient.GetAsync($"{_apiBaseURL}/Order/GetById/{orderId}");
+			var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/Order/GetById/{orderId}");
 			if (response.IsSuccessStatusCode)
 			{
 				var content = await response.Content.ReadAsStringAsync();

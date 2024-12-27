@@ -10,12 +10,10 @@ namespace ShopFusion.Client.Services
 	public class PaymentService : IPaymentService
 	{
 		private readonly HttpClient _httpClient;
-		private readonly string _apiBaseURL;
 
-		public PaymentService(HttpClient httpClient, IConfiguration configuration)
+		public PaymentService(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
-			_apiBaseURL = configuration.GetSection("API_BASEURL").Value;
 		}
 
 		public async Task<SuccessModelDTO> ProcessPayment(StripePaymentDTO stripePayment)
@@ -24,7 +22,7 @@ namespace ShopFusion.Client.Services
 			{
 				var content = JsonConvert.SerializeObject(stripePayment);
 				var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-				var response = await _httpClient.PostAsync($"{_apiBaseURL}/stripepayment/processpayment", bodyContent);
+				var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}/stripepayment/processpayment", bodyContent);
 				var responseContent = await response.Content.ReadAsStringAsync();
 
 				if (response.IsSuccessStatusCode)

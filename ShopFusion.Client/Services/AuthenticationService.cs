@@ -15,21 +15,19 @@ namespace ShopFusion.Client.Services
 		public HttpClient _httpClient { get; set; }
 		public ILocalStorageService _localStorageService { get; set; }
 		public AuthenticationStateProvider _authenticationStateProvider { get; set; }
-		private readonly string _apiBaseURL;
 
-		public AuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService, AuthenticationStateProvider authenticationStateProvider, IConfiguration configuration)
+		public AuthenticationService(HttpClient httpClient, ILocalStorageService localStorageService, AuthenticationStateProvider authenticationStateProvider)
 		{
 			_httpClient = httpClient;
 			_localStorageService = localStorageService;
 			_authenticationStateProvider = authenticationStateProvider;
-			_apiBaseURL = configuration.GetSection("API_BASEURL").Value;
 		}
 
 		public async Task<SignInResponseDTO> Login(SignInRequestDTO signInRequestDTO)
 		{
 			var content = JsonConvert.SerializeObject(signInRequestDTO);
 			var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-			var response = await _httpClient.PostAsync($"{_apiBaseURL}/account/signin", bodyContent);
+			var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}/account/signin", bodyContent);
 			var responseContent = await response.Content.ReadAsStringAsync();
 			var result = JsonConvert.DeserializeObject<SignInResponseDTO>(responseContent);
 
@@ -55,7 +53,7 @@ namespace ShopFusion.Client.Services
 		{
 			var content = JsonConvert.SerializeObject(signUpRequestDTO);
 			var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-			var response = await _httpClient.PostAsync($"{_apiBaseURL}/account/signup", bodyContent);
+			var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}/account/signup", bodyContent);
 			var responseContent = await response.Content.ReadAsStringAsync();
 			var result = JsonConvert.DeserializeObject<SignUpResponseDTO>(responseContent);
 
