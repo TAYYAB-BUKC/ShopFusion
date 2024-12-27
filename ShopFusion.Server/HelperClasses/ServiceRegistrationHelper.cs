@@ -36,6 +36,7 @@ namespace ShopFusion.Server.HelperClasses
 
 			builder.Services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
 			builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+			builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 		}
 
 		public static void SeedDatabase(WebApplication app)
