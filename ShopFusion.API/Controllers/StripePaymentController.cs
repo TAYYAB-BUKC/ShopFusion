@@ -58,7 +58,7 @@ namespace ShopFusion.API.Controllers
 
 				return Ok(new SuccessModelDTO()
 				{
-					Data = session,
+					Data = session.Id,
 				});
 			}
 			catch (Exception ex)
