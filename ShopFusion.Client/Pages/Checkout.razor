@@ -154,6 +154,7 @@ else
 
     private async void PlaceOrder()
     {
+        IsProcessing = true;
         try
         { 
             StripePaymentDTO stripePaymentDTO = new StripePaymentDTO(){
@@ -168,6 +169,7 @@ else
             await _JSRuntime.InvokeVoidAsync("RedirectUserToStripePayment", Convert.ToString(paymentResponse.Data));
         }
         catch(Exception ex){
+            IsProcessing = false;
             await _JSRuntime.ShowFailureToastrNotification(ex.Message);
         }
     }
