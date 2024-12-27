@@ -57,5 +57,22 @@ namespace ShopFusion.Client.Services
 
 			return order;
 		}
+
+		public async Task<OrderDTO> MarkPaymentSuccessful(OrderDTO order)
+		{
+			var content = JsonConvert.SerializeObject(order);
+			var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+			var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}/order/paymentsuccessful", bodyContent);
+			var responseContent = await response.Content.ReadAsStringAsync();
+
+			if (response.IsSuccessStatusCode)
+			{
+				var result = JsonConvert.DeserializeObject<OrderDTO>(responseContent);
+				return result;
+			}
+
+			var errorResponse = JsonConvert.DeserializeObject<ErrorModelDTO>(responseContent);
+			throw new Exception(errorResponse.Message);
+		}
 	}
 }
