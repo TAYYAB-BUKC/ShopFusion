@@ -1,4 +1,5 @@
-﻿<h3>OrderList</h3>
+﻿@page "/orders"
+
 @inject IOrderRepository _orderRepository
 @inject NavigationManager _navigationManager
 
@@ -6,9 +7,26 @@
     <h4 class="card-title text-info">Orders List</h4>
 </div>
 
-@code {
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="OrderHeaders" TItem="OrderDTO" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
+    <Columns>
+        <RadzenDataGridColumn TItem="OrderDTO" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="OrderDTO" Property="Name" Title="Name" Frozen="true" />
+        <RadzenDataGridColumn TItem="OrderDTO" Property="Email" Title="Email" />
+        <RadzenDataGridColumn TItem="OrderDTO" Property="PhoneNumber" Title="Phone #" />        
+        <RadzenDataGridColumn TItem="OrderDTO" Property="OrderDate" Title="Order Date" FormatString="{0:d}"/>
+        <RadzenDataGridColumn TItem="OrderDTO" Property="GrandTotal" Title="Grand Total" />
+        <RadzenDataGridColumn TItem="OrderDTO" Title="Action" Frozen="true" Sortable="false" Filterable="false" TextAlign="TextAlign.Center">
+            <Template Context="data">
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Details" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
 
+@code {
     private IEnumerable<CustomOrderDTO> Orders { get; set; } = new List<CustomOrderDTO>();
+    private IEnumerable<OrderDTO> OrderHeaders { get; set; } = new List<OrderDTO>();
     private bool IsLoading { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -24,6 +42,7 @@
         IsLoading = true;
         StateHasChanged();
         Orders = await _orderRepository.GetAll(null, null);
+        OrderHeaders = Orders.Select(o => o.Order).ToList();
         IsLoading = false;
         StateHasChanged();
     }
