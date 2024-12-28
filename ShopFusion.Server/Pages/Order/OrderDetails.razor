@@ -1,5 +1,6 @@
 ﻿@page "/order/details/{Id:int}"
 @inject IOrderRepository _orderRepository
+@inject IJSRuntime _JSRuntime
 
 @if (IsLoading)
 {
@@ -160,7 +161,7 @@ else
 
                             @if (Order.Order.Status == CommonConfiguration.Status_Confirmed)
                             {
-                                <button class="btn btn-success form-control my-1">Ship Order</button>
+                                <button @onclick="ShipOrder" class="btn btn-success form-control my-1">Ship Order</button>
                             }
 
                             @if (Order.Order.Status == CommonConfiguration.Status_Pending || Order.Order.Status == CommonConfiguration.Status_Confirmed)
@@ -206,5 +207,26 @@ else
         Order.Order = orderResponse;
         IsLoading = false;
         StateHasChanged();
+    }
+
+    private async Task ShipOrder()
+    {
+        if(String.IsNullOrWhiteSpace(Order.Order.Carrier))
+        {
+            await _JSRuntime.ShowFailureToastrNotification("Please enter the carrier information");
+            return;
+        }
+        
+        if(String.IsNullOrWhiteSpace(Order.Order.Tracking))
+        {
+            await _JSRuntime.ShowFailureToastrNotification("Please enter the tracking information");
+            return;
+        }
+
+        IsLoading = true;
+        Order.Order.Status = CommonConfiguration.Status_Shipped;
+        var orderResponse = await _orderRepository.Update(Order.Order);
+        Order.Order = orderResponse;
+        IsLoading = false;
     }
 }

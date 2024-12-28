@@ -124,6 +124,12 @@ namespace ShopFusion.Business.Repositories
 				orderFromDB.Tracking = orderDTO.Tracking;
 				orderFromDB.Carrier = orderDTO.Carrier;
 				orderFromDB.Status = orderDTO.Status;
+
+				if (orderFromDB.Status == CommonConfiguration.Status_Shipped)
+				{
+					orderFromDB.ShippingDate = DateTime.Now;
+				}
+
 				await _dbContext.SaveChangesAsync();
 				return _mapper.Map<Order, OrderDTO>(orderFromDB);
 			}
