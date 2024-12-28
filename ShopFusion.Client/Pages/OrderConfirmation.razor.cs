@@ -4,6 +4,7 @@ using ShopFusion.Client.Services;
 using ShopFusion.Client.Services.Interfaces;
 using ShopFusion.Common;
 using ShopFusion.Models.DTOs;
+using ShopFusion.Models.Entities;
 using System;
 
 namespace ShopFusion.Client.Pages
@@ -25,6 +26,7 @@ namespace ShopFusion.Client.Pages
 			var updatedOrder = await OrderService.MarkPaymentSuccessful(Order.Order);
 			if (updatedOrder.Status == CommonConfiguration.Status_Confirmed)
 			{
+				Order.Order.Status = updatedOrder.Status;
 				await LocalStorageService.RemoveItemsAsync(new[] { CommonConfiguration.CartKey, CommonConfiguration.OrderDetails_Key });
 			}
 			IsProcessing = false;
