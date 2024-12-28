@@ -7,7 +7,7 @@
     <div class="col-12">
         <h4 class="card-title text-info">Orders List</h4>
         <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                        Data="OrderHeaders" TItem="OrderDTO" LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
+        Data="OrderHeaders" TItem="OrderDTO" LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
             <Columns>
                 <RadzenDataGridColumn TItem="OrderDTO" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
                 <RadzenDataGridColumn TItem="OrderDTO" Property="Name" Title="Name" Frozen="true" />
@@ -17,7 +17,7 @@
                 <RadzenDataGridColumn TItem="OrderDTO" Property="GrandTotal" Title="Grand Total" />
                 <RadzenDataGridColumn TItem="OrderDTO" Title="Action" Frozen="true" Sortable="false" Filterable="false" TextAlign="TextAlign.Center">
                     <Template Context="data">
-                        <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Details" />
+                        <RadzenButton Click="() => GoToOrderDetails(data.Id)" ButtonStyle="ButtonStyle.Primary" Text="Details" />
                     </Template>
                 </RadzenDataGridColumn>
             </Columns>
@@ -49,5 +49,8 @@
         StateHasChanged();
     }
 
-
+    private void GoToOrderDetails(int id)
+    {
+        _navigationManager.NavigateTo($"/order/details/{id}");
+    }
 }
