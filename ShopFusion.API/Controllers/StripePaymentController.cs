@@ -58,7 +58,7 @@ namespace ShopFusion.API.Controllers
 
 				return Ok(new SuccessModelDTO()
 				{
-					Data = session.Id,
+					Data = $"{session.Id}^;{session.PaymentIntentId}",
 				});
 			}
 			catch (Exception ex)
