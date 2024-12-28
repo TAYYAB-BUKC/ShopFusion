@@ -9,6 +9,7 @@ using ShopFusion.Models.Mappers;
 using ShopFusion.Server.Data;
 using ShopFusion.Server.Services;
 using ShopFusion.Server.Services.Interfaces;
+using Stripe;
 
 namespace ShopFusion.Server.HelperClasses
 {
@@ -37,6 +38,8 @@ namespace ShopFusion.Server.HelperClasses
 			builder.Services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
 			builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 			builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+			StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeSettings")["Secretkey"];
 		}
 
 		public static void SeedDatabase(WebApplication app)
