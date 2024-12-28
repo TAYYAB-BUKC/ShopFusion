@@ -25,7 +25,8 @@ else
                 <div class="container rounded p-2">
                     <div class="row">
                         <div class="col-12 col-lg-6 pb-4">
-                            <form>
+                            <EditForm Model="Order">
+                                <DataAnnotationsValidator />
                                 <div class="row">
                                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                                         <span class="text-primary">Customer Details:</span>
@@ -34,108 +35,123 @@ else
                                 <div class="row my-1">
                                     <div class="col-3">Name</div>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" />
+                                        <InputText @bind-Value="Order.Order.Name" class="form-control" />
+                                        <ValidationMessage For="() => Order.Order.Name" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">Phone</div>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" />
+                                        <InputText @bind-Value="Order.Order.PhoneNumber" class="form-control" />
+                                        <ValidationMessage For="() => Order.Order.PhoneNumber" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
-                                    <div class="col-3">Address</div>
+                                    <div class="col-3">Street Address</div>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" />
+                                        <InputText @bind-Value="Order.Order.StreetAddress" class="form-control" />
+                                        <ValidationMessage For="() => Order.Order.StreetAddress" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">City</div>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" />
+                                        <InputText @bind-Value="Order.Order.City" class="form-control" />
+                                        <ValidationMessage For="() => Order.Order.City" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">State</div>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" />
+                                        <InputText @bind-Value="Order.Order.State" class="form-control" />
+                                        <ValidationMessage For="() => Order.Order.State" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">Zip Code</div>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" />
+                                        <InputText @bind-Value="Order.Order.PostalCode" class="form-control" />
+                                        <ValidationMessage For="() => Order.Order.PostalCode" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">Email</div>
                                     <div class="col-9">
-                                        <input type="text" readonly class="form-control" />
+                                        <input type="text" readonly value="@Order.Order.Email" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">Order Date</div>
                                     <div class="col-9">
-                                        <input type="text" readonly class="form-control" />
+                                        <input type="text" readonly value="@Order.Order.OrderDate.ToShortDateString()" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">Carrier</div>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" />
+                                        <InputText @bind-Value="Order.Order.Carrier" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">Tracking</div>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" />
+                                        <InputText @bind-Value="Order.Order.Tracking" class="form-control" />
                                     </div>
                                 </div>
-                                <div class="row my-1">
-                                    <div class="col-3">Shipping Date</div>
-                                    <div class="col-9">
-                                        <input type="text" class="form-control" />
+                                @if (Order.Order.Status != CommonConfiguration.Status_Pending && Order.Order.Status != CommonConfiguration.Status_Confirmed)
+                                {
+                                    <div class="row my-1">
+                                        <div class="col-3">Shipping Date</div>
+                                        <div class="col-9">
+                                            <input type="text" value="@Order.Order.ShippingDate.ToShortDateString()" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
+                                }
                                 <div class="row my-1">
                                     <div class="col-3">Session ID</div>
                                     <div class="col-9">
-                                        <input type="text" readonly class="form-control" />
+                                        <input type="text" readonly value="@Order.Order.SessionId" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="row my-1">
                                     <div class="col-3">Order Status</div>
                                     <div class="col-9">
-                                        <input type="text" readonly class="form-control" />
+                                        <input type="text" readonly value="@Order.Order.Status" class="form-control" />
                                     </div>
                                 </div>
-                                <input type="submit" class="btn btn-primary form-control my-1" value="Update Order Details" />
-                            </form>
+                                @if (Order.Order.Status == CommonConfiguration.Status_Confirmed)
+                                {
+                                    <input type="submit" class="btn btn-primary form-control my-1" value="Update Order Details" />
+                                }
+                            </EditForm>
                         </div>
                         <div class="col-12 col-lg-5 offset-lg-1">
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
                                 <span class="text-primary">Order Summary</span>
                             </h4>
                             <ul class="list-group mb-3">
-                                <li class="list-group-item d-flex justify-content-between p-2">
+                                @foreach (var orderItem in Order.OrderDetails)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between p-2">
                                         <div class="row container">
                                             <div class="col-8">
-                                                <h6 class="my-0 text-primary">ProductName</h6>
-                                                <small class="text-muted">Price : $$$$$</small><br />
-                                                <small class="text-muted">Quantity : Count</small>
+                                                <h6 class="my-0 text-primary">@orderItem.ProductName</h6>
+                                                <small class="text-muted">Price : @orderItem.Price.ToString("C")</small><br />
+                                                <small class="text-muted">Quantity : @orderItem.Count</small>
                                             </div>
                                             <div class="col-4 text-end">
-                                            <p class="text-success">$$$$$</p>
+                                                <p class="text-success">@((orderItem.Price * orderItem.Count).ToString("C"))</p>
                                             </div>
                                         </div>
                                     </li>
+                                }    
                                 <li class="list-group-item bg-info">
                                     <div class="row container">
                                         <div class="col-6">
-                                            <h5 class="text-white">TOTAL </h5>
+                                            <h5 class="text-white">GRAND TOTAL</h5>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <h5 class="text-white">$$$$$</h5>
+                                            <h5 class="text-white">@Order.Order.GrandTotal.ToString("C")</h5>
                                         </div>
                                     </div>
                                 </li>
@@ -155,6 +171,23 @@ else
 @code {
     [Parameter]
     public int Id { get; set; } = 0;
-    public bool IsLoading { get; set; } = false;
+    public bool IsLoading { get; set; } = true;
     public CustomOrderDTO Order { get; set; } = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadOrder();
+        }
+    }
+
+    private async Task LoadOrder()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Order = await _orderRepository.GetById(Id);
+        IsLoading = false;
+        StateHasChanged();
+    }
 }
