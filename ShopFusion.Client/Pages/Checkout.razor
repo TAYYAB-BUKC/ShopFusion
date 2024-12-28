@@ -161,24 +161,16 @@ else
                 Order = Order
             };
             var paymentResponse = await _paymentService.ProcessPayment(stripePaymentDTO);
-            var responseData = Convert.ToString(paymentResponse.Data).Split("^;");
-            if (responseData.Length == 0)
-            {
-                await _JSRuntime.ShowFailureToastrNotification("Something went wrong while processing the payment.");
-                IsProcessing = false;
-                return;
-            }
-
-            stripePaymentDTO.Order.Order.SessionId = responseData[0];
-            stripePaymentDTO.Order.Order.PaymentIntentId = responseData[1];
-
+            stripePaymentDTO.Order.Order.SessionId = Convert.ToString(paymentResponse.Data);
+            
             var result = await _orderService.CreateOrder(stripePaymentDTO);
 
             await _localStorageService.SetItemAsync(CommonConfiguration.OrderDetails_Key, result);
 
-            await _JSRuntime.InvokeVoidAsync("RedirectUserToStripePayment", responseData[0]);
+            await _JSRuntime.InvokeVoidAsync("RedirectUserToStripePayment", Convert.ToString(paymentResponse.Data));
         }
-        catch(Exception ex){
+        catch(Exception ex)
+        {
             IsProcessing = false;
             await _JSRuntime.ShowFailureToastrNotification(ex.Message);
         }

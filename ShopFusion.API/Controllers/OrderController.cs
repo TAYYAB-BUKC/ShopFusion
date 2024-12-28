@@ -62,7 +62,7 @@ namespace ShopFusion.API.Controllers
 			var orderSessionDetails = await session.GetAsync(order.SessionId);
 			if(orderSessionDetails.PaymentStatus == "paid")
 			{
-				var response = await _orderRepository.MarkPaymentSuccessful(order.Id);
+				var response = await _orderRepository.MarkPaymentSuccessful(order.Id, orderSessionDetails.PaymentIntentId);
 				if(response == default(OrderDTO))
 				{
 					return BadRequest(new ErrorModelDTO()

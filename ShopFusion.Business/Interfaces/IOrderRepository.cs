@@ -9,7 +9,7 @@ namespace ShopFusion.Business.Interfaces
 		public Task<CustomOrderDTO> Create(CustomOrderDTO order);
 		public Task<int> DeleteById(int orderId);
 		public Task<OrderDTO> Update(OrderDTO order);
-		public Task<OrderDTO> MarkPaymentSuccessful(int id);
+		public Task<OrderDTO> MarkPaymentSuccessful(int id, string paymentIntentId);
 		public Task<bool> UpdateStatus(int orderId, string status);
 	}
 }

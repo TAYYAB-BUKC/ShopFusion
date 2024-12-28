@@ -95,7 +95,7 @@ namespace ShopFusion.Business.Repositories
 			return new CustomOrderDTO();
 		}
 
-		public async Task<OrderDTO> MarkPaymentSuccessful(int orderId)
+		public async Task<OrderDTO> MarkPaymentSuccessful(int orderId, string paymentIntentId)
 		{
 			var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
 			if (order == default(Order) || order.Status != CommonConfiguration.Status_Pending)
@@ -104,6 +104,7 @@ namespace ShopFusion.Business.Repositories
 			}
 
 			order.Status = CommonConfiguration.Status_Confirmed;
+			order.PaymentIntentId = paymentIntentId;
 			_dbContext.Orders.Update(order);
 			await _dbContext.SaveChangesAsync();
 
