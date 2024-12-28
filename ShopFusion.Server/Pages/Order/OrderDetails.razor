@@ -157,9 +157,15 @@ else
                                 </li>
                             </ul>
 
-                            <button class="btn btn-success form-control my-1">Ship Order</button>
+                            @if (Order.Order.Status == CommonConfiguration.Status_Confirmed)
+                            {
+                                <button class="btn btn-success form-control my-1">Ship Order</button>
+                            }
 
-                            <button class="btn btn-danger form-control my-1">Cancel Order</button>
+                            @if (Order.Order.Status == CommonConfiguration.Status_Pending || Order.Order.Status == CommonConfiguration.Status_Confirmed)
+                            {
+                                <button class="btn btn-danger form-control my-1">Cancel Order</button>
+                            }
                         </div>
                     </div>
                 </div>
