@@ -48,7 +48,7 @@ namespace ShopFusion.Business.Repositories
 
 				if(refundResponse.Status == "succeeded")
 				{
-					order.Status = CommonConfiguration.Status_Cancelled;
+					order.Status = CommonConfiguration.Status_Refunded;
 					await _dbContext.SaveChangesAsync();
 				}
 			}
