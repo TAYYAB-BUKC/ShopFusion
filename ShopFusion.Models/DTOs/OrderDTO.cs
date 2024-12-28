@@ -39,6 +39,8 @@ namespace ShopFusion.Models.DTOs
 		public string PostalCode { get; set; }
 		[Required]
 		public string Email { get; set; }
+		public string? Tracking { get; set; }
+		public string? Carrier { get; set; }
 	}
 
 	public class CustomOrderDTO
