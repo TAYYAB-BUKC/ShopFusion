@@ -17,7 +17,7 @@ else
                         <i class="fas fa-shopping-cart"></i> &nbsp; Order Summary
                     </div>
                     <div class="col-12 col-md-4 offset-md-2 text-right">
-                        <a href="/orderList" class="btn btn-outline-info form-control btn-sm">Back to Orders</a>
+                        <a href="/orders" class="btn btn-outline-info form-control btn-sm">Back to Orders</a>
                     </div>
                 </div>
             </div>
@@ -136,6 +136,7 @@ else
                                         <div class="row container">
                                             <div class="col-8">
                                                 <h6 class="my-0 text-primary">@orderItem.ProductName</h6>
+                                                <small class="text-muted">Size : @orderItem.Size</small><br />
                                                 <small class="text-muted">Price : @orderItem.Price.ToString("C")</small><br />
                                                 <small class="text-muted">Quantity : @orderItem.Count</small>
                                             </div>
@@ -148,10 +149,10 @@ else
                                 <li class="list-group-item bg-info">
                                     <div class="row container">
                                         <div class="col-6">
-                                            <h5 class="text-white">GRAND TOTAL</h5>
+                                            <p class="text-white" style="font-size: 1.1rem">GRAND TOTAL</p>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <h5 class="text-white">@Order.Order.GrandTotal.ToString("C")</h5>
+                                            <p class="text-white" style="font-size: 1.1rem">@Order.Order.GrandTotal.ToString("C")</p>
                                         </div>
                                     </div>
                                 </li>
