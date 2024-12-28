@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Stripe.net" Version="47.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ShopFusion.Common\ShopFusion.Common.csproj" />
     <ProjectReference Include="..\ShopFusion.DataAccess\ShopFusion.DataAccess.csproj" />
     <ProjectReference Include="..\ShopFusion.Models\ShopFusion.Models.csproj" />

@@ -5,6 +5,7 @@ using ShopFusion.Common;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.DTOs;
 using ShopFusion.Models.Entities;
+using Stripe.Checkout;
 using System.Threading;
 
 namespace ShopFusion.Business.Repositories
@@ -18,6 +19,41 @@ namespace ShopFusion.Business.Repositories
 		{
 			_dbContext = dbContext;
 			_mapper = mapper;
+		}
+
+		public async Task<OrderDTO> CancelOrder(int orderId)
+		{
+			var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
+			if (order == default(Order))
+			{
+				return new OrderDTO();
+			}
+
+			if(order.Status == CommonConfiguration.Status_Pending)
+			{
+				order.Status = CommonConfiguration.Status_Cancelled;
+				await _dbContext.SaveChangesAsync();
+			}
+
+			if (order.Status == CommonConfiguration.Status_Confirmed)
+			{
+				var refundOptions = new Stripe.RefundCreateOptions()
+				{
+					Reason= Stripe.RefundReasons.RequestedByCustomer,
+					PaymentIntent = order.PaymentIntentId
+				};
+
+				var refundService = new Stripe.RefundService();
+				var refundResponse = refundService.Create(refundOptions);
+
+				if(refundResponse.Status == "succeeded")
+				{
+					order.Status = CommonConfiguration.Status_Cancelled;
+					await _dbContext.SaveChangesAsync();
+				}
+			}
+
+			return _mapper.Map<Order, OrderDTO>(order);
 		}
 
 		public async Task<CustomOrderDTO> Create(CustomOrderDTO orderDTO)

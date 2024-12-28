@@ -11,5 +11,6 @@ namespace ShopFusion.Business.Interfaces
 		public Task<OrderDTO> Update(OrderDTO order);
 		public Task<OrderDTO> MarkPaymentSuccessful(int id, string paymentIntentId);
 		public Task<bool> UpdateStatus(int orderId, string status);
+		public Task<OrderDTO> CancelOrder(int orderId);
 	}
 }
