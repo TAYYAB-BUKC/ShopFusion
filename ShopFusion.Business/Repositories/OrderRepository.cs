@@ -5,6 +5,7 @@ using ShopFusion.Common;
 using ShopFusion.DataAccess.Data;
 using ShopFusion.Models.DTOs;
 using ShopFusion.Models.Entities;
+using System.Threading;
 
 namespace ShopFusion.Business.Repositories
 {
@@ -113,10 +114,18 @@ namespace ShopFusion.Business.Repositories
 		{
 			if(orderDTO != null)
 			{
-				var order = _mapper.Map<OrderDTO, Order>(orderDTO);
-				_dbContext.Orders.Update(order);
+				var orderFromDB = await _dbContext.Orders.FindAsync(orderDTO.Id);
+				orderFromDB.Name = orderDTO.Name;
+				orderFromDB.PhoneNumber = orderDTO.PhoneNumber;
+				orderFromDB.StreetAddress = orderDTO.StreetAddress;
+				orderFromDB.City = orderDTO.City;
+				orderFromDB.State = orderDTO.State;
+				orderFromDB.PostalCode = orderDTO.PostalCode;
+				orderFromDB.Tracking = orderDTO.Tracking;
+				orderFromDB.Carrier = orderDTO.Carrier;
+				orderFromDB.Status = orderDTO.Status;
 				await _dbContext.SaveChangesAsync();
-				return _mapper.Map<Order, OrderDTO>(order);
+				return _mapper.Map<Order, OrderDTO>(orderFromDB);
 			}
 			return new OrderDTO();
 		}
