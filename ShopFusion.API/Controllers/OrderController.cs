@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using ShopFusion.API.HelperClasses;
 using ShopFusion.Business.Interfaces;
 using ShopFusion.Models.DTOs;
 using Stripe.Checkout;
@@ -10,9 +12,11 @@ namespace ShopFusion.API.Controllers
 	public class OrderController : ControllerBase
 	{
 		public IOrderRepository _orderRepository { get; set; }
-		public OrderController(IOrderRepository orderRepository)
+		public IEmailSender _emailSender { get; set; }
+		public OrderController(IOrderRepository orderRepository, IEmailSender emailSender)
 		{
 			_orderRepository = orderRepository;
+			_emailSender = emailSender;
 		}
 
 		[HttpGet]
@@ -70,6 +74,19 @@ namespace ShopFusion.API.Controllers
 						Message = "Unable to mark payment successful."
 					});
 				}
+				await _emailSender.SendEmailAsync(order.Email, "Order Confirmation - Shop Fusion",
+					$"Dear {order.Name}," +
+					$"\r\n\r\nThank you for your order!" +
+					$"\r\n\r\nOrder Number: {order.Id}" +
+					$"\r\nOrder Date: {order.OrderDate}" +
+					$"\r\nEstimated Delivery: In Next 7-10 Business Days" +
+					$"\r\nTotal Amount: {order.GrandTotal}" +
+					$"\r\n\r\nWe’ll notify you once your order ships. If you have any questions, feel free to reach out at support@shopfusion.com" +
+					$"\r\n\r\nThanks for choosing Shop Fusion!" +
+					$"\r\n\r\nBest regards," +
+					$"\r\nTayyab Arsalan" +
+					$"\r\nShop Fusion"
+					);
 				return Ok(response);
 			}
 
