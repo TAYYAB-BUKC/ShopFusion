@@ -162,12 +162,17 @@ else
             };
             var paymentResponse = await _paymentService.ProcessPayment(stripePaymentDTO);
             stripePaymentDTO.Order.Order.SessionId = Convert.ToString(paymentResponse.Data);
-            
+
             var result = await _orderService.CreateOrder(stripePaymentDTO);
-
-            await _localStorageService.SetItemAsync(CommonConfiguration.OrderDetails_Key, result);
-
-            await _JSRuntime.InvokeVoidAsync("RedirectUserToStripePayment", Convert.ToString(paymentResponse.Data));
+            if(result == default(CustomOrderDTO))
+            {
+                await _JSRuntime.ShowFailureToastrNotification("Something went wrong while creating your order. Please try again later.");
+            }
+            else
+            {
+                await _localStorageService.SetItemAsync(CommonConfiguration.OrderDetails_Key, result);
+                await _JSRuntime.InvokeVoidAsync("RedirectUserToStripePayment", Convert.ToString(paymentResponse.Data));
+            }
         }
         catch(Exception ex)
         {
