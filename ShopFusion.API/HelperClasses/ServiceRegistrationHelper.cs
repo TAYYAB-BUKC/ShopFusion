@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -93,6 +94,8 @@ namespace ShopFusion.API.HelperClasses
 			});
 
 			StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeSettings")["Secretkey"];
+
+			builder.Services.AddScoped<IEmailSender, EmailHelper>();
 		}
 	}
 }
