@@ -1,12 +1,5 @@
 ﻿@page "/checkout"
 
-@inject ILocalStorageService _localStorageService
-@inject IProductService _productService
-@inject IOrderService _orderService
-@inject IJSRuntime _JSRuntime
-@inject IPaymentService _paymentService
-@attribute [Authorize]
-
 @if (IsProcessing)
 {
     <div class="text-center">
@@ -107,77 +100,4 @@ else
             </div>
         </div>
     </div>
-}
-
-@code {
-    public bool IsProcessing { get; set; } = true;
-    public CustomOrderDTO Order { get; set; }
-    public IEnumerable<ProductDTO> Products { get; set; }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            var cartItems = await _localStorageService.GetItemAsync<List<CartViewModel>>(CommonConfiguration.CartKey);
-            Products = await _productService.GetAllProducts();
-            var userDetails = await _localStorageService.GetItemAsync<UserDTO>(CommonConfiguration.UserDetails_Key);
-            Order = new CustomOrderDTO() {
-                        Order = new OrderDTO() {
-                            UserId = userDetails?.Id,
-                            Name = userDetails?.Name,
-                            Email = userDetails?.Email,
-                            PhoneNumber = userDetails?.PhoneNumber,
-                            GrandTotal = 0,
-                            Status = CommonConfiguration.Status_Pending
-                        },
-                        OrderDetails = new List<OrderDetailsDTO>()
-                    };
-            foreach (var cartItem in cartItems)
-            {
-                cartItem.Product = Products.FirstOrDefault(p => p.Id == cartItem.ProductId);
-                cartItem.ProductPrice = cartItem.Product.ProductPrices.FirstOrDefault(p => p.Id == cartItem.ProductPriceId);
-                Order.OrderDetails.Add(new OrderDetailsDTO()
-                {
-                        Product = cartItem.Product,
-                        ProductId = cartItem.ProductId,
-                        ProductName = cartItem.Product.Name,
-                        Price = cartItem.ProductPrice.Price,
-                        Size = cartItem.ProductPrice.Size,
-                        Count = cartItem.Count,    
-                });
-                Order.Order.GrandTotal += (cartItem.ProductPrice.Price * cartItem.Count);
-            }
-            IsProcessing = false;
-            StateHasChanged();
-        }
-    }
-
-    private async void PlaceOrder()
-    {
-        IsProcessing = true;
-        try
-        { 
-            StripePaymentDTO stripePaymentDTO = new StripePaymentDTO(){
-                Order = Order
-            };
-            var paymentResponse = await _paymentService.ProcessPayment(stripePaymentDTO);
-            stripePaymentDTO.Order.Order.SessionId = Convert.ToString(paymentResponse.Data);
-
-            var result = await _orderService.CreateOrder(stripePaymentDTO);
-            if(result == default(CustomOrderDTO))
-            {
-                await _JSRuntime.ShowFailureToastrNotification("Something went wrong while creating your order. Please try again later.");
-            }
-            else
-            {
-                await _localStorageService.SetItemAsync(CommonConfiguration.OrderDetails_Key, result);
-                await _JSRuntime.InvokeVoidAsync("RedirectUserToStripePayment", Convert.ToString(paymentResponse.Data));
-            }
-        }
-        catch(Exception ex)
-        {
-            IsProcessing = false;
-            await _JSRuntime.ShowFailureToastrNotification(ex.Message);
-        }
-    }
 }
