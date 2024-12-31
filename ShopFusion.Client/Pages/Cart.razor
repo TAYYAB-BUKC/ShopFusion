@@ -1,9 +1,5 @@
 ﻿@page "/cart"
 
-@inject ILocalStorageService _localStorageService
-@inject IProductService _productService
-@inject ICartService _cartService
-
 @if (IsProcessing)
 {
 	<div class="text-center">
@@ -91,60 +87,5 @@ else
 			</div>
 		</div>
 	</div>
-	}
-}
-
-@code {
-	public bool IsProcessing { get; set; } = true;
-	public List<CartViewModel> CartItems { get; set; }
-	public IEnumerable<ProductDTO> Products { get; set; }
-	public double OrderTotal { get; set; } = 0;
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if(firstRender){
-			await LoadCart();
-			IsProcessing = false;
-			StateHasChanged();			
-		}
-	}
-
-	private async Task LoadCart(){
-		OrderTotal = 0;
-		CartItems = await _localStorageService.GetItemAsync<List<CartViewModel>>(CommonConfiguration.CartKey);
-		Products = await _productService.GetAllProducts();
-		foreach (var cartItem in CartItems)
-		{
-			cartItem.Product = Products.FirstOrDefault(p => p.Id == cartItem.ProductId);
-			cartItem.ProductPrice = cartItem.Product.ProductPrices.FirstOrDefault(p => p.Id == cartItem.ProductPriceId);
-			OrderTotal += (cartItem.ProductPrice.Price * cartItem.Count);
-		}
-
-	}
-
-	public async Task IncrementCart(CartViewModel model)
-	{
-		IsProcessing = true;
-		model.Count = 1;
-		await _cartService.IncrementCart(model);
-		await LoadCart();
-		IsProcessing = false;
-	}
-
-	public async Task DecrementCart(CartViewModel model)
-	{
-		IsProcessing = true;
-		model.Count = 1;
-		await _cartService.DecrementCart(model);
-		await LoadCart();
-		IsProcessing = false;
-	}
-
-	public async Task RemoveItemFromCart(CartViewModel model)
-	{
-		IsProcessing = true;
-		await _cartService.DecrementCart(model);
-		await LoadCart();
-		IsProcessing = false;
 	}
 }
