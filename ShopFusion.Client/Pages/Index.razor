@@ -1,7 +1,4 @@
 ﻿@page "/"
-
-@inject IProductService _productService
-
 <PageTitle>Home</PageTitle>
 
 @* <AuthorizeView>
@@ -62,16 +59,4 @@ else{
             }
         </div>
     </div>
-}
-
-@code{
-    public bool IsProcessing { get; set; }
-    public IEnumerable<ProductDTO> products = new List<ProductDTO>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        IsProcessing = true;
-        products = await _productService.GetAllProducts();
-        IsProcessing = false;
-    }
 }
