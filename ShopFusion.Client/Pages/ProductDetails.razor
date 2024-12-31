@@ -1,9 +1,4 @@
 ﻿@page "/ProductDetails/{ProductId:int}"
-
-@inject IProductService _productService
-@inject ICartService _cartService
-@inject NavigationManager _navigationManager
-@inject IJSRuntime _JSRuntime
 <PageTitle>Product Details</PageTitle>
 
 @if (IsProcessing)
@@ -90,41 +85,4 @@ else
             </div>
         </div>
     </EditForm>
-}
-
-@code {
-    [Parameter]
-    public int ProductId { get; set; }
-    public bool IsProcessing { get; set; }
-    public ProductDTO product = new ProductDTO();
-    ProductDetailsViewModel _productDetailsViewModel = new ProductDetailsViewModel();
-
-    protected override async Task OnInitializedAsync()
-    {
-        IsProcessing = true;
-        product = await _productService.GetProductById(ProductId);
-        IsProcessing = false;
-    }
-
-    private async Task ShowSelectedPrice(int id)
-    {
-        _productDetailsViewModel.ProductPrice = product.ProductPrices.FirstOrDefault(p => p.Id == id);
-        if(_productDetailsViewModel.ProductPrice.Id > 0){
-            _productDetailsViewModel.SelectedProductPriceID = id;
-        }
-    }
-
-    private async Task AddProductToCart()
-    {
-        CartViewModel model = new CartViewModel()
-        {
-            Count = _productDetailsViewModel.Count,
-            ProductPriceId = _productDetailsViewModel.SelectedProductPriceID,
-            ProductId = ProductId
-        };
-
-        await _cartService.IncrementCart(model);
-        _navigationManager.NavigateTo("/");
-        await _JSRuntime.ShowSuccessToastrNotification("Product added to cart successfully");
-    }
 }
